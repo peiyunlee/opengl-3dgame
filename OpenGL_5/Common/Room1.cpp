@@ -342,7 +342,7 @@ void Room1::TextureGenerator(int count) {
 	g_uiSphereCubeMap = CubeMap_load_SOIL();
 }
 
-void Room1::Draw() {
+void Room1::Draw(vec4 cameraPos) {
 //
 //#ifndef  MULTITEXTURE
 //	glBindTexture(GL_TEXTURE_2D, g_uiFTexID[0]);
@@ -368,6 +368,9 @@ void Room1::Draw() {
 //	glBindTexture(GL_TEXTURE_CUBE_MAP, g_uiSphereCubeMap); // 與 Light Map 結合
 //	g_pSphere->Draw();
 //	glBindTexture(GL_TEXTURE_2D, 0);
+
+	glEnable(GL_BLEND);  // 設定2D Texure Mapping 有作用
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	for (int i = 0; i < lightCount; i++)
 	{
@@ -410,6 +413,9 @@ void Room1::Draw() {
 		g_pDoor[i].Draw();
 	}
 	glBindTexture(GL_TEXTURE_2D, 0);
+
+	glDisable(GL_BLEND);	// 關閉 Blending
+	glDepthMask(GL_TRUE);	// 開啟對 Z-Buffer 的寫入操作
 }
 
 void Room1::UpdateLightPosition(float dt)
@@ -533,4 +539,9 @@ void Room1::DoorGenerator(float px, float py, float pz,int count) {
 	g_pDoor[1].SetTiling(1, 1); // 原始為 (10, 10)
 	g_pDoor[1].SetMaterials(vec4(0), vec4(0.85f, 0.85f, 0.85f, 1.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f));
 	g_pDoor[1].SetKaKdKsShini(0, 0.8f, 0.5f, 1);
+}
+
+
+void Room1::RotateBillboard(float g_fPhi) {
+
 }

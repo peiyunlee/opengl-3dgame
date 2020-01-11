@@ -134,6 +134,7 @@ public:
 	void SetViewMatrix(mat4 &mat);
 	void SetProjectionMatrix(mat4 &mat);
 	void SetTRSMatrix(mat4 &mat);
+	mat4 GetTRSMatrix();
 	void SetTextureLayer(int texlayer);
 
 	// For setting materials 

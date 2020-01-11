@@ -93,9 +93,11 @@ void init( void )
 
 	UIGenerator();
 
-	room1 = new Room1(0.0f,0.0f,0.0f,eye);
+	//room1 = new Room1(0.0f,0.0f,0.0f,eye);
+	room1 = new Room1(20.001f, 0.0f, -20.001f, eye);
 	room2 = new Room2(20.001f, 0.0f, 0.0f, eye);
-	room3 = new Room3(20.001f, 0.0f, -20.001f, eye);
+	//room3 = new Room3(20.001f, 0.0f, -20.001f, eye);
+	room3 = new Room3(0.0f, 0.0f, 0.0f, eye);
 	room4 = new Room4(0.0f, 0.0f, -20.001f, eye);
 	room5 = new Room5(0.0f, 0.0f, -40.002f , eye);
 	room6 = new Room6(20.001f, 0.0f, -40.002f, eye);
@@ -115,18 +117,16 @@ void init( void )
 
 void GL_Display( void )
 {
+	auto camera = CCamera::getInstance();
 
-    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT ); // clear the window
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the window
 
-	glEnable(GL_BLEND);  // 設定2D Texure Mapping 有作用
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	room1->Draw();
-	room2->Draw();
-	room3->Draw();
-	room4->Draw();
-	room5->Draw();
-	room6->Draw();
+	room1->Draw(camera->getViewPosition());
+	room2->Draw(camera->getViewPosition());
+	room3->Draw(camera->getViewPosition());
+	room4->Draw(camera->getViewPosition());
+	room5->Draw(camera->getViewPosition());
+	room6->Draw(camera->getViewPosition());
 
 	for (int i = 0; i <4; i++) g_p2DBtn[i]->Draw();
 
@@ -149,7 +149,7 @@ void onFrameMove(float delta)
 	}
 
 	playerState = UpdatePlayerState();
-	Print(playerState);
+	//Print(playerState);
 	room1->Update(delta);
 	room2->Update(delta);
 	room3->Update(delta);
@@ -170,7 +170,7 @@ void Win_Keyboard( unsigned char key, int x, int y )
 // Part 2 : for single light source
 	case 65: // A key
 	case 97: // a key
-		room1->g_bAutoRotating = !room1->g_bAutoRotating;
+		room3->g_bAutoRotating = !room3->g_bAutoRotating;
 		break;
 	case 82: // R key
 		if(room1->g_fLightR <= 0.95f ) room1->g_fLightR += 0.05f;
@@ -286,6 +286,9 @@ void Win_PassiveMotion(int x, int y) {
 	point4  at(g_fRadius*sin(g_fTheta)*sin(g_fPhi), g_fRadius*cos(g_fTheta), g_fRadius*sin(g_fTheta)*cos(g_fPhi), 1.0f);
 
 	CCamera::getInstance()->updateLookAt(at);
+
+	//room3->RotateBillboard(g_fPhi);
+	//Print(g_fPhi);
 }
 
 void Win_MouseMotion(int x, int y) {
@@ -302,6 +305,9 @@ void Win_MouseMotion(int x, int y) {
 
 	point4  at(g_fRadius*sin(g_fTheta)*sin(g_fPhi), g_fRadius*cos(g_fTheta), g_fRadius*sin(g_fTheta)*cos(g_fPhi), 1.0f);
 	CCamera::getInstance()->updateLookAt(at);
+
+	//room3->RotateBillboard(g_fPhi);
+	Print(g_fPhi);
 }
 
 void GL_Reshape(GLsizei w, GLsizei h)

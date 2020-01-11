@@ -342,32 +342,9 @@ void Room2::TextureGenerator(int count) {
 	g_uiSphereCubeMap = CubeMap_load_SOIL();
 }
 
-void Room2::Draw() {
-	//
-	//#ifndef  MULTITEXTURE
-	//	glBindTexture(GL_TEXTURE_2D, g_uiFTexID[0]);
-	//	g_pFloor->Draw();
-	//#else 
-	//	glActiveTexture(GL_TEXTURE0); // select active texture 0
-	//	glBindTexture(GL_TEXTURE_2D, g_uiFTexID[0]); // 與 Diffuse Map 結合
-	//	glActiveTexture(GL_TEXTURE1); // select active texture 1
-	//	glBindTexture(GL_TEXTURE_2D, g_uiFTexID[2]); // 與 Light Map 結合
-	//	g_pFloor->Draw();
-	//	glActiveTexture(GL_TEXTURE0);
-	//	//  glBindTexture(GL_TEXTURE_2D, 0);
-	//#endif
-	//	glActiveTexture(GL_TEXTURE0);
-	//	glBindTexture(GL_TEXTURE_2D, g_uiFTexID[1]);
-	//	glActiveTexture(GL_TEXTURE2);
-	//	glBindTexture(GL_TEXTURE_2D, g_uiFTexID[4]);
-	//	g_pCube->Draw();
-	//
-	//	glActiveTexture(GL_TEXTURE0); // select active texture 0
-	//	glBindTexture(GL_TEXTURE_2D, g_uiFTexID[3]); // 與 Diffuse Map 結合
-	//	glActiveTexture(GL_TEXTURE1); // select active texture 1
-	//	glBindTexture(GL_TEXTURE_CUBE_MAP, g_uiSphereCubeMap); // 與 Light Map 結合
-	//	g_pSphere->Draw();
-	//	glBindTexture(GL_TEXTURE_2D, 0);
+void Room2::Draw(vec4 cameraPos) {
+	glEnable(GL_BLEND);  // 設定2D Texure Mapping 有作用
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	for (int i = 0; i < lightCount; i++)
 	{
@@ -410,6 +387,9 @@ void Room2::Draw() {
 		g_pDoor[i].Draw();
 	}
 	glBindTexture(GL_TEXTURE_2D, 0);
+
+	glDisable(GL_BLEND);	// 關閉 Blending
+	glDepthMask(GL_TRUE);	// 開啟對 Z-Buffer 的寫入操作
 }
 
 void Room2::UpdateLightPosition(float dt)
@@ -533,4 +513,9 @@ void Room2::DoorGenerator(float px, float py, float pz, int count) {
 	g_pDoor[1].SetTiling(1, 1); // 原始為 (10, 10)
 	g_pDoor[1].SetMaterials(vec4(0), vec4(0.85f, 0.85f, 0.85f, 1.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f));
 	g_pDoor[1].SetKaKdKsShini(0, 0.8f, 0.5f, 1);
+}
+
+
+void Room2::RotateBillboard(float g_fPhi) {
+
 }

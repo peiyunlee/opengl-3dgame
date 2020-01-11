@@ -266,6 +266,10 @@ void CShape::SetTRSMatrix(mat4 &mat)
 	m_bTRSUpdated = true;
 }
 
+mat4 CShape::GetTRSMatrix() {
+	return m_mxTRS;
+}
+
 void CShape::SetProjectionMatrix(mat4 &mat)
 {
 	m_mxProjection = mat;

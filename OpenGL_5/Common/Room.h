@@ -20,8 +20,8 @@ public:
 	~Room();
 
 	int lightCount;
-
 	int doorCount;
+	float roomPosX,roomPosZ;
 
 	bool g_bAutoRotating;
 
@@ -35,7 +35,7 @@ public:
 
 	virtual void SetProjectionMatrix(mat4 mpx) = 0;
 	virtual void SetViewMatrix(mat4 mvx,vec4 cameraViewPosition) = 0;
-	virtual void Draw() = 0;
+	virtual void Draw(vec4 cameraPos) = 0;
 	virtual void Update(float delta) = 0;
 
 	LightSource *g_Light;
@@ -47,6 +47,7 @@ public:
 	int g_iTexWidth, g_iTexHeight;
 	GLuint *g_uiFTexID; // 三個物件分別給不同的貼圖
 
+	virtual void RotateBillboard(float g_fPhi)=0;
 protected:
 	CQuad *g_LeftWall, *g_RightWall;
 	CQuad *g_FrontWall, *g_BackWall;
@@ -86,8 +87,9 @@ public:
 
 	void SetProjectionMatrix(mat4 mpx);
 	void SetViewMatrix(mat4 mvx, vec4 cameraViewPosition);
-	void Draw();
+	void Draw(vec4 cameraPos);
 	void Update(float delta);
+	void RotateBillboard(float g_fPhi);
 protected:
 	void LightGenerator(float x, float y, float z, int count);
 	void ObjectGenerator(float x, float y, float z, point4 eye);
@@ -119,8 +121,9 @@ public:
 
 	void SetProjectionMatrix(mat4 mpx);
 	void SetViewMatrix(mat4 mvx, vec4 cameraViewPosition);
-	void Draw();
+	void Draw(vec4 cameraPos);
 	void Update(float delta);
+	void RotateBillboard(float g_fPhi);
 protected:
 	void LightGenerator(float x, float y, float z, int count);
 	void ObjectGenerator(float x, float y, float z, point4 eye);
@@ -138,12 +141,7 @@ private:
 	//CSolidCube    *g_pCube;
 	//CSolidSphere  *g_pSphere;
 
-
-
-	ModelPool *g_pCat;
-	ModelPool *g_pDeer;
-	ModelPool *g_pRat;
-	ModelPool *g_pWolf;
+	CQuad *g_pSpiderFly, *g_pG, *g_pSpiderDown;
 
 	// Texture 
 	GLuint g_uiSphereCubeMap; // for Cubic Texture
@@ -154,8 +152,9 @@ public:
 
 	void SetProjectionMatrix(mat4 mpx);
 	void SetViewMatrix(mat4 mvx, vec4 cameraViewPosition);
-	void Draw();
+	void Draw(vec4 cameraPos);
 	void Update(float delta);
+	void RotateBillboard(float g_fPhi);
 protected:
 	void LightGenerator(float x, float y, float z, int count);
 	void ObjectGenerator(float x, float y, float z, point4 eye);
@@ -187,14 +186,16 @@ public:
 
 	void SetProjectionMatrix(mat4 mpx);
 	void SetViewMatrix(mat4 mvx, vec4 cameraViewPosition);
-	void Draw();
+	void Draw(vec4 cameraPos);
 	void Update(float delta);
+	void RotateBillboard(float g_fPhi);
 protected:
 	void LightGenerator(float x, float y, float z, int count);
 	void ObjectGenerator(float x, float y, float z, point4 eye);
 	void TextureGenerator(int count);
 	void UpdateLightPosition(float dt);
 	void DoorGenerator(float px, float py, float pz, int count);
+
 };
 
 class Room5 :public Room
@@ -222,8 +223,9 @@ public:
 
 	void SetProjectionMatrix(mat4 mpx);
 	void SetViewMatrix(mat4 mvx, vec4 cameraViewPosition);
-	void Draw();
+	void Draw(vec4 cameraPos);
 	void Update(float delta);
+	void RotateBillboard(float g_fPhi);
 protected:
 	void LightGenerator(float x, float y, float z, int count);
 	void ObjectGenerator(float x, float y, float z, point4 eye);
@@ -255,8 +257,9 @@ public:
 
 	void SetProjectionMatrix(mat4 mpx);
 	void SetViewMatrix(mat4 mvx, vec4 cameraViewPosition);
-	void Draw();
+	void Draw(vec4 cameraPos);
 	void Update(float delta);
+	void RotateBillboard(float g_fPhi);
 protected:
 	void LightGenerator(float x, float y, float z, int count);
 	void ObjectGenerator(float x, float y, float z, point4 eye);

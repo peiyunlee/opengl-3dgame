@@ -158,8 +158,6 @@ void CCamera::moveForward(int playerState) {
 	if(result){
 		updateViewLookAt(viewPosition, lookAt);
 	}
-
-	//Print(viewPosition);
 }
 
 void CCamera::moveBackward(int playerState) {
