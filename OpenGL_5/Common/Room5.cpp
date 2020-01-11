@@ -300,8 +300,8 @@ void Room5::UpdateLightPosition(float dt)
 		g_fElapsedTime -= 4.0f;
 	}
 
-	g_Light[0].position.x = g_fLightRadius * cosf(g_fLightTheta);
-	g_Light[0].position.z = g_fLightRadius * sinf(g_fLightTheta);
+	g_Light[0].position.x = roomPosX + g_fLightRadius * cosf(g_fLightTheta);
+	g_Light[0].position.z = roomPosZ + g_fLightRadius * sinf(g_fLightTheta);
 	mxT = Translate(g_Light[0].position);
 	g_pLight[0].SetTRSMatrix(mxT);
 	//g_LightLine[0].UpdatePosition(g_Light[0].position, g_Light[0].spotTarget);

@@ -193,16 +193,7 @@ protected:
 class Room6 :public Room
 {
 private:
-
-	// For Objects
-	//CQuad		  *g_pFloor;
-	//CSolidCube    *g_pCube;
-	//CSolidSphere  *g_pSphere;
-
 	ModelPool *g_pCat;
-	ModelPool *g_pDeer;
-	ModelPool *g_pRat;
-	ModelPool *g_pWolf;
 
 	// Texture 
 	GLuint g_uiSphereCubeMap; // for Cubic Texture
