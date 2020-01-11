@@ -545,3 +545,7 @@ void Room1::DoorGenerator(float px, float py, float pz,int count) {
 void Room1::RotateBillboard(float g_fPhi) {
 
 }
+
+void Room1::TurnObj() {
+
+}

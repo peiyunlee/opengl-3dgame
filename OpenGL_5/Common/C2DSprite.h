@@ -4,6 +4,7 @@
 #include "../header/Angel.h"
 #include "CShape.h"
 
+
 typedef Angel::vec4  color4;
 typedef Angel::vec4  point4;
 

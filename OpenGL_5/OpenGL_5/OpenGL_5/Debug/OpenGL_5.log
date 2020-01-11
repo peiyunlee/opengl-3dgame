@@ -1,0 +1,44 @@
+﻿  png_loader.cpp
+  InitShader.cpp
+  Example4.cpp
+d:\users\course\大三\計算機圖學\opengl_hw_3d\opengl_5\opengl_5\opengl_5\common\cshape.h(24): warning C4005: 'MULTITEXTURE': 巨集重複定義
+  d:\users\course\大三\計算機圖學\opengl_hw_3d\opengl_5\opengl_5\opengl_5\common\cshape.h(21): note: 請參閱 'MULTITEXTURE' 之前的定義
+  Timer.cpp
+  CWireSphere.cpp
+d:\users\course\大三\計算機圖學\opengl_hw_3d\opengl_5\opengl_5\opengl_5\common\cshape.h(24): warning C4005: 'MULTITEXTURE': 巨集重複定義
+  d:\users\course\大三\計算機圖學\opengl_hw_3d\opengl_5\opengl_5\opengl_5\common\cshape.h(21): note: 請參閱 'MULTITEXTURE' 之前的定義
+  CWireCube.cpp
+d:\users\course\大三\計算機圖學\opengl_hw_3d\opengl_5\opengl_5\opengl_5\common\cshape.h(24): warning C4005: 'MULTITEXTURE': 巨集重複定義
+  d:\users\course\大三\計算機圖學\opengl_hw_3d\opengl_5\opengl_5\opengl_5\common\cshape.h(21): note: 請參閱 'MULTITEXTURE' 之前的定義
+  CTexturePool.cpp
+  CSolidSphere.cpp
+d:\users\course\大三\計算機圖學\opengl_hw_3d\opengl_5\opengl_5\opengl_5\common\cshape.h(24): warning C4005: 'MULTITEXTURE': 巨集重複定義
+  d:\users\course\大三\計算機圖學\opengl_hw_3d\opengl_5\opengl_5\opengl_5\common\cshape.h(21): note: 請參閱 'MULTITEXTURE' 之前的定義
+  CSolidCube.cpp
+d:\users\course\大三\計算機圖學\opengl_hw_3d\opengl_5\opengl_5\opengl_5\common\cshape.h(24): warning C4005: 'MULTITEXTURE': 巨集重複定義
+  d:\users\course\大三\計算機圖學\opengl_hw_3d\opengl_5\opengl_5\opengl_5\common\cshape.h(21): note: 請參閱 'MULTITEXTURE' 之前的定義
+  CShape.cpp
+d:\users\course\大三\計算機圖學\opengl_hw_3d\opengl_5\opengl_5\opengl_5\common\cshape.h(24): warning C4005: 'MULTITEXTURE': 巨集重複定義
+  d:\users\course\大三\計算機圖學\opengl_hw_3d\opengl_5\opengl_5\opengl_5\common\cshape.h(21): note: 請參閱 'MULTITEXTURE' 之前的定義
+  CQuad.cpp
+d:\users\course\大三\計算機圖學\opengl_hw_3d\opengl_5\opengl_5\opengl_5\common\cshape.h(24): warning C4005: 'MULTITEXTURE': 巨集重複定義
+  d:\users\course\大三\計算機圖學\opengl_hw_3d\opengl_5\opengl_5\opengl_5\common\cshape.h(21): note: 請參閱 'MULTITEXTURE' 之前的定義
+  common.cpp
+  CLineSegment.cpp
+  CChecker.cpp
+d:\users\course\大三\計算機圖學\opengl_hw_3d\opengl_5\opengl_5\opengl_5\common\cshape.h(24): warning C4005: 'MULTITEXTURE': 巨集重複定義
+  d:\users\course\大三\計算機圖學\opengl_hw_3d\opengl_5\opengl_5\opengl_5\common\cshape.h(21): note: 請參閱 'MULTITEXTURE' 之前的定義
+  CCamera.cpp
+  正在產生程式碼...
+  SOIL.lib(SOIL.obj) : 找到 MSIL .netmodule 或以 /GL 編譯的模組。請以 /LTCG 重新啟動連結，將 /LTCG 加入連結命令列以提升連結器效能
+LINK : warning LNK4075: 忽略 '/INCREMENTAL'，由於 '/LTCG' 規格
+CCamera.obj : warning LNK4075: 忽略 '/EDITANDCONTINUE'，由於 '/OPT:LBR' 規格
+LINK : warning LNK4098: 預設的程式庫 'MSVCRT' 與其他使用的程式庫衝突，請使用 /NODEFAULTLIB:library
+  正在產生程式碼
+  已完成程式碼產生
+SOIL.lib(SOIL.obj) : warning LNK4099: 找不到 PDB 'vc110.pdb' (有 'SOIL.lib(SOIL.obj)' 或位於 'D:\Users\Course\大三\計算機圖學\OpenGL_HW_3D\OpenGL_5\OpenGL_5\Debug\vc110.pdb')，當做沒有偵錯資訊，連結物件
+SOIL.lib(stb_image_aug.obj) : warning LNK4099: 找不到 PDB 'vc110.pdb' (有 'SOIL.lib(stb_image_aug.obj)' 或位於 'D:\Users\Course\大三\計算機圖學\OpenGL_HW_3D\OpenGL_5\OpenGL_5\Debug\vc110.pdb')，當做沒有偵錯資訊，連結物件
+SOIL.lib(image_helper.obj) : warning LNK4099: 找不到 PDB 'vc110.pdb' (有 'SOIL.lib(image_helper.obj)' 或位於 'D:\Users\Course\大三\計算機圖學\OpenGL_HW_3D\OpenGL_5\OpenGL_5\Debug\vc110.pdb')，當做沒有偵錯資訊，連結物件
+SOIL.lib(image_DXT.obj) : warning LNK4099: 找不到 PDB 'vc110.pdb' (有 'SOIL.lib(image_DXT.obj)' 或位於 'D:\Users\Course\大三\計算機圖學\OpenGL_HW_3D\OpenGL_5\OpenGL_5\Debug\vc110.pdb')，當做沒有偵錯資訊，連結物件
+  OpenGL_5.vcxproj -> D:\Users\Course\大三\計算機圖學\OpenGL_HW_3D\OpenGL_5\OpenGL_5\Debug\OpenGL_5.exe
+  OpenGL_5.vcxproj -> D:\Users\Course\大三\計算機圖學\OpenGL_HW_3D\OpenGL_5\OpenGL_5\Debug\OpenGL_5.pdb (Full PDB)

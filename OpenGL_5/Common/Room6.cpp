@@ -509,3 +509,8 @@ void Room6::DoorGenerator(float px, float py, float pz, int count) {
 void Room6::RotateBillboard(float g_fPhi) {
 
 }
+
+
+void Room6::TurnObj() {
+
+}

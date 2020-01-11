@@ -404,7 +404,7 @@ void Room3::DoorGenerator(float px, float py, float pz, int count) {
 	mxT = Translate(vT);
 	g_pDoor[0].SetShadingMode(GOURAUD_SHADING);
 	g_pDoor[0].SetShader();
-	g_pDoor[0].SetTRSMatrix(mxT*RotateY(90.0f)*RotateX(90.0f)*RotateZ(180.0f)*Scale(6, 1, 8));
+	g_pDoor[0].SetTRSMatrix(mxT*RotateX(90.0f)*RotateZ(180.0f)*Scale(6, 1, 8));
 	g_pDoor[0].SetTiling(1, 1); // ­ì©l¬° (10, 10)
 	g_pDoor[0].SetMaterials(vec4(0), vec4(0.85f, 0.85f, 0.85f, 1.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f));
 	g_pDoor[0].SetKaKdKsShini(0, 0.8f, 0.5f, 1);

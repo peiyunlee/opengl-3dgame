@@ -58,7 +58,7 @@ protected:
 	virtual void LightGenerator(float x, float y, float z, int count) = 0;
 	virtual void ObjectGenerator(float x, float y, float z, point4 eye) = 0;
 	virtual void DoorGenerator(float x, float y, float z, int count) = 0;
-
+	virtual void TurnObj()=0;
 };
 
 
@@ -96,24 +96,13 @@ protected:
 	void TextureGenerator(int count);
 	void UpdateLightPosition(float dt);
 	void DoorGenerator(float px, float py, float pz, int count);
+	void TurnObj();
 };
 
 class Room2 :public Room
 {
 private:
-
-	// For Objects
-	//CQuad		  *g_pFloor;
-	//CSolidCube    *g_pCube;
-	//CSolidSphere  *g_pSphere;
-
-	ModelPool *g_pCat;
-	ModelPool *g_pDeer;
-	ModelPool *g_pRat;
-	ModelPool *g_pWolf;
-
-	// Texture 
-	GLuint g_uiSphereCubeMap; // for Cubic Texture
+	//ModelPool *g_pCar;
 
 public:
 	Room2(float px, float py, float pz, point4 eye);
@@ -130,21 +119,13 @@ protected:
 	void TextureGenerator(int count);
 	void UpdateLightPosition(float dt);
 	void DoorGenerator(float px, float py, float pz, int count);
+	void TurnObj();
 };
 
 class Room3 :public Room
 {
 private:
-
-	// For Objects
-	//CQuad		  *g_pFloor;
-	//CSolidCube    *g_pCube;
-	//CSolidSphere  *g_pSphere;
-
 	CQuad *g_pSpiderFly, *g_pG, *g_pSpiderDown;
-
-	// Texture 
-	GLuint g_uiSphereCubeMap; // for Cubic Texture
 
 public:
 	Room3(float px, float py, float pz, point4 eye);
@@ -167,19 +148,7 @@ protected:
 class Room4 :public Room
 {
 private:
-
-	// For Objects
-	//CQuad		  *g_pFloor;
-	//CSolidCube    *g_pCube;
-	//CSolidSphere  *g_pSphere;
-
-	ModelPool *g_pCat;
-	ModelPool *g_pDeer;
-	ModelPool *g_pRat;
-	ModelPool *g_pWolf;
-
-	// Texture 
-	GLuint g_uiSphereCubeMap; // for Cubic Texture
+	//ModelPool *g_pCar;
 
 public:
 	Room4(float px, float py, float pz, point4 eye);
@@ -196,28 +165,13 @@ protected:
 	void TextureGenerator(int count);
 	void UpdateLightPosition(float dt);
 	void DoorGenerator(float px, float py, float pz, int count);
-
+	void TurnObj();
 };
 
 class Room5 :public Room
 {
 private:
-
-	// For Objects
-	//CQuad		  *g_pFloor;
-	//CSolidCube    *g_pCube;
-	//CSolidSphere  *g_pSphere;
-
-
-
-	ModelPool *g_pCat;
-	ModelPool *g_pDeer;
-	ModelPool *g_pRat;
-	ModelPool *g_pWolf;
-
-	// Texture 
-	GLuint g_uiSphereCubeMap; // for Cubic Texture
-
+	CSolidCube *g_pCube;
 public:
 	Room5(float px, float py, float pz, point4 eye);
 	~Room5();
@@ -233,6 +187,7 @@ protected:
 	void TextureGenerator(int count);
 	void UpdateLightPosition(float dt);
 	void DoorGenerator(float px, float py, float pz, int count);
+	void TurnObj();
 };
 
 class Room6 :public Room
@@ -267,4 +222,5 @@ protected:
 	void TextureGenerator(int count);
 	void UpdateLightPosition(float dt);
 	void DoorGenerator(float px, float py, float pz, int count);
+	void TurnObj();
 };

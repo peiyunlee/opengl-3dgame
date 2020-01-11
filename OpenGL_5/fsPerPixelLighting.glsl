@@ -93,7 +93,7 @@ void main()
 		else if( iTexLayer == DIFFUSE_MAP || iTexLayer == (DIFFUSE_MAP|NORMAL_MAP) ) gl_FragColor = LightingColor * texture2D(diffuMap, DiffuseMapUV);
 		else if( iTexLayer == (DIFFUSE_MAP|LIGHT_MAP)) {
 			gl_FragColor =  ( 0.65 * LightingColor * texture2D(diffuMap, DiffuseMapUV)  + texture2D(diffuMap, DiffuseMapUV) * 
-						    texture2D(lightMap, LightMapUV) * vec4(0.0f, 1.0f, 1.0f, 1.00)  );
+						    texture2D(lightMap, LightMapUV) * vec4(0.655, 0.60, 0.718,1.0)  );
 
 //			float t = 0.15 + 0.75 * abs(sin(fElapsedTime * 3.1415926 * 0.125));
 //			gl_FragColor =  ( 0.55 * LightingColor * texture2D(diffuMap, DiffuseMapUV)  + // texture2D(diffuMap, DiffuseMapUV) * 
