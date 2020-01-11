@@ -1,7 +1,7 @@
 #include "Room.h"
 
 Room3::Room3(float x, float y, float z, point4 eye) {
-	g_bAutoRotating = false;
+	g_bAutoRotating = true;
 
 	g_fElapsedTime = 0;
 	g_fLightRadius = 6;
@@ -12,7 +12,8 @@ Room3::Room3(float x, float y, float z, point4 eye) {
 	g_fLightB = 0.85f;
 
 	roomPosX = x;
-	roomPosZ = y;
+	roomPosY = y;
+	roomPosZ = z;
 
 	LightGenerator(x, y, z, 1);
 	ObjectGenerator(x, y, z, eye);
@@ -39,7 +40,7 @@ void Room3::LightGenerator(float px, float py, float pz,int count) {
 		color4(g_fLightR, g_fLightG, g_fLightB, 1.0f), // ambient 
 		color4(g_fLightR, g_fLightG, g_fLightB, 1.0f), // diffuse
 		color4(g_fLightR, g_fLightG, g_fLightB, 1.0f), // specular
-		point4(px+0.0f, py+6.0f, pz+0.0f, 1.0f),   // position
+		point4(px + 6.0f, py + 6.0f, pz + 0.0f, 1.0f),   // position
 		point4(0.0f, 0.0f, 0.0f, 1.0f),   // halfVector
 		vec3(px+0.0f, py+0.0f, pz+0.0f),			  //spotDirection
 		2.0f,	// spotExponent(parameter e); cos^(e)(phi) 
@@ -115,7 +116,7 @@ void Room3::ObjectGenerator(float px, float py, float pz, point4 eye) {
 	g_FrontWall = new CQuad;
 	g_FrontWall->SetMaterials(vec4(0.15f, 0.15f, 0.15f, 1.0f), vec4(0.85, 0.85f, 0.85, 1), vec4(1.0f, 1.0f, 1.0f, 1.0f));
 	g_FrontWall->SetColor(vec4(0.6f));
-	g_FrontWall->SetTRSMatrix(mxT*RotateZ(180.0f)*RotateX(-90.0f)*Scale(20.0f, 1, 20.0f));
+	g_FrontWall->SetTRSMatrix(mxT*RotateY(180.0f)*RotateZ(180.0f)*RotateX(-90.0f)*Scale(20.0f, 1, 20.0f));
 	g_FrontWall->SetKaKdKsShini(0, 0.8f, 0.5f, 1);
 	g_FrontWall->SetShadingMode(GOURAUD_SHADING);
 	g_FrontWall->SetShader();
@@ -139,7 +140,7 @@ void Room3::ObjectGenerator(float px, float py, float pz, point4 eye) {
 #endif
 	g_pSpiderFly->SetShadingMode(GOURAUD_SHADING);
 	g_pSpiderFly->SetShader();
-	g_pSpiderFly->SetTRSMatrix(mxT*RotateX(90.0f)*RotateZ(180.0f)*Scale(6, 1, 12));
+	g_pSpiderFly->SetTRSMatrix(mxT*RotateY(180.0f)*RotateX(90.0f)*RotateZ(180.0f)*Scale(6, 1, 12));
 	g_pSpiderFly->SetMaterials(vec4(0), vec4(0.85f, 0.85f, 0.85f, 1.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f));
 	g_pSpiderFly->SetKaKdKsShini(0, 0.8f, 0.5f, 1);
 
@@ -152,7 +153,7 @@ void Room3::ObjectGenerator(float px, float py, float pz, point4 eye) {
 #endif
 	g_pG->SetShadingMode(GOURAUD_SHADING);
 	g_pG->SetShader();
-	g_pG->SetTRSMatrix(mxT*RotateX(90.0f)*RotateZ(180.0f)*Scale(4, 1, 8));
+	g_pG->SetTRSMatrix(mxT*RotateY(180.0f)*RotateX(90.0f)*RotateZ(180.0f)*Scale(4, 1, 8));
 	g_pG->SetMaterials(vec4(0), vec4(0.85f, 0.85f, 0.85f, 1.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f));
 	g_pG->SetKaKdKsShini(0, 0.8f, 0.5f, 1);
 
@@ -165,7 +166,7 @@ void Room3::ObjectGenerator(float px, float py, float pz, point4 eye) {
 #endif
 	g_pSpiderDown->SetShadingMode(GOURAUD_SHADING);
 	g_pSpiderDown->SetShader();
-	g_pSpiderDown->SetTRSMatrix(mxT*RotateX(90.0f)*RotateZ(180.0f)*Scale(6, 1, 8));
+	g_pSpiderDown->SetTRSMatrix(mxT*RotateY(180.0f)*RotateX(90.0f)*RotateZ(180.0f)*Scale(6, 1, 8));
 	g_pSpiderDown->SetMaterials(vec4(0), vec4(0.85f, 0.85f, 0.85f, 1.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f));
 	g_pSpiderDown->SetKaKdKsShini(0, 0.8f, 0.5f, 1);
 }
@@ -217,6 +218,7 @@ void Room3::TextureGenerator(int count) {
 //	g_uiSphereCubeMap = CubeMap_load_SOIL();
 }
 
+bool trunflag = false;
 void Room3::Draw(vec4 cameraPos) {
 
 	glEnable(GL_BLEND);  // 設定2D Texure Mapping 有作用
@@ -261,7 +263,7 @@ void Room3::Draw(vec4 cameraPos) {
 
 	glDepthMask(GL_FALSE);
 
-	if (cameraPos.z > roomPosX){
+	if (cameraPos.z > roomPosZ){
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, g_uiFTexID[3]);
@@ -277,6 +279,12 @@ void Room3::Draw(vec4 cameraPos) {
 		glBindTexture(GL_TEXTURE_2D, g_uiFTexID[4]);
 		g_pSpiderDown->Draw();
 		glBindTexture(GL_TEXTURE_2D, 0);
+
+		if (trunflag) {
+			TurnObj();
+			trunflag = false;
+			Print("trun1");
+		}
 	}
 	else {
 
@@ -294,12 +302,19 @@ void Room3::Draw(vec4 cameraPos) {
 		glBindTexture(GL_TEXTURE_2D, g_uiFTexID[3]);
 		g_pG->Draw();
 		glBindTexture(GL_TEXTURE_2D, 0);
+
+		if (!trunflag) {
+			TurnObj();
+			trunflag = true;
+			Print("trun2");
+		}
 	}
 
 	glDisable(GL_BLEND);	// 關閉 Blending
 	glDepthMask(GL_TRUE);	// 開啟對 Z-Buffer 的寫入操作
 }
 
+//bool isrotateObj = false;
 void Room3::UpdateLightPosition(float dt)
 {
 	mat4 mxT;
@@ -311,8 +326,8 @@ void Room3::UpdateLightPosition(float dt)
 		g_fElapsedTime -= 4.0f;
 	}
 
-	g_Light[0].position.x = g_fLightRadius * cosf(g_fLightTheta);
-	g_Light[0].position.z = g_fLightRadius * sinf(g_fLightTheta);
+	g_Light[0].position.x = roomPosX + g_fLightRadius * cosf(g_fLightTheta);
+	g_Light[0].position.z = g_fLightRadius * sinf(g_fLightTheta) + roomPosZ;
 	mxT = Translate(g_Light[0].position);
 	g_pLight[0].SetTRSMatrix(mxT);
 	//g_LightLine[0].UpdatePosition(g_Light[0].position, g_Light[0].spotTarget);
@@ -360,12 +375,6 @@ void Room3::Update(float delta) {
 		g_pLight[i].Update(delta);
 	}
 
-	//for (int i = 0; i < LIGHTCOUNT; i++)
-	//{
-	//	g_pLight[i].Update(delta);
-	//	g_LightLine[i].UpdatePosition(g_Light[i].position, g_Light[i].spotTarget);
-	//}
-
 	//// 如果需要重新計算時，在這邊計算每一個物件的顏色
 	g_pSpiderFly->Update(delta, g_Light[0]);
 	g_pG->Update(delta, g_Light[0]);
@@ -395,7 +404,7 @@ void Room3::DoorGenerator(float px, float py, float pz, int count) {
 	mxT = Translate(vT);
 	g_pDoor[0].SetShadingMode(GOURAUD_SHADING);
 	g_pDoor[0].SetShader();
-	g_pDoor[0].SetTRSMatrix(mxT*RotateX(90.0f)*RotateZ(180.0f)*Scale(6, 1, 8));
+	g_pDoor[0].SetTRSMatrix(mxT*RotateY(90.0f)*RotateX(90.0f)*RotateZ(180.0f)*Scale(6, 1, 8));
 	g_pDoor[0].SetTiling(1, 1); // 原始為 (10, 10)
 	g_pDoor[0].SetMaterials(vec4(0), vec4(0.85f, 0.85f, 0.85f, 1.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f));
 	g_pDoor[0].SetKaKdKsShini(0, 0.8f, 0.5f, 1);
@@ -411,7 +420,6 @@ void Room3::DoorGenerator(float px, float py, float pz, int count) {
 	g_pDoor[1].SetKaKdKsShini(0, 0.8f, 0.5f, 1);
 }
 
-
 void Room3::RotateBillboard(float g_fPhi) {
 	mat4 mxT;
 	mxT = g_pG->GetTRSMatrix();
@@ -420,4 +428,14 @@ void Room3::RotateBillboard(float g_fPhi) {
 	ry = (g_fPhi - (-3))*60.0f;
 
 	g_pG->SetTRSMatrix(mxT*RotateY(ry));
+}
+
+void Room3::TurnObj() {
+	mat4 mxT;
+	mxT = g_pSpiderFly->GetTRSMatrix();
+	g_pSpiderFly->SetTRSMatrix(mxT*RotateZ(180.0f));
+	mxT = g_pG->GetTRSMatrix();
+	g_pG->SetTRSMatrix(mxT*RotateZ(180.0f));
+	mxT = g_pSpiderDown->GetTRSMatrix();
+	g_pSpiderDown->SetTRSMatrix(mxT*RotateZ(180.0f));
 }

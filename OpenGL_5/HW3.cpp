@@ -93,11 +93,9 @@ void init( void )
 
 	UIGenerator();
 
-	//room1 = new Room1(0.0f,0.0f,0.0f,eye);
-	room1 = new Room1(20.001f, 0.0f, -20.001f, eye);
+	room1 = new Room1(0.0f,0.0f,0.0f,eye);
 	room2 = new Room2(20.001f, 0.0f, 0.0f, eye);
-	//room3 = new Room3(20.001f, 0.0f, -20.001f, eye);
-	room3 = new Room3(0.0f, 0.0f, 0.0f, eye);
+	room3 = new Room3(20.001f, 0.0f, -20.001f, eye);
 	room4 = new Room4(0.0f, 0.0f, -20.001f, eye);
 	room5 = new Room5(0.0f, 0.0f, -40.002f , eye);
 	room6 = new Room6(20.001f, 0.0f, -40.002f, eye);

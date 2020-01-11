@@ -21,7 +21,7 @@ public:
 
 	int lightCount;
 	int doorCount;
-	float roomPosX,roomPosZ;
+	float roomPosX, roomPosY,roomPosZ;
 
 	bool g_bAutoRotating;
 
@@ -161,6 +161,7 @@ protected:
 	void TextureGenerator(int count);
 	void UpdateLightPosition(float dt);
 	void DoorGenerator(float px, float py, float pz, int count);
+	void TurnObj();
 };
 
 class Room4 :public Room

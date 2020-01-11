@@ -1,7 +1,7 @@
 #include "Room.h"
 
 Room1::Room1(float x,float y,float z,point4 eye) {
-	g_bAutoRotating = false;
+	g_bAutoRotating = true;
 
 	g_fElapsedTime = 0;
 	g_fLightRadius = 6;
