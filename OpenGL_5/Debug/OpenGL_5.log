@@ -1,9 +1,32 @@
-﻿  Room2.cpp
-d:\users\course\大三\計算機圖學\opengl_hw_3d\opengl_5\common\room2.cpp(107): warning C4305: '引數': 從 'double' 轉換為 'GLfloat'，是由較大的類型轉換為較小的類型，可能導致資料遺失
-d:\users\course\大三\計算機圖學\opengl_hw_3d\opengl_5\common\room2.cpp(118): warning C4305: '引數': 從 'double' 轉換為 'GLfloat'，是由較大的類型轉換為較小的類型，可能導致資料遺失
-d:\users\course\大三\計算機圖學\opengl_hw_3d\opengl_5\common\room2.cpp(129): warning C4305: '引數': 從 'double' 轉換為 'GLfloat'，是由較大的類型轉換為較小的類型，可能導致資料遺失
-d:\users\course\大三\計算機圖學\opengl_hw_3d\opengl_5\common\room2.cpp(137): warning C4244: '=': 將 'double' 轉換為 'GLfloat'，由於類型不同，可能導致資料遺失
-d:\users\course\大三\計算機圖學\opengl_hw_3d\opengl_5\common\room2.cpp(142): warning C4305: '引數': 從 'double' 轉換為 'GLfloat'，是由較大的類型轉換為較小的類型，可能導致資料遺失
+﻿  HW3.cpp
+d:\users\course\大三\計算機圖學\opengl_hw_3d\opengl_5\hw3.cpp(389): warning C4305: '=': 從 'double' 轉換為 'GLfloat'，是由較大的類型轉換為較小的類型，可能導致資料遺失
+  Room6.cpp
+d:\users\course\大三\計算機圖學\opengl_hw_3d\opengl_5\common\room6.cpp(100): warning C4305: '引數': 從 'double' 轉換為 'GLfloat'，是由較大的類型轉換為較小的類型，可能導致資料遺失
+d:\users\course\大三\計算機圖學\opengl_hw_3d\opengl_5\common\room6.cpp(110): warning C4305: '引數': 從 'double' 轉換為 'GLfloat'，是由較大的類型轉換為較小的類型，可能導致資料遺失
+d:\users\course\大三\計算機圖學\opengl_hw_3d\opengl_5\common\room6.cpp(120): warning C4305: '引數': 從 'double' 轉換為 'GLfloat'，是由較大的類型轉換為較小的類型，可能導致資料遺失
+d:\users\course\大三\計算機圖學\opengl_hw_3d\opengl_5\common\room6.cpp(127): warning C4244: '=': 將 'double' 轉換為 'GLfloat'，由於類型不同，可能導致資料遺失
+d:\users\course\大三\計算機圖學\opengl_hw_3d\opengl_5\common\room6.cpp(132): warning C4305: '引數': 從 'double' 轉換為 'GLfloat'，是由較大的類型轉換為較小的類型，可能導致資料遺失
+  Room4.cpp
+d:\users\course\大三\計算機圖學\opengl_hw_3d\opengl_5\common\room4.cpp(105): warning C4305: '引數': 從 'double' 轉換為 'GLfloat'，是由較大的類型轉換為較小的類型，可能導致資料遺失
+d:\users\course\大三\計算機圖學\opengl_hw_3d\opengl_5\common\room4.cpp(115): warning C4305: '引數': 從 'double' 轉換為 'GLfloat'，是由較大的類型轉換為較小的類型，可能導致資料遺失
+d:\users\course\大三\計算機圖學\opengl_hw_3d\opengl_5\common\room4.cpp(125): warning C4305: '引數': 從 'double' 轉換為 'GLfloat'，是由較大的類型轉換為較小的類型，可能導致資料遺失
+  Room3.cpp
+d:\users\course\大三\計算機圖學\opengl_hw_3d\opengl_5\common\room3.cpp(107): warning C4305: '引數': 從 'double' 轉換為 'GLfloat'，是由較大的類型轉換為較小的類型，可能導致資料遺失
+d:\users\course\大三\計算機圖學\opengl_hw_3d\opengl_5\common\room3.cpp(117): warning C4305: '引數': 從 'double' 轉換為 'GLfloat'，是由較大的類型轉換為較小的類型，可能導致資料遺失
+d:\users\course\大三\計算機圖學\opengl_hw_3d\opengl_5\common\room3.cpp(127): warning C4305: '引數': 從 'double' 轉換為 'GLfloat'，是由較大的類型轉換為較小的類型，可能導致資料遺失
+  Room1.cpp
+d:\users\course\大三\計算機圖學\opengl_hw_3d\opengl_5\common\room1.cpp(239): warning C4305: '引數': 從 'double' 轉換為 'GLfloat'，是由較大的類型轉換為較小的類型，可能導致資料遺失
+d:\users\course\大三\計算機圖學\opengl_hw_3d\opengl_5\common\room1.cpp(249): warning C4305: '引數': 從 'double' 轉換為 'GLfloat'，是由較大的類型轉換為較小的類型，可能導致資料遺失
+d:\users\course\大三\計算機圖學\opengl_hw_3d\opengl_5\common\room1.cpp(259): warning C4305: '引數': 從 'double' 轉換為 'GLfloat'，是由較大的類型轉換為較小的類型，可能導致資料遺失
+d:\users\course\大三\計算機圖學\opengl_hw_3d\opengl_5\common\room1.cpp(266): warning C4244: '=': 將 'double' 轉換為 'GLfloat'，由於類型不同，可能導致資料遺失
+d:\users\course\大三\計算機圖學\opengl_hw_3d\opengl_5\common\room1.cpp(299): warning C4244: '=': 將 'double' 轉換為 'GLfloat'，由於類型不同，可能導致資料遺失
+d:\users\course\大三\計算機圖學\opengl_hw_3d\opengl_5\common\room1.cpp(307): warning C4244: '=': 將 'double' 轉換為 'GLfloat'，由於類型不同，可能導致資料遺失
+d:\users\course\大三\計算機圖學\opengl_hw_3d\opengl_5\common\room1.cpp(315): warning C4244: '=': 將 'double' 轉換為 'GLfloat'，由於類型不同，可能導致資料遺失
+  Room.cpp
+  正在產生程式碼...
+  正在略過... (未偵測到相關變更)
+  Room5.cpp
+  Room2.cpp
   SOIL.lib(SOIL.obj) : 找到 MSIL .netmodule 或以 /GL 編譯的模組。請以 /LTCG 重新啟動連結，將 /LTCG 加入連結命令列以提升連結器效能
 LINK : warning LNK4075: 忽略 '/INCREMENTAL'，由於 '/LTCG' 規格
 C2DSprite.obj : warning LNK4075: 忽略 '/EDITANDCONTINUE'，由於 '/OPT:LBR' 規格

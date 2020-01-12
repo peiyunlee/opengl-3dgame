@@ -209,6 +209,7 @@ void Room5::TextureGenerator(int count) {
 	g_uiFTexID[8] = texturepool->AddTexture("texture/mine/lergr.png");
 	g_uiFTexID[9] = texturepool->AddTexture("texture/mine/lergy2.png");
 	g_uiFTexID[10] = texturepool->AddTexture("texture/mine/lergb2.png");
+	g_uiFTexID[11] = texturepool->AddTexture("texture/mine/toy6.png");
 
 #ifdef MULTITEXTURE
 	g_uiFTexID[6] = texturepool->AddTexture("texture/lightMap5.png");
@@ -217,9 +218,6 @@ void Room5::TextureGenerator(int count) {
 }
 
 void Room5::Draw(vec4 cameraPos) {
-	glEnable(GL_BLEND);  // 設定2D Texure Mapping 有作用
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
 	for (int i = 0; i < lightCount; i++)
 	{
 		g_pLight[i].Draw();
@@ -247,6 +245,8 @@ void Room5::Draw(vec4 cameraPos) {
 	g_BackWall->Draw();
 	glBindTexture(GL_TEXTURE_2D, 0);
 
+	glActiveTexture(GL_TEXTURE0); // select active texture 0
+	glBindTexture(GL_TEXTURE_2D, g_uiFTexID[11]); // 與 Diffuse Map 結合
 	g_TopWall->Draw();
 
 	glActiveTexture(GL_TEXTURE0); // select active texture 0
@@ -285,8 +285,6 @@ void Room5::Draw(vec4 cameraPos) {
 	g_pCube[3].Draw();
 	glBindTexture(GL_TEXTURE_2D, 0);
 
-	glDisable(GL_BLEND);	// 關閉 Blending
-	glDepthMask(GL_TRUE);	// 開啟對 Z-Buffer 的寫入操作
 }
 
 void Room5::UpdateLightPosition(float dt)

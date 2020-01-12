@@ -1,7 +1,7 @@
 #include "Room.h"
 
 Room2::Room2(float x, float y, float z, point4 eye) {
-	g_bAutoRotating = true;
+	g_bAutoRotating = false;
 
 	g_fElapsedTime = 0;
 	g_fLightRadius = 6;
@@ -15,6 +15,9 @@ Room2::Room2(float x, float y, float z, point4 eye) {
 	roomPosY = y;
 	roomPosZ = z;
 
+	timer1 = 0;
+	timer2 = 0;
+
 	LightGenerator(x, y, z, 1);
 	ObjectGenerator(x, y, z, eye);
 	DoorGenerator(x, y, z, 3);
@@ -23,6 +26,7 @@ Room2::Room2(float x, float y, float z, point4 eye) {
 
 Room2::~Room2() {
 	if (g_pCar1 != NULL) delete g_pCar1;
+	if (g_pCar2 != NULL) delete g_pCar2;
 }
 
 void Room2::LightGenerator(float px, float py, float pz,int count) {
@@ -38,12 +42,12 @@ void Room2::LightGenerator(float px, float py, float pz,int count) {
 		color4(g_fLightR, g_fLightG, g_fLightB, 1.0f), // ambient 
 		color4(g_fLightR, g_fLightG, g_fLightB, 1.0f), // diffuse
 		color4(g_fLightR, g_fLightG, g_fLightB, 1.0f), // specular
-		point4(px+6.0f, py+5.0f, pz+0.0f, 1.0f),   // position
+		point4(px+0.0f, py+10.0f, pz+0.0f, 1.0f),   // position
 		point4(0.0f, 0.0f, 0.0f, 1.0f),   // halfVector
 		vec3(px+0.0f, py+0.0f, pz+0.0f),			  //spotDirection
 		2.0f,	// spotExponent(parameter e); cos^(e)(phi) 
 		45.0f,	// spotCutoff;	// (range: [0.0, 90.0], 180.0)  spot 的照明範圍
-		1.0f,	// spotCosCutoff; // (range: [1.0,0.0],-1.0), 照明方向與被照明點之間的角度取 cos 後, cut off 的值
+		0.0f,	// spotCosCutoff; // (range: [1.0,0.0],-1.0), 照明方向與被照明點之間的角度取 cos 後, cut off 的值
 		1,	// constantAttenuation	(a + bd + cd^2)^-1 中的 a, d 為光源到被照明點的距離
 		0,	// linearAttenuation	    (a + bd + cd^2)^-1 中的 b
 		0		// quadraticAttenuation (a + bd + cd^2)^-1 中的 c
@@ -83,9 +87,10 @@ void Room2::ObjectGenerator(float px, float py, float pz, point4 eye) {
 	vT.x = px + 0.0f; vT.y = py + 20.0f; vT.z = pz + 0;
 	mxT = Translate(vT);
 	g_TopWall = new CQuad;
+	g_TopWall->SetTextureLayer(0);
 	g_TopWall->SetColor(vec4(0.6f));
 	g_TopWall->SetTRSMatrix(mxT*RotateZ(180.0f)*Scale(20.0f, 1, 20.0f));
-	g_TopWall->SetMaterials(vec4(0.0f, 0.0f, 0.0f, 1.0f), vec4(0.5f, 0.5f, 0.5f, 1), vec4(0.5f, 0.5f, 0.5f, 1.0f));
+	g_TopWall->SetMaterials(vec4(1.0f, 1.0f, 1.0f, 1.0f), vec4(0.56f, 0.86f, 0.99f, 1), vec4(1.0f, 1.0f, 1.0f, 1.0f));
 	g_TopWall->SetKaKdKsShini(0, 0.8f, 0.5f, 1);
 	g_TopWall->SetShadingMode(GOURAUD_SHADING);
 	g_TopWall->SetShader();
@@ -134,13 +139,32 @@ void Room2::ObjectGenerator(float px, float py, float pz, point4 eye) {
 	g_BackWall->SetTiling(1, 1);
 	g_BackWall->SetShader();
 
-	vT.x = px + 0.0; vT.y = py + 5.0; vT.z = pz + 0.0;
+	vT.x = px - 2.0f; vT.y = py + 0.5; vT.z = pz - 0.0f;
 	mxT = Translate(vT);
 	g_pCar1 = new ModelPool("Model/car1.obj", Type_3DMax);
-	g_pCar1->SetTRSMatrix(mxT*RotateY(225.0f)*Scale(0.005f, 0.005f, 0.005f));
+	g_pCar1->SetTextureLayer(DIFFUSE_MAP);
+	carInitPos1 = RotateY(0.0f)*mxT*Scale(0.025f, 0.025f, 0.025f);
+	g_pCar1->SetTRSMatrix(carInitPos1);
 	g_pCar1->SetMaterials(vec4(0.15f, 0.15f, 0.15f, 1.0f), vec4(0.85, 0.85f, 0.85, 1), vec4(1.0f, 1.0f, 1.0f, 1.0f));
 	g_pCar1->SetKaKdKsShini(0.15f, 0.8f, 0.2f, 2);
 
+	vT.x = px + 2.0f; vT.y = py + 0.5; vT.z = pz - 0.0f;
+	mxT = Translate(vT);
+	g_pCar2 = new ModelPool("Model/car1.obj", Type_3DMax);
+	g_pCar2->SetTextureLayer(DIFFUSE_MAP);
+	carInitPos2 = mxT*Scale(0.025f, 0.025f, 0.025f)*RotateY(180.0f);
+	g_pCar2->SetTRSMatrix(carInitPos2);
+	g_pCar2->SetMaterials(vec4(0.15f, 0.15f, 0.15f, 1.0f), vec4(0.85, 0.85f, 0.85, 1), vec4(1.0f, 1.0f, 1.0f, 1.0f));
+	g_pCar2->SetKaKdKsShini(0.15f, 0.8f, 0.2f, 2);
+
+	//vT.x = px - 10.0f; vT.y = py + 0.5; vT.z = pz -5.0f;
+	//mxT = Translate(vT);
+	//g_pCar3 = new ModelPool("Model/car1.obj", Type_3DMax);
+	//g_pCar3->SetTextureLayer(DIFFUSE_MAP);
+	//carInitPos3 = RotateY(90.0f)*mxT*Scale(0.025f, 0.025f, 0.025f);
+	//g_pCar3->SetTRSMatrix(carInitPos3);
+	//g_pCar3->SetMaterials(vec4(0.15f, 0.15f, 0.15f, 1.0f), vec4(0.85, 0.85f, 0.85, 1), vec4(1.0f, 1.0f, 1.0f, 1.0f));
+	//g_pCar3->SetKaKdKsShini(0.15f, 0.8f, 0.2f, 2);
 }
 
 void Room2::SetProjectionMatrix(mat4 mpx) {
@@ -164,6 +188,7 @@ void Room2::SetProjectionMatrix(mat4 mpx) {
 	}
 
 	g_pCar1->SetProjectionMatrix(mpx);
+	g_pCar2->SetProjectionMatrix(mpx);
 }
 
 void Room2::TextureGenerator(int count) {
@@ -177,12 +202,11 @@ void Room2::TextureGenerator(int count) {
 	g_uiFTexID[3] = texturepool->AddTexture("texture/mine/street2noB.png");
 	g_uiFTexID[4] = texturepool->AddTexture("texture/mine/street1.png");
 	g_uiFTexID[5] = texturepool->AddTexture("texture/mine/Car1.png");
+	g_uiFTexID[6] = texturepool->AddTexture("texture/mine/Car2.png");
+	g_uiFTexID[7] = texturepool->AddTexture("texture/mine/Car3.png");
 }
 
 void Room2::Draw(vec4 cameraPos) {
-	glEnable(GL_BLEND);  // 設定2D Texure Mapping 有作用
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
 	for (int i = 0; i < lightCount; i++)
 	{
 		g_pLight[i].Draw();
@@ -218,8 +242,10 @@ void Room2::Draw(vec4 cameraPos) {
 	g_pCar1->Draw(); // 與 Diffuse Map 結合
 	glBindTexture(GL_TEXTURE_2D, 0);
 
-	glDisable(GL_BLEND);	// 關閉 Blending
-	glDepthMask(GL_TRUE);	// 開啟對 Z-Buffer 的寫入操作
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, g_uiFTexID[6]);
+	g_pCar2->Draw(); // 與 Diffuse Map 結合
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void Room2::UpdateLightPosition(float dt)
@@ -248,6 +274,7 @@ void Room2::SetViewMatrix(mat4 mvx, vec4 cameraViewPosition) {
 	}
 
 	g_pCar1->SetViewMatrix(mvx);
+	g_pCar2->SetViewMatrix(mvx);
 
 	g_BottomWall->SetViewMatrix(mvx);
 	g_TopWall->SetViewMatrix(mvx);
@@ -286,6 +313,10 @@ void Room2::Update(float delta) {
 	}
 
 	g_pCar1->Update(delta, g_Light[0]);
+	g_pCar2->Update(delta, g_Light[0]);
+
+	CarMove(delta);
+
 }
 
 void Room2::DoorGenerator(float px, float py, float pz, int count) {
@@ -320,7 +351,27 @@ void Room2::RotateBillboard(float g_fPhi) {
 
 }
 
-
 void Room2::TurnObj() {
 
+}
+
+float carSpeed = -3.0f;
+void Room2::CarMove(float dt) {
+	mat4 mxT1, mxT2;
+	vec4 vT=0.0f;
+	timer1 += dt;
+
+	vT.x = carSpeed*timer1; vT.y = 0.0; vT.z = 0.0;
+	mxT1 = Translate(vT);
+	g_pCar1->SetTRSMatrix(mxT1*carInitPos1);
+
+	vT.x = -carSpeed*timer1; vT.y = 0.0; vT.z = 0.0;
+	mxT2 = Translate(vT);
+	g_pCar2->SetTRSMatrix(mxT2*carInitPos2);
+	if (timer1 >= 4.0f) {
+		timer1 = 0;
+		carSpeed = -carSpeed;
+		carInitPos1 = mxT1*carInitPos1;
+		carInitPos2 = mxT2*carInitPos2;
+	}
 }

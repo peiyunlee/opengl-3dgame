@@ -93,12 +93,12 @@ void init( void )
 
 	UIGenerator();
 
-	room1 = new Room2(0.0f,0.0f,0.0f,eye);
-	room2 = new Room1(20.001f, 0.0f, 0.0f, eye);
+	room1 = new Room6(0.0f,0.0f,0.0f,eye);
+	room2 = new Room2(20.001f, 0.0f, 0.0f, eye);
 	room3 = new Room3(20.001f, 0.0f, -20.001f, eye);
 	room4 = new Room4(0.0f, 0.0f, -20.001f, eye);
 	room5 = new Room5(0.0f, 0.0f, -40.002f , eye);
-	room6 = new Room6(20.001f, 0.0f, -40.002f, eye);
+	room6 = new Room1(20.001f, 0.0f, -40.002f, eye);
 
 	// 因為本範例不會動到 Projection Matrix 所以在這裡設定一次即可
 	// 就不寫在 OnFrameMove 中每次都 Check
@@ -119,15 +119,19 @@ void GL_Display( void )
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the window
 
+	glEnable(GL_BLEND);  // 設定2D Texure Mapping 有作用
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	room1->Draw(camera->getViewPosition());
 	room2->Draw(camera->getViewPosition());
-	room3->Draw(camera->getViewPosition());
-	room4->Draw(camera->getViewPosition());
 	room5->Draw(camera->getViewPosition());
 	room6->Draw(camera->getViewPosition());
+	room4->Draw(camera->getViewPosition());
+	room3->Draw(camera->getViewPosition());
 
 	for (int i = 0; i <4; i++) g_p2DBtn[i]->Draw();
 
+	glDisable(GL_BLEND);	// 關閉 Blending
 	glutSwapBuffers();	// 交換 Frame Buffer
 }
 
@@ -171,34 +175,34 @@ void Win_Keyboard( unsigned char key, int x, int y )
 		room3->g_bAutoRotating = !room3->g_bAutoRotating;
 		break;
 	case 82: // R key
-		if(room1->g_fLightR <= 0.95f ) room1->g_fLightR += 0.05f;
+		if(room1->g_fLightR <= 1.0f ) room1->g_fLightR += 0.05f;
 		room1->g_Light[0].diffuse.x = room1->g_fLightR;
-		room1->g_pLight[0].SetColor(room1->g_Light[0].diffuse);
+		//room1->g_pLight[0].SetColor(room1->g_Light[0].diffuse);
 		break;
 	case 114: // r key
-		if(room1->g_fLightR >= 0.05f ) room1->g_fLightR -= 0.05f;
+		if(room1->g_fLightR >= 0.0f ) room1->g_fLightR -= 0.05f;
 		room1->g_Light[0].diffuse.x = room1->g_fLightR;
-		room1->g_pLight[0].SetColor(room1->g_Light[0].diffuse);
+		//room1->g_pLight[0].SetColor(room1->g_Light[0].diffuse);
 		break;
 	case 71: // G key
-		if(room1->g_fLightG <= 0.95f ) room1->g_fLightG += 0.05f;
+		if(room1->g_fLightG <= 1.0f ) room1->g_fLightG += 0.05f;
 		room1->g_Light[0].diffuse.y = room1->g_fLightG;
-		room1->g_pLight[0].SetColor(room1->g_Light[0].diffuse);
+		//room1->g_pLight[0].SetColor(room1->g_Light[0].diffuse);
 		break;
 	case 103: // g key
-		if(room1->g_fLightG >= 0.05f ) room1->g_fLightG -= 0.05f;
+		if(room1->g_fLightG >= 0.0f ) room1->g_fLightG -= 0.05f;
 		room1->g_Light[0].diffuse.y = room1->g_fLightG;
-		room1->g_pLight[0].SetColor(room1->g_Light[0].diffuse);
+		//room1->g_pLight[0].SetColor(room1->g_Light[0].diffuse);
 		break;
 	case 66: // B key
-		if(room1->g_fLightB <= 0.95f ) room1->g_fLightB += 0.05f;
+		if(room1->g_fLightB <= 1.0f ) room1->g_fLightB += 0.05f;
 		room1->g_Light[0].diffuse.z = room1->g_fLightB;
-		room1->g_pLight[0].SetColor(room1->g_Light[0].diffuse);
+		//room1->g_pLight[0].SetColor(room1->g_Light[0].diffuse);
 		break;
 	case 98: // b key
-		if(room1->g_fLightB >= 0.05f ) room1->g_fLightB -= 0.05f;
+		if(room1->g_fLightB >= 0.0f ) room1->g_fLightB -= 0.05f;
 		room1->g_Light[0].diffuse.z = room1->g_fLightB;
-		room1->g_pLight[0].SetColor(room1->g_Light[0].diffuse);
+		//room1->g_pLight[0].SetColor(room1->g_Light[0].diffuse);
 		break;
 
     case 033:

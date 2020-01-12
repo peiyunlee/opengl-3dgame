@@ -85,8 +85,8 @@ void main()
 		}
 
 		LightingColor = ambient + diffuse + specular;  // 計算顏色 ambient + diffuse + specular;
-		LightingColor.w = DiffuseProduct.w;	// 設定為傳入材質的 alpha,	DiffuseProduct.w
-		//LightingColor.w = 1.0;	// 設定 alpha 為 1.0
+		//LightingColor.w = DiffuseProduct.w;	// 設定為傳入材質的 alpha,	DiffuseProduct.w
+		LightingColor.w = 1.0;	// 設定 alpha 為 1.0
 
 
 		if( iTexLayer == NONE_MAP ) gl_FragColor = LightingColor;

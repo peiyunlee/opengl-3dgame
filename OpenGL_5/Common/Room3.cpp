@@ -116,7 +116,7 @@ void Room3::ObjectGenerator(float px, float py, float pz, point4 eye) {
 	g_FrontWall = new CQuad;
 	g_FrontWall->SetMaterials(vec4(0.15f, 0.15f, 0.15f, 1.0f), vec4(0.85, 0.85f, 0.85, 1), vec4(1.0f, 1.0f, 1.0f, 1.0f));
 	g_FrontWall->SetColor(vec4(0.6f));
-	g_FrontWall->SetTRSMatrix(mxT*RotateY(180.0f)*RotateZ(180.0f)*RotateX(-90.0f)*Scale(20.0f, 1, 20.0f));
+	g_FrontWall->SetTRSMatrix(mxT*RotateZ(180.0f)*RotateX(-90.0f)*Scale(20.0f, 1, 20.0f));
 	g_FrontWall->SetKaKdKsShini(0, 0.8f, 0.5f, 1);
 	g_FrontWall->SetShadingMode(GOURAUD_SHADING);
 	g_FrontWall->SetShader();
@@ -221,9 +221,6 @@ void Room3::TextureGenerator(int count) {
 bool trunflag = false;
 void Room3::Draw(vec4 cameraPos) {
 
-	glEnable(GL_BLEND);  // 設定2D Texure Mapping 有作用
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
 	for (int i = 0; i < lightCount; i++)
 	{
 		g_pLight[i].Draw();
@@ -310,7 +307,6 @@ void Room3::Draw(vec4 cameraPos) {
 		}
 	}
 
-	glDisable(GL_BLEND);	// 關閉 Blending
 	glDepthMask(GL_TRUE);	// 開啟對 Z-Buffer 的寫入操作
 }
 

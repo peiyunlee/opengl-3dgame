@@ -207,9 +207,6 @@ void Room4::Draw(vec4 cameraPos) {
 		g_pDoor[i].Draw();
 	}
 	glBindTexture(GL_TEXTURE_2D, 0);
-
-	glDisable(GL_BLEND);	// 關閉 Blending
-	glDepthMask(GL_TRUE);	// 開啟對 Z-Buffer 的寫入操作
 }
 
 void Room4::UpdateLightPosition(float dt)

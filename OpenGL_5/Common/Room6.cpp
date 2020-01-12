@@ -14,11 +14,11 @@ Room6::Room6(float x, float y, float z, point4 eye) {
 	LightGenerator(x, y, z, 1);
 	ObjectGenerator(x, y, z, eye);
 	DoorGenerator(x, y, z, 1);
-	TextureGenerator(7);
+	TextureGenerator(3);
 }
 
 Room6::~Room6() {
-	if (g_pBox != NULL) delete g_pBox;
+	if (g_pBoxClosed != NULL) delete g_pBoxClosed;
 }
 
 void Room6::LightGenerator(float px, float py, float pz,int count) {
@@ -34,7 +34,7 @@ void Room6::LightGenerator(float px, float py, float pz,int count) {
 		color4(g_fLightR, g_fLightG, g_fLightB, 1.0f), // ambient 
 		color4(g_fLightR, g_fLightG, g_fLightB, 1.0f), // diffuse
 		color4(g_fLightR, g_fLightG, g_fLightB, 1.0f), // specular
-		point4(px+6.0f, py+5.0f, pz+0.0f, 1.0f),   // position
+		point4(px+0.0f, py+4.0f, pz+0.0f, 1.0f),   // position
 		point4(0.0f, 0.0f, 0.0f, 1.0f),   // halfVector
 		vec3(px+0.0f, py+0.0f, pz+0.0f),			  //spotDirection
 		2.0f,	// spotExponent(parameter e); cos^(e)(phi) 
@@ -126,11 +126,11 @@ void Room6::ObjectGenerator(float px, float py, float pz, point4 eye) {
 
 	vT.x = px + 0.0; vT.y = py + 0.5; vT.z = pz + -0.0;
 	mxT = Translate(vT);
-	g_pBox = new ModelPool("Model/chestlx_closed.obj", Type_3DMax);
-	g_pBox->SetTextureLayer(3);
-	g_pBox->SetTRSMatrix(mxT*RotateY(225.0f)*Scale(2.0f, 2.0f, 2.0f));
-	g_pBox->SetMaterials(vec4(1.0f, 1.0f, 0.0f, 1.0f), vec4(1.0, 1.0f, 1.0, 1), vec4(1.0f, 1.0f, 1.0f, 1.0f));
-	g_pBox->SetKaKdKsShini(0.15f, 0.8f, 0.2f, 2);
+	g_pBoxClosed = new ModelPool("Model/boxblack.obj", Type_3DMax);
+	g_pBoxClosed->SetTextureLayer(DIFFUSE_MAP);
+	g_pBoxClosed->SetTRSMatrix(mxT*RotateY(0.0f)*Scale(0.3f, 0.3f, 0.3f));
+	g_pBoxClosed->SetMaterials(vec4(0.15f, 0.15f, 0.15f, 1.0f), vec4(0.85, 0.85f, 0.85, 1), vec4(1.0f, 1.0f, 1.0f, 1.0f));
+	g_pBoxClosed->SetKaKdKsShini(0.15f, 0.8f, 0.2f, 2);
 
 }
 
@@ -154,7 +154,7 @@ void Room6::SetProjectionMatrix(mat4 mpx) {
 		g_pDoor[i].SetProjectionMatrix(mpx);
 	}
 
-	g_pBox->SetProjectionMatrix(mpx);
+	g_pBoxClosed->SetProjectionMatrix(mpx);
 }
 
 void Room6::TextureGenerator(int count) {
@@ -164,12 +164,10 @@ void Room6::TextureGenerator(int count) {
 
 	g_uiFTexID[0] = texturepool->AddTexture("texture/mine/floor6.png");
 	g_uiFTexID[1] = texturepool->AddTexture("texture/mine/door.png");
-	g_uiFTexID[1] = texturepool->AddTexture("texture/mine/door.png");
+	g_uiFTexID[2] = texturepool->AddTexture("texture/mine/box.jpg");
 }
 
 void Room6::Draw(vec4 cameraPos) {
-	glEnable(GL_BLEND);  // 設定2D Texure Mapping 有作用
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	for (int i = 0; i < lightCount; i++)
 	{
@@ -186,11 +184,12 @@ void Room6::Draw(vec4 cameraPos) {
 	g_RightWall->Draw();
 	g_FrontWall->Draw();
 	g_BackWall->Draw();
+	g_TopWall->Draw();
 	glBindTexture(GL_TEXTURE_2D, 0);
 
-	g_TopWall->Draw();
-
-	g_pBox->Draw();
+	glActiveTexture(GL_TEXTURE0); // select active texture 0
+	glBindTexture(GL_TEXTURE_2D, g_uiFTexID[2]); // 與 Diffuse Map 結合
+	g_pBoxClosed->Draw();
 
 	glActiveTexture(GL_TEXTURE0); // select active texture 0
 	glBindTexture(GL_TEXTURE_2D, g_uiFTexID[1]); // 與 Diffuse Map 結合
@@ -199,9 +198,6 @@ void Room6::Draw(vec4 cameraPos) {
 		g_pDoor[i].Draw();
 	}
 	glBindTexture(GL_TEXTURE_2D, 0);
-
-	glDisable(GL_BLEND);	// 關閉 Blending
-	glDepthMask(GL_TRUE);	// 開啟對 Z-Buffer 的寫入操作
 }
 
 void Room6::UpdateLightPosition(float dt)
@@ -243,7 +239,7 @@ void Room6::SetViewMatrix(mat4 mvx, vec4 cameraViewPosition) {
 		g_pDoor[i].SetViewMatrix(mvx);
 	}
 
-	g_pBox->SetViewMatrix(mvx);
+	g_pBoxClosed->SetViewMatrix(mvx);
 }
 
 void Room6::Update(float delta) {
@@ -271,7 +267,7 @@ void Room6::Update(float delta) {
 		g_pDoor[i].Update(delta, g_Light[0]);
 	}
 
-	g_pBox->Update(delta, g_Light[0]);
+	g_pBoxClosed->Update(delta, g_Light[0]);
 }
 
 void Room6::DoorGenerator(float px, float py, float pz, int count) {

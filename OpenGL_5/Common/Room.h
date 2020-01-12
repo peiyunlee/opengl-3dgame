@@ -77,6 +77,7 @@ private:
 	ModelPool *g_pDeer;
 	ModelPool *g_pRat;
 	ModelPool *g_pWolf;
+	ModelPool *g_pBtn1, *g_pBtn2, *g_pBtn3;
 
 	// Texture 
 	GLuint g_uiSphereCubeMap; // for Cubic Texture
@@ -102,7 +103,9 @@ protected:
 class Room2 :public Room
 {
 private:
-	ModelPool *g_pCar1;
+	ModelPool *g_pCar1,*g_pCar2;
+	mat4 carInitPos1, carInitPos2;
+	float timer1, timer2;
 
 public:
 	Room2(float px, float py, float pz, point4 eye);
@@ -120,6 +123,7 @@ protected:
 	void UpdateLightPosition(float dt);
 	void DoorGenerator(float px, float py, float pz, int count);
 	void TurnObj();
+	void CarMove(float dt);
 };
 
 class Room3 :public Room
@@ -148,7 +152,6 @@ protected:
 class Room4 :public Room
 {
 private:
-	//ModelPool *g_pCar1;
 
 public:
 	Room4(float px, float py, float pz, point4 eye);
@@ -193,10 +196,8 @@ protected:
 class Room6 :public Room
 {
 private:
-	ModelPool *g_pBox;
-
-	// Texture 
-	GLuint g_uiSphereCubeMap; // for Cubic Texture
+	ModelPool *g_pBoxClosed, *g_pBoxOpen;
+	CQuad *g_pPaper;
 
 public:
 	Room6(float px, float py, float pz, point4 eye);

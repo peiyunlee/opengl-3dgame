@@ -1,15 +1,15 @@
 #include "Room.h"
 
 Room1::Room1(float x,float y,float z,point4 eye) {
-	g_bAutoRotating = true;
+	g_bAutoRotating = false;
 
 	g_fElapsedTime = 0;
 	g_fLightRadius = 6;
 	g_fLightTheta = 0;
 
-	g_fLightR = 0.85f;
-	g_fLightG = 0.85f;
-	g_fLightB = 0.85f;
+	g_fLightR = 1.0f;
+	g_fLightG = 1.0f;
+	g_fLightB = 1.0f;
 
 	LightGenerator(x, y, z, 1);
 	ObjectGenerator(x,y,z,eye);
@@ -26,6 +26,9 @@ Room1::~Room1() {
 	if (g_pDeer != NULL) delete g_pDeer;
 	if (g_pWolf != NULL) delete g_pWolf;
 	if (g_pRat != NULL) delete g_pRat;
+	if (g_pBtn1 != NULL) delete g_pBtn1;
+	if (g_pBtn2 != NULL) delete g_pBtn2;
+	if (g_pBtn3 != NULL) delete g_pBtn3;
 
 	//if (g_uiFTexID != NULL) delete[] g_uiFTexID;
 }
@@ -43,7 +46,7 @@ void Room1::LightGenerator(float px, float py, float pz, int count) {
 		color4(g_fLightR, g_fLightG, g_fLightB, 1.0f), // ambient 
 		color4(g_fLightR, g_fLightG, g_fLightB, 1.0f), // diffuse
 		color4(g_fLightR, g_fLightG, g_fLightB, 1.0f), // specular
-		point4(px+6.0f, py+5.0f, pz+0.0f, 1.0f),   // position
+		point4(px+0.0f, py+5.0f, pz+0.0f, 1.0f),   // position
 		point4(0.0f, 0.0f, 0.0f, 1.0f),   // halfVector
 		vec3(px + 0.0f, py + 0.0f, pz + 0.0f),			  //spotDirection
 		2.0f,	// spotExponent(parameter e); cos^(e)(phi) 
@@ -198,24 +201,26 @@ void Room1::ObjectGenerator(float px, float py, float pz, point4 eye) {
 	mxT = Translate(vT);
 	g_BottomWall = new CQuad;
 #ifdef MULTITEXTURE
-	g_BottomWall->SetTextureLayer(DIFFUSE_MAP);
+	g_BottomWall->SetTextureLayer(DIFFUSE_MAP | NORMAL_MAP);
 #endif
 	g_BottomWall->SetShader();
 	g_BottomWall->SetMaterials(vec4(0), vec4(0.85f, 0.85f, 0.85f, 1), vec4(1.0f, 1.0f, 1.0f, 1.0f));
 	g_BottomWall->SetKaKdKsShini(0, 0.8f, 0.5f, 1);
 	g_BottomWall->SetColor(vec4(0.6f));
 	g_BottomWall->SetTRSMatrix(mxT*Scale(20.0f, 1, 20.0f));
-	//g_BottomWall->SetTiling(1, 1);
+	g_BottomWall->SetTiling(5,5);
 	g_BottomWall->SetShadingMode(GOURAUD_SHADING);
 
 	vT.x = px+0.0f; vT.y = py+20.0f; vT.z = pz+0;
 	mxT = Translate(vT);
 	g_TopWall = new CQuad;
+	g_TopWall->SetTextureLayer(DIFFUSE_MAP | NORMAL_MAP);
 	g_TopWall->SetColor(vec4(0.6f));
 	g_TopWall->SetTRSMatrix(mxT*RotateZ(180.0f)*Scale(20.0f, 1, 20.0f));
 	g_TopWall->SetMaterials(vec4(0.0f, 0.0f, 0.0f, 1.0f), vec4(0.5f, 0.5f, 0.5f, 1), vec4(0.5f, 0.5f, 0.5f, 1.0f));
 	g_TopWall->SetKaKdKsShini(0, 0.8f, 0.5f, 1);
 	g_TopWall->SetShadingMode(GOURAUD_SHADING);
+	g_TopWall->SetTiling(5, 5);
 	g_TopWall->SetShader();
 
 	vT.x = px + -10.0f; vT.y = py + 10.0f; vT.z = pz + 0;
@@ -263,30 +268,57 @@ void Room1::ObjectGenerator(float px, float py, float pz, point4 eye) {
 	g_pCat = new ModelPool("Model/cat.obj", Type_3DMax);
 	g_pCat->SetTextureLayer(0);
 	g_pCat->SetTRSMatrix(mxT*RotateY(225.0f)*Scale(0.004f, 0.004f, 0.004f));
-	g_pCat->SetMaterials(vec4(1.0f, 1.0f, 0.0f, 1.0f), vec4(1.0, 1.0f, 1.0, 1), vec4(1.0f, 1.0f, 1.0f, 1.0f));
+	g_pCat->SetMaterials(vec4(0.15f, 0.15f, 0.15f, 1.0f), vec4(0.5, 0.5, 0.5f, 1), vec4(1.0f, 1.0f, 1.0f, 1.0f));
 	g_pCat->SetKaKdKsShini(0.15f, 0.8f, 0.2f, 2);
 
 
-	//vT.x = -6.0; vT.y = 0.5; vT.z = -6.0;
-	//mxT = Translate(vT);
-	//g_pDeer = new ModelPool("Model/deer.obj", Type_3DMax);
-	//g_pDeer->SetTRSMatrix(mxT*RotateY(315.0f)*Scale(0.004f, 0.004f, 0.004f));
-	//g_pDeer->SetMaterials(vec4(0.15f, 0.15f, 0.15f, 1.0f), vec4(0.5, 0.5, 0.5f, 1), vec4(1.0f, 1.0f, 1.0f, 1.0f));
-	//g_pDeer->SetKaKdKsShini(0.15f, 0.8f, 0.2f, 2);
+	vT.x = -6.0; vT.y = 0.5; vT.z = -6.0;
+	mxT = Translate(vT);
+	g_pDeer = new ModelPool("Model/deer.obj", Type_3DMax);
+	g_pDeer->SetTextureLayer(0);
+	g_pDeer->SetTRSMatrix(mxT*RotateY(315.0f)*Scale(0.004f, 0.004f, 0.004f));
+	g_pDeer->SetMaterials(vec4(0.15f, 0.15f, 0.15f, 1.0f), vec4(0.5, 0.5, 0.5f, 1), vec4(1.0f, 1.0f, 1.0f, 1.0f));
+	g_pDeer->SetKaKdKsShini(0.15f, 0.8f, 0.2f, 2);
 
-	//vT.x = -6.0; vT.y = 0.5; vT.z = 6.0;
-	//mxT = Translate(vT);
-	//g_pWolf = new ModelPool("Model/wolf.obj", Type_3DMax);
-	//g_pWolf->SetTRSMatrix(mxT*RotateY(45.0f)*Scale(0.007f, 0.007f, 0.007f));
-	//g_pWolf->SetMaterials(vec4(0.15f, 0.15f, 0.15f, 1.0f), vec4(0.5, 0.5, 0.5f, 1), vec4(1.0f, 1.0f, 1.0f, 1.0f));
-	//g_pWolf->SetKaKdKsShini(0.15f, 0.8f, 0.2f, 2);
+	vT.x = -6.0; vT.y = 0.5; vT.z = 6.0;
+	mxT = Translate(vT);
+	g_pWolf = new ModelPool("Model/wolf.obj", Type_3DMax);
+	g_pWolf->SetTextureLayer(0);
+	g_pWolf->SetTRSMatrix(mxT*RotateY(45.0f)*Scale(0.007f, 0.007f, 0.007f));
+	g_pWolf->SetMaterials(vec4(0.15f, 0.15f, 0.15f, 1.0f), vec4(0.5, 0.5, 0.5f, 1), vec4(1.0f, 1.0f, 1.0f, 1.0f));
+	g_pWolf->SetKaKdKsShini(0.15f, 0.8f, 0.2f, 2);
 
-	//vT.x = 0.0; vT.y = 0.5; vT.z = -0.0;
-	//mxT = Translate(vT);
-	//g_pRat = new ModelPool("Model/rat.obj", Type_3DMax);
-	//g_pRat->SetTRSMatrix(mxT*RotateY(45.0f)*Scale(0.015f, 0.015f, 0.015f));
-	//g_pRat->SetMaterials(vec4(0.15f, 0.15f, 0.15f, 1.0f), vec4(0.5, 0.5, 0.5f, 1), vec4(1.0f, 1.0f, 1.0f, 1.0f));
-	//g_pRat->SetKaKdKsShini(0.15f, 0.8f, 0.2f, 2);
+	vT.x = 0.0; vT.y = 0.5; vT.z = -0.0;
+	mxT = Translate(vT);
+	g_pRat = new ModelPool("Model/rat.obj", Type_3DMax);
+	g_pRat->SetTextureLayer(0);
+	g_pRat->SetTRSMatrix(mxT*RotateY(45.0f)*Scale(0.015f, 0.015f, 0.015f));
+	g_pRat->SetMaterials(vec4(0.15f, 0.15f, 0.15f, 1.0f), vec4(0.5, 0.5, 0.5f, 1), vec4(1.0f, 1.0f, 1.0f, 1.0f));
+	g_pRat->SetKaKdKsShini(0.15f, 0.8f, 0.2f, 2);
+
+	vT.x = px + 5.0; vT.y = py + 0.5; vT.z = pz + -5.0;
+	mxT = Translate(vT);
+	g_pBtn1 = new ModelPool("Model/btn.obj", Type_3DMax);
+	g_pBtn1->SetTextureLayer(0);
+	g_pBtn1->SetTRSMatrix(mxT*RotateY(45.0f)*Scale(0.05f, 0.05f, 0.05f));
+	g_pBtn1->SetMaterials(vec4(0.0f, 0.0f, 0.0f, 1.0f), vec4(1.0, 1.0, 1.0f, 1), vec4(1.0f, 1.0f, 1.0f, 1.0f));
+	g_pBtn1->SetKaKdKsShini(0.15f, 0.8f, 0.2f, 2);
+
+	vT.x = px + 7.0; vT.y = py + 0.5; vT.z = pz + -4.0;
+	mxT = Translate(vT);
+	g_pBtn2 = new ModelPool("Model/btn.obj", Type_3DMax);
+	g_pBtn2->SetTextureLayer(0);
+	g_pBtn2->SetTRSMatrix(mxT*RotateY(45.0f)*Scale(0.05f, 0.05f, 0.05f));
+	g_pBtn2->SetMaterials(vec4(0.0f, 0.0f, 0.0f, 1.0f), vec4(1.0, 1.0, 1.0f, 1), vec4(1.0f, 1.0f, 1.0f, 1.0f));
+	g_pBtn2->SetKaKdKsShini(0.15f, 0.8f, 0.2f, 2);
+
+	vT.x = px + 5.0; vT.y = py + 0.5; vT.z = pz + -7.0;
+	mxT = Translate(vT);
+	g_pBtn3 = new ModelPool("Model/btn.obj", Type_3DMax);
+	g_pBtn3->SetTextureLayer(0);
+	g_pBtn3->SetTRSMatrix(mxT*RotateY(45.0f)*Scale(0.05f, 0.05f, 0.05f));
+	g_pBtn3->SetMaterials(vec4(0.0f, 0.0f, 0.0f, 1.0f), vec4(1.0, 1.0, 1.0f, 1), vec4(1.0f, 1.0f, 1.0f, 1.0f));
+	g_pBtn3->SetKaKdKsShini(0.15f, 0.8f, 0.2f, 2);
 
 }
 
@@ -302,9 +334,12 @@ void Room1::SetProjectionMatrix(mat4 mpx) {
 	}
 
 	g_pCat->SetProjectionMatrix(mpx);
-	//g_pDeer->SetProjectionMatrix(mpx);
-	//g_pWolf->SetProjectionMatrix(mpx);
-	//g_pRat->SetProjectionMatrix(mpx);
+	g_pDeer->SetProjectionMatrix(mpx);
+	g_pWolf->SetProjectionMatrix(mpx);
+	g_pRat->SetProjectionMatrix(mpx);
+	g_pBtn1->SetProjectionMatrix(mpx);
+	g_pBtn2->SetProjectionMatrix(mpx);
+	g_pBtn3->SetProjectionMatrix(mpx);
 
 	//for (int i = 0; i < LIGHTCOUNT; i++)
 	//{
@@ -369,8 +404,6 @@ void Room1::Draw(vec4 cameraPos) {
 //	g_pSphere->Draw();
 //	glBindTexture(GL_TEXTURE_2D, 0);
 
-	glEnable(GL_BLEND);  // 設定2D Texure Mapping 有作用
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	for (int i = 0; i < lightCount; i++)
 	{
@@ -379,15 +412,19 @@ void Room1::Draw(vec4 cameraPos) {
 
 
 	g_pCat->Draw();
-	//g_pDeer->Draw();
-	//g_pWolf->Draw();
-	//g_pRat->Draw();
+	g_pDeer->Draw();
+	g_pWolf->Draw();
+	g_pRat->Draw();
+	g_pBtn1->Draw();
+	g_pBtn2->Draw();
+	g_pBtn3->Draw();
 
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, g_uiFTexID[5]);
-	//glActiveTexture(GL_TEXTURE1);
-	//glBindTexture(GL_TEXTURE_2D, g_uiFTexID[2]);
+	glBindTexture(GL_TEXTURE_2D, g_uiFTexID[0]);
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, g_uiFTexID[2]);
 	g_BottomWall->Draw(); // 與 Diffuse Map 結合
+	g_TopWall->Draw();
 
 	glActiveTexture(GL_TEXTURE0); // select active texture 0
 	glBindTexture(GL_TEXTURE_2D, g_uiFTexID[5]); // 與 Diffuse Map 結合
@@ -397,7 +434,6 @@ void Room1::Draw(vec4 cameraPos) {
 	g_BackWall->Draw();
 	glBindTexture(GL_TEXTURE_2D, 0);
 
-	g_TopWall->Draw();
 
 
 	//for (int i = 0; i < LIGHTCOUNT; i++)
@@ -413,9 +449,6 @@ void Room1::Draw(vec4 cameraPos) {
 		g_pDoor[i].Draw();
 	}
 	glBindTexture(GL_TEXTURE_2D, 0);
-
-	glDisable(GL_BLEND);	// 關閉 Blending
-	glDepthMask(GL_TRUE);	// 開啟對 Z-Buffer 的寫入操作
 }
 
 void Room1::UpdateLightPosition(float dt)
@@ -450,9 +483,12 @@ void Room1::SetViewMatrix(mat4 mvx, vec4 cameraViewPosition) {
 	}
 
 	g_pCat->SetViewMatrix(mvx);
-	//g_pDeer->SetViewMatrix(mvx);
-	//g_pWolf->SetViewMatrix(mvx);
-	//g_pRat->SetViewMatrix(mvx);
+	g_pDeer->SetViewMatrix(mvx);
+	g_pWolf->SetViewMatrix(mvx);
+	g_pRat->SetViewMatrix(mvx);
+	g_pBtn1->SetViewMatrix(mvx);
+	g_pBtn2->SetViewMatrix(mvx);
+	g_pBtn3->SetViewMatrix(mvx);
 
 	g_BottomWall->SetViewMatrix(mvx);
 	g_TopWall->SetViewMatrix(mvx);
@@ -497,9 +533,12 @@ void Room1::Update(float delta) {
 
 	//// 如果需要重新計算時，在這邊計算每一個物件的顏色
 	g_pCat->Update(delta, g_Light[0]);
-	//g_pDeer->Update(g_Light, delta);
-	//g_pWolf->Update(g_Light, delta);
-	//g_pRat->Update(g_Light, delta);
+	g_pDeer->Update(delta, g_Light[0]);
+	g_pWolf->Update(delta, g_Light[0]);
+	g_pRat->Update(delta, g_Light[0]);
+	g_pBtn1->Update(delta, g_Light[0]);
+	g_pBtn2->Update(delta, g_Light[0]);
+	g_pBtn3->Update(delta, g_Light[0]);
 
 	g_BottomWall->Update(delta, g_Light[0]);
 	g_TopWall->Update(delta, g_Light[0]);
