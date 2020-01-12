@@ -102,7 +102,7 @@ protected:
 class Room2 :public Room
 {
 private:
-	//ModelPool *g_pCar;
+	ModelPool *g_pCar1;
 
 public:
 	Room2(float px, float py, float pz, point4 eye);
@@ -148,7 +148,7 @@ protected:
 class Room4 :public Room
 {
 private:
-	//ModelPool *g_pCar;
+	//ModelPool *g_pCar1;
 
 public:
 	Room4(float px, float py, float pz, point4 eye);
@@ -193,7 +193,7 @@ protected:
 class Room6 :public Room
 {
 private:
-	ModelPool *g_pCat;
+	ModelPool *g_pBox;
 
 	// Texture 
 	GLuint g_uiSphereCubeMap; // for Cubic Texture

@@ -22,7 +22,7 @@ Room4::Room4(float x, float y, float z, point4 eye) {
 }
 
 Room4::~Room4() {
-	//if (g_pCar != NULL) delete[] g_pCar;
+	//if (g_pCar1 != NULL) delete g_pCar1;
 }
 
 void Room4::LightGenerator(float px, float py, float pz,int count) {
@@ -129,13 +129,14 @@ void Room4::ObjectGenerator(float px, float py, float pz, point4 eye) {
 	g_BackWall->SetShadingMode(GOURAUD_SHADING);
 	g_BackWall->SetShader();
 
-	//vT.x = px + 7.0; vT.y = py + 0.5; vT.z = pz + -6.0;
+
+	//vT.x = px + 0.0; vT.y = py + 0.5; vT.z = pz + 0.0;
 	//mxT = Translate(vT);
-	//g_pCar = new ModelPool("Model/cars.obj", Type_3DMax);
-	//g_pCar->SetTextureLayer(0);
-	//g_pCar->SetTRSMatrix(mxT*RotateY(225.0f)*Scale(0.004f, 0.004f, 0.004f));
-	//g_pCar->SetMaterials(vec4(1.0f, 1.0f, 0.0f, 1.0f), vec4(1.0, 1.0f, 1.0, 1), vec4(1.0f, 1.0f, 1.0f, 1.0f));
-	//g_pCar->SetKaKdKsShini(0.15f, 0.8f, 0.2f, 2);
+	//g_pCar1 = new ModelPool("Model/cars.obj", Type_3DMax);
+	//g_pCar1->SetTextureLayer(0);
+	//g_pCar1->SetTRSMatrix(mxT*RotateY(225.0f)*Scale(0.004f, 0.004f, 0.004f));
+	//g_pCar1->SetMaterials(vec4(1.0f, 1.0f, 0.0f, 1.0f), vec4(1.0, 1.0f, 1.0, 1), vec4(1.0f, 1.0f, 1.0f, 1.0f));
+	//g_pCar1->SetKaKdKsShini(0.15f, 0.8f, 0.2f, 2);
 
 }
 
@@ -158,7 +159,7 @@ void Room4::SetProjectionMatrix(mat4 mpx) {
 		g_pDoor[i].SetProjectionMatrix(mpx);
 	}
 
-	//g_pCar->SetProjectionMatrix(mpx);
+	//g_pCar1->SetProjectionMatrix(mpx);
 }
 
 void Room4::TextureGenerator(int count) {

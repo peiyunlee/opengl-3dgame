@@ -22,7 +22,7 @@ Room2::Room2(float x, float y, float z, point4 eye) {
 }
 
 Room2::~Room2() {
-	//if (g_pCar != NULL) delete[] g_pCar;
+	if (g_pCar1 != NULL) delete g_pCar1;
 }
 
 void Room2::LightGenerator(float px, float py, float pz,int count) {
@@ -134,13 +134,12 @@ void Room2::ObjectGenerator(float px, float py, float pz, point4 eye) {
 	g_BackWall->SetTiling(1, 1);
 	g_BackWall->SetShader();
 
-	//vT.x = px + 7.0; vT.y = py + 0.5; vT.z = pz + -6.0;
-	//mxT = Translate(vT);
-	//g_pCar = new ModelPool("Model/cars.obj", Type_3DMax);
-	//g_pCar->SetTextureLayer(0);
-	//g_pCar->SetTRSMatrix(mxT*RotateY(225.0f)*Scale(0.004f, 0.004f, 0.004f));
-	//g_pCar->SetMaterials(vec4(1.0f, 1.0f, 0.0f, 1.0f), vec4(1.0, 1.0f, 1.0, 1), vec4(1.0f, 1.0f, 1.0f, 1.0f));
-	//g_pCar->SetKaKdKsShini(0.15f, 0.8f, 0.2f, 2);
+	vT.x = px + 0.0; vT.y = py + 5.0; vT.z = pz + 0.0;
+	mxT = Translate(vT);
+	g_pCar1 = new ModelPool("Model/car1.obj", Type_3DMax);
+	g_pCar1->SetTRSMatrix(mxT*RotateY(225.0f)*Scale(0.005f, 0.005f, 0.005f));
+	g_pCar1->SetMaterials(vec4(0.15f, 0.15f, 0.15f, 1.0f), vec4(0.85, 0.85f, 0.85, 1), vec4(1.0f, 1.0f, 1.0f, 1.0f));
+	g_pCar1->SetKaKdKsShini(0.15f, 0.8f, 0.2f, 2);
 
 }
 
@@ -164,7 +163,7 @@ void Room2::SetProjectionMatrix(mat4 mpx) {
 		g_pDoor[i].SetProjectionMatrix(mpx);
 	}
 
-	//g_pCar->SetProjectionMatrix(mpx);
+	g_pCar1->SetProjectionMatrix(mpx);
 }
 
 void Room2::TextureGenerator(int count) {
@@ -177,7 +176,7 @@ void Room2::TextureGenerator(int count) {
 	g_uiFTexID[2] = texturepool->AddTexture("texture/mine/street2.png");
 	g_uiFTexID[3] = texturepool->AddTexture("texture/mine/street2noB.png");
 	g_uiFTexID[4] = texturepool->AddTexture("texture/mine/street1.png");
-	g_uiFTexID[5] = texturepool->AddTexture("texture/mine/forest2.png");
+	g_uiFTexID[5] = texturepool->AddTexture("texture/mine/Car1.png");
 }
 
 void Room2::Draw(vec4 cameraPos) {
@@ -214,6 +213,11 @@ void Room2::Draw(vec4 cameraPos) {
 	}
 	glBindTexture(GL_TEXTURE_2D, 0);
 
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, g_uiFTexID[5]);
+	g_pCar1->Draw(); // 與 Diffuse Map 結合
+	glBindTexture(GL_TEXTURE_2D, 0);
+
 	glDisable(GL_BLEND);	// 關閉 Blending
 	glDepthMask(GL_TRUE);	// 開啟對 Z-Buffer 的寫入操作
 }
@@ -243,7 +247,7 @@ void Room2::SetViewMatrix(mat4 mvx, vec4 cameraViewPosition) {
 		g_pLight[i].SetViewMatrix(mvx);
 	}
 
-	//g_pCar->SetViewMatrix(mvx);
+	g_pCar1->SetViewMatrix(mvx);
 
 	g_BottomWall->SetViewMatrix(mvx);
 	g_TopWall->SetViewMatrix(mvx);
@@ -280,6 +284,8 @@ void Room2::Update(float delta) {
 	{
 		g_pDoor[i].Update(delta, g_Light[0]);
 	}
+
+	g_pCar1->Update(delta, g_Light[0]);
 }
 
 void Room2::DoorGenerator(float px, float py, float pz, int count) {

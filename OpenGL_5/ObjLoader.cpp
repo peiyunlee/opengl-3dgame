@@ -1,16 +1,17 @@
 #include "ObjLoader.h"
 
-bool LoadObj(const char*  path, std::vector<float> *vertices, std::vector<float> *normals, char type) {
+bool LoadObj(const char*  path, std::vector<float> *vertices, std::vector<float> *normals, std::vector<float> *uvs, char type) {
 	char lineHeader[1000];
 	std::vector<float> temp_vertices;
 	std::vector<float> temp_normals;
+	std::vector<float> temp_uvs;
 	std::vector<unsigned int> indices;
-	float vertex[3], normal[3];
+	float vertex[3], normal[3],uv[3];
 	unsigned int index[3][3], f = 0;
 	FILE* objfile = fopen(path, "r");
 	
 	if (objfile == NULL) {
-		printf("Impossible to open the file !\n");
+		printf("Impossible to open the obj file !\n");
 		return false;
 	}
 
@@ -20,6 +21,12 @@ bool LoadObj(const char*  path, std::vector<float> *vertices, std::vector<float>
 			temp_vertices.push_back(vertex[0]);
 			temp_vertices.push_back(vertex[1]);
 			temp_vertices.push_back(vertex[2]);
+		}
+		else if (strcmp(lineHeader, "vt") == 0) {
+			fscanf(objfile, "%f %f %f\n", &uv[0], &uv[1], &uv[2]);
+			temp_uvs.push_back(uv[0]);
+			temp_uvs.push_back(uv[1]);
+			temp_uvs.push_back(uv[2]);
 		}
 		else if (strcmp(lineHeader, "vn") == 0) {
 			fscanf(objfile, "%f %f %f\n", &normal[0], &normal[1], &normal[2]);
@@ -54,20 +61,26 @@ bool LoadObj(const char*  path, std::vector<float> *vertices, std::vector<float>
 			}
 			
 			indices.push_back(index[0][0]);
+			indices.push_back(index[1][0]);
 			indices.push_back(index[2][0]);
 			indices.push_back(index[0][1]);
+			indices.push_back(index[1][1]);
 			indices.push_back(index[2][1]);
 			indices.push_back(index[0][2]);
+			indices.push_back(index[1][2]);
 			indices.push_back(index[2][2]);
 		}
 	}
-	for (unsigned int i = 0; i < indices.size(); i += 2) {
+	for (unsigned int i = 0; i < indices.size(); i += 3) {
 		vertices->push_back(temp_vertices[(indices[i] - 1) * 3]);
 		vertices->push_back(temp_vertices[(indices[i] - 1) * 3 + 1]);
 		vertices->push_back(temp_vertices[(indices[i] - 1) * 3 + 2]);
-		normals->push_back(temp_normals[(indices[i + 1] - 1) * 3]);
-		normals->push_back(temp_normals[(indices[i + 1] - 1) * 3 + 1]);
-		normals->push_back(temp_normals[(indices[i + 1] - 1) * 3 + 2]);
+		uvs->push_back(temp_uvs[(indices[i + 1] - 1) * 3]);
+		uvs->push_back(temp_uvs[(indices[i + 1] - 1) * 3 + 1]);
+		uvs->push_back(temp_uvs[(indices[i + 1] - 1) * 3 + 2]);
+		normals->push_back(temp_normals[(indices[i + 2] - 1) * 3]);
+		normals->push_back(temp_normals[(indices[i + 2] - 1) * 3 + 1]);
+		normals->push_back(temp_normals[(indices[i + 2] - 1) * 3 + 2]);
 	}
 
 	fclose(objfile);

@@ -4,6 +4,6 @@
 #include <vector>
 #include "header/Angel.h"
 
-bool LoadObj(const char*  path, std::vector<float> *vertices, std::vector<float> *normals, char type);
+bool LoadObj(const char*  path, std::vector<float> *vertices, std::vector<float> *normals, std::vector<float> *uvs, char type);
 
 #endif

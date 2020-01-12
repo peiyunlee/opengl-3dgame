@@ -14,11 +14,11 @@ Room6::Room6(float x, float y, float z, point4 eye) {
 	LightGenerator(x, y, z, 1);
 	ObjectGenerator(x, y, z, eye);
 	DoorGenerator(x, y, z, 1);
-	TextureGenerator(5);
+	TextureGenerator(7);
 }
 
 Room6::~Room6() {
-	if (g_pCat != NULL) delete g_pCat;
+	if (g_pBox != NULL) delete g_pBox;
 }
 
 void Room6::LightGenerator(float px, float py, float pz,int count) {
@@ -124,6 +124,14 @@ void Room6::ObjectGenerator(float px, float py, float pz, point4 eye) {
 	g_BackWall->SetShadingMode(GOURAUD_SHADING);
 	g_BackWall->SetShader();
 
+	vT.x = px + 0.0; vT.y = py + 0.5; vT.z = pz + -0.0;
+	mxT = Translate(vT);
+	g_pBox = new ModelPool("Model/chestlx_closed.obj", Type_3DMax);
+	g_pBox->SetTextureLayer(3);
+	g_pBox->SetTRSMatrix(mxT*RotateY(225.0f)*Scale(2.0f, 2.0f, 2.0f));
+	g_pBox->SetMaterials(vec4(1.0f, 1.0f, 0.0f, 1.0f), vec4(1.0, 1.0f, 1.0, 1), vec4(1.0f, 1.0f, 1.0f, 1.0f));
+	g_pBox->SetKaKdKsShini(0.15f, 0.8f, 0.2f, 2);
+
 }
 
 void Room6::SetProjectionMatrix(mat4 mpx) {
@@ -145,6 +153,8 @@ void Room6::SetProjectionMatrix(mat4 mpx) {
 	{
 		g_pDoor[i].SetProjectionMatrix(mpx);
 	}
+
+	g_pBox->SetProjectionMatrix(mpx);
 }
 
 void Room6::TextureGenerator(int count) {
@@ -153,6 +163,7 @@ void Room6::TextureGenerator(int count) {
 	auto texturepool = CTexturePool::create();
 
 	g_uiFTexID[0] = texturepool->AddTexture("texture/mine/floor6.png");
+	g_uiFTexID[1] = texturepool->AddTexture("texture/mine/door.png");
 	g_uiFTexID[1] = texturepool->AddTexture("texture/mine/door.png");
 }
 
@@ -178,6 +189,8 @@ void Room6::Draw(vec4 cameraPos) {
 	glBindTexture(GL_TEXTURE_2D, 0);
 
 	g_TopWall->Draw();
+
+	g_pBox->Draw();
 
 	glActiveTexture(GL_TEXTURE0); // select active texture 0
 	glBindTexture(GL_TEXTURE_2D, g_uiFTexID[1]); // »P Diffuse Map µ²¦X
@@ -229,6 +242,8 @@ void Room6::SetViewMatrix(mat4 mvx, vec4 cameraViewPosition) {
 	{
 		g_pDoor[i].SetViewMatrix(mvx);
 	}
+
+	g_pBox->SetViewMatrix(mvx);
 }
 
 void Room6::Update(float delta) {
@@ -255,6 +270,8 @@ void Room6::Update(float delta) {
 	{
 		g_pDoor[i].Update(delta, g_Light[0]);
 	}
+
+	g_pBox->Update(delta, g_Light[0]);
 }
 
 void Room6::DoorGenerator(float px, float py, float pz, int count) {
