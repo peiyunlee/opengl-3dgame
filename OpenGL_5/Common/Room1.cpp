@@ -18,7 +18,6 @@ Room1::Room1(float x,float y,float z,point4 eye) {
 }
 
 Room1::~Room1() {
-	//if (g_pFloor != NULL) delete g_pFloor;
 	//if (g_pCube != NULL) delete g_pCube;
 	//if (g_pSphere != NULL) delete g_pSphere;
 
@@ -151,50 +150,6 @@ void Room1::ObjectGenerator(float px, float py, float pz, point4 eye) {
 	mat4 mxT;
 	vec4 vT;
 
-//	// 產生物件的實體	
-//	g_pFloor = new CQuad;
-//#ifdef MULTITEXTURE
-//	g_pFloor->SetTextureLayer(DIFFUSE_MAP | LIGHT_MAP);
-//#endif
-//	g_pFloor->SetShader();
-//	g_pFloor->SetTRSMatrix(Scale(15, 1, 15));
-//	g_pFloor->SetShadingMode(GOURAUD_SHADING);
-//	g_pFloor->SetTiling(10, 10);
-//	// 設定貼圖
-//	g_pFloor->SetMaterials(vec4(0), vec4(0.85f, 0.85f, 0.85f, 1), vec4(1.0f, 1.0f, 1.0f, 1.0f));
-//	g_pFloor->SetKaKdKsShini(0, 0.8f, 0.5f, 1);
-//
-//	g_pCube = new CSolidCube;
-//	g_pCube->SetTextureLayer(DIFFUSE_MAP | NORMAL_MAP);
-//	g_pCube->SetShaderName("vsNormalMapLighting.glsl", "fsNormalMapLighting.glsl");
-//	g_pCube->SetShader();
-//	// 設定 Cube
-//	vT.x = 4.0f; vT.y = 1.0f; vT.z = -0.5f;
-//	mxT = Translate(vT);
-//	mxT._m[0][0] = 2.0f; mxT._m[1][1] = 2.0f; mxT._m[2][2] = 2.0f;
-//	g_pCube->SetTRSMatrix(mxT);
-//	g_pCube->SetShadingMode(GOURAUD_SHADING);
-//	// materials
-//	g_pCube->SetMaterials(vec4(0.35f, 0.35f, 0.35f, 1), vec4(0.85f, 0.85f, 0.85f, 1), vec4(1.0f, 1.0f, 1.0f, 1.0f));
-//	g_pCube->SetKaKdKsShini(0.25f, 0.8f, 0.2f, 2);
-//
-//	// For Reflecting Sphere
-//	g_pSphere = new CSolidSphere(1.0f, 24, 12);
-//	g_pSphere->SetTextureLayer(DIFFUSE_MAP);  // 使用 
-//	g_pSphere->SetCubeMapTexName(1);
-//	g_pSphere->SetViewPosition(eye);
-//	g_pSphere->SetShaderName("vsCubeMapping.glsl", "fsCubeMapping.glsl");
-//	g_pSphere->SetShader();
-//	vT.x = 0.0f; vT.y = 2.0f; vT.z = 0.0f;
-//	mxT = Translate(vT);
-//	mxT._m[0][0] = 2.0f; mxT._m[1][1] = 2.0f; mxT._m[2][2] = 2.0f;
-//	g_pSphere->SetTRSMatrix(mxT*RotateX(90.0f));
-//	g_pSphere->SetShadingMode(GOURAUD_SHADING);
-//	// 設定貼圖
-//	g_pSphere->SetMaterials(vec4(0), vec4(0.85f, 0.85f, 0.85f, 1), vec4(1.0f, 1.0f, 1.0f, 1.0f));
-//	g_pSphere->SetKaKdKsShini(0, 0.8f, 0.5f, 1);
-//	g_pSphere->SetColor(vec4(0.9f, 0.9f, 0.9f, 1.0f));
-
 
 
 	vT.x = px+0.0f; vT.y = py+0.0f; vT.z = pz+0;
@@ -324,10 +279,6 @@ void Room1::ObjectGenerator(float px, float py, float pz, point4 eye) {
 
 void Room1::SetProjectionMatrix(mat4 mpx) {
 
-	//g_pFloor->SetProjectionMatrix(mpx);
-	//g_pCube->SetProjectionMatrix(mpx);
-	//g_pSphere->SetProjectionMatrix(mpx);
-
 	for (int i = 0; i < lightCount; i++)
 	{
 		g_pLight[i].SetProjectionMatrix(mpx);
@@ -374,37 +325,9 @@ void Room1::TextureGenerator(int count) {
 	//g_uiFTexID[2] = texturepool->AddTexture("texture/lightMap1.png");
 	g_uiFTexID[2] = texturepool->AddTexture("texture/mine/forestfloorspecular.png");
 #endif
-	g_uiSphereCubeMap = CubeMap_load_SOIL();
 }
 
 void Room1::Draw(vec4 cameraPos) {
-//
-//#ifndef  MULTITEXTURE
-//	glBindTexture(GL_TEXTURE_2D, g_uiFTexID[0]);
-//	g_pFloor->Draw();
-//#else 
-//	glActiveTexture(GL_TEXTURE0); // select active texture 0
-//	glBindTexture(GL_TEXTURE_2D, g_uiFTexID[0]); // 與 Diffuse Map 結合
-//	glActiveTexture(GL_TEXTURE1); // select active texture 1
-//	glBindTexture(GL_TEXTURE_2D, g_uiFTexID[2]); // 與 Light Map 結合
-//	g_pFloor->Draw();
-//	glActiveTexture(GL_TEXTURE0);
-//	//  glBindTexture(GL_TEXTURE_2D, 0);
-//#endif
-//	glActiveTexture(GL_TEXTURE0);
-//	glBindTexture(GL_TEXTURE_2D, g_uiFTexID[1]);
-//	glActiveTexture(GL_TEXTURE2);
-//	glBindTexture(GL_TEXTURE_2D, g_uiFTexID[4]);
-//	g_pCube->Draw();
-//
-//	glActiveTexture(GL_TEXTURE0); // select active texture 0
-//	glBindTexture(GL_TEXTURE_2D, g_uiFTexID[3]); // 與 Diffuse Map 結合
-//	glActiveTexture(GL_TEXTURE1); // select active texture 1
-//	glBindTexture(GL_TEXTURE_CUBE_MAP, g_uiSphereCubeMap); // 與 Light Map 結合
-//	g_pSphere->Draw();
-//	glBindTexture(GL_TEXTURE_2D, 0);
-
-
 	for (int i = 0; i < lightCount; i++)
 	{
 		g_pLight[i].Draw();
@@ -471,11 +394,6 @@ void Room1::UpdateLightPosition(float dt)
 }
 
 void Room1::SetViewMatrix(mat4 mvx, vec4 cameraViewPosition) {
-	//g_pFloor->SetViewMatrix(mvx);
-	//g_pCube->SetViewMatrix(mvx);
-	//g_pSphere->SetViewMatrix(mvx);
-
-	//g_pSphere->SetViewPosition(cameraViewPosition);
 
 	for (int i = 0; i < lightCount; i++)
 	{
@@ -514,11 +432,6 @@ void Room1::Update(float delta) {
 	if (g_bAutoRotating) { // Part 2 : 重新計算 Light 的位置
 		UpdateLightPosition(delta);
 	}
-
-	// 如果需要重新計算時，在這邊計算每一個物件的顏色
-	//g_pFloor->Update(delta, g_Light[0]);
-	//g_pCube->Update(delta, g_Light[0]);
-	//g_pSphere->Update(delta, g_Light[0]);
 
 	for (int i = 0; i < lightCount; i++)
 	{

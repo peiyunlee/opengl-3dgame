@@ -78,7 +78,7 @@ GLuint CubeMap_load_SOIL()
 
 	// 預設讀取 Sunny_NX Sunny_PX Sunny_NY Sunny_PY Sunny_NZ Sunny_PZ 六張影像, 都是 png
 	// 每一張影像大小都相同, 所以 imageData 取得一次就行
-	texArray = SOIL_load_image("texture/Sunny_PX.png", &iwidth, &iheight, &ichannel, SOIL_LOAD_AUTO);
+	texArray = SOIL_load_image("texture/mine/OuterSky/PX.png", &iwidth, &iheight, &ichannel, SOIL_LOAD_AUTO);
 	row_bytes = iwidth*ichannel;
 	imageData = (GLubyte *)malloc(row_bytes*iheight*sizeof(GLubyte));
 	// 對 texArray 執行垂直鏡射，放到 imageData 中
@@ -87,28 +87,28 @@ GLuint CubeMap_load_SOIL()
 	glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, 0, iformat, iwidth, iheight, 0, iformat, GL_UNSIGNED_BYTE, imageData);
     free(texArray); // 釋放
 	
-	texArray = SOIL_load_image("texture/Sunny_NX.png", &iwidth, &iheight, &ichannel, SOIL_LOAD_AUTO);
+	texArray = SOIL_load_image("texture/mine/OuterSky/NX.png", &iwidth, &iheight, &ichannel, SOIL_LOAD_AUTO);
     for (int i = 0; i < iheight; i++) memcpy(imageData+(row_bytes*i), texArray+(iheight-i-1)*row_bytes, row_bytes);
 	glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, 0, iformat, iwidth, iheight, 0, iformat, GL_UNSIGNED_BYTE, imageData);
 	free(texArray); // 釋放
 
 	// 因為配合圖檔的垂直鏡射 所以 PY 與 NY 必須對調
-	texArray = SOIL_load_image("texture/Sunny_NY.png", &iwidth, &iheight, &ichannel, SOIL_LOAD_AUTO);
+	texArray = SOIL_load_image("texture/mine/OuterSky/NY.png", &iwidth, &iheight, &ichannel, SOIL_LOAD_AUTO);
     for (int i = 0; i < iheight; i++) memcpy(imageData+(row_bytes*i), texArray+(iheight-i-1)*row_bytes, row_bytes);
 	glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Y, 0, iformat, iwidth, iheight, 0, iformat, GL_UNSIGNED_BYTE, imageData);
 	free(texArray); // 釋放
 
-	texArray = SOIL_load_image("texture/Sunny_PY.png", &iwidth, &iheight, &ichannel, SOIL_LOAD_AUTO);
+	texArray = SOIL_load_image("texture/mine/OuterSky/PY.png", &iwidth, &iheight, &ichannel, SOIL_LOAD_AUTO);
     for (int i = 0; i < iheight; i++) memcpy(imageData+(row_bytes*i), texArray+(iheight-i-1)*row_bytes, row_bytes);
 	glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, 0, iformat, iwidth, iheight, 0, iformat, GL_UNSIGNED_BYTE, imageData);
 	free(texArray); // 釋放
 
-	texArray = SOIL_load_image("texture/Sunny_PZ.png", &iwidth, &iheight, &ichannel, SOIL_LOAD_AUTO);
+	texArray = SOIL_load_image("texture/mine/OuterSky/PZ.png", &iwidth, &iheight, &ichannel, SOIL_LOAD_AUTO);
     for (int i = 0; i < iheight; i++) memcpy(imageData+(row_bytes*i), texArray+(iheight-i-1)*row_bytes, row_bytes);
 	glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, 0, iformat, iwidth, iheight, 0, iformat, GL_UNSIGNED_BYTE, imageData);
 	free(texArray); // 釋放
 
-	texArray = SOIL_load_image("texture/Sunny_NZ.png", &iwidth, &iheight, &ichannel, SOIL_LOAD_AUTO);
+	texArray = SOIL_load_image("texture/mine/OuterSky/NZ.png", &iwidth, &iheight, &ichannel, SOIL_LOAD_AUTO);
     for (int i = 0; i < iheight; i++) memcpy(imageData+(row_bytes*i), texArray+(iheight-i-1)*row_bytes, row_bytes);
 	glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, iformat, iwidth, iheight, 0, iformat, GL_UNSIGNED_BYTE, imageData);
 	free(texArray); // 釋放

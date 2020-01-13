@@ -65,22 +65,12 @@ protected:
 class Room1 :public Room
 {
 private:
-
-	// For Objects
-	//CQuad		  *g_pFloor;
-	//CSolidCube    *g_pCube;
-	//CSolidSphere  *g_pSphere;
-
-
-
 	ModelPool *g_pCat;
 	ModelPool *g_pDeer;
 	ModelPool *g_pRat;
 	ModelPool *g_pWolf;
 	ModelPool *g_pBtn1, *g_pBtn2, *g_pBtn3;
 
-	// Texture 
-	GLuint g_uiSphereCubeMap; // for Cubic Texture
 
 public:
 	Room1(float px, float py, float pz, point4 eye);
@@ -152,6 +142,13 @@ protected:
 class Room4 :public Room
 {
 private:
+	CSolidSphere  *g_pSphere, *g_pEarth, *g_pSun, *g_pMoon;
+
+	float sunRevTimer, earthRevTimer, earthRotTimer, moonRevTimer, moonRotTimer;
+	float enRotTimer;
+	mat4 mxSunT, mxEarthT, mxMoonT, mxEmT;
+	// Texture 
+	GLuint g_uiSphereCubeMap; // for Cubic Texture
 
 public:
 	Room4(float px, float py, float pz, point4 eye);
@@ -169,6 +166,7 @@ protected:
 	void UpdateLightPosition(float dt);
 	void DoorGenerator(float px, float py, float pz, int count);
 	void TurnObj();
+	void PlanetUpdate(float dt);
 };
 
 class Room5 :public Room

@@ -177,11 +177,16 @@ void CSolidSphere::Update(float dt, const LightSource &lights)
 
 void CSolidSphere::Update(float dt)
 {
-	if (m_bViewUpdated || m_bTRSUpdated) { // Model View 的相關矩陣內容有更動
+	if (m_bViewUpdated || m_bTRSUpdated) {
 		m_mxMVFinal = m_mxView * m_mxTRS;
-		m_mxITMV = InverseTransposeMatrix(m_mxMVFinal); 
 		m_bViewUpdated = m_bTRSUpdated = false;
 	}
+	m_AmbientProduct = m_Material.ka * m_Material.ambient ;
+	m_AmbientProduct.w = m_Material.ambient.w;
+	m_DiffuseProduct = m_Material.kd * m_Material.diffuse;
+	m_DiffuseProduct.w = m_Material.diffuse.w;
+	m_SpecularProduct = m_Material.ks * m_Material.specular;
+	m_SpecularProduct.w = m_Material.specular.w;
 }
 
 void CSolidSphere::Draw()

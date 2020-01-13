@@ -86,7 +86,7 @@ void Room3::ObjectGenerator(float px, float py, float pz, point4 eye) {
 	g_TopWall = new CQuad;
 	g_TopWall->SetColor(vec4(0.6f));
 	g_TopWall->SetTRSMatrix(mxT*RotateZ(180.0f)*Scale(20.0f, 1, 20.0f));
-	g_TopWall->SetMaterials(vec4(0.0f, 0.0f, 0.0f, 1.0f), vec4(0.5f, 0.5f, 0.5f, 1), vec4(0.5f, 0.5f, 0.5f, 1.0f));
+	g_TopWall->SetMaterials(vec4(1.0f, 1.0f, 1.0f, 1.0f), vec4(0.8f, 0.4f, 0, 1), vec4(0.5f, 0.5f, 0.5f, 1.0f));
 	g_TopWall->SetKaKdKsShini(0, 0.8f, 0.5f, 1);
 	g_TopWall->SetShadingMode(GOURAUD_SHADING);
 	g_TopWall->SetShader();
@@ -259,7 +259,6 @@ void Room3::Draw(vec4 cameraPos) {
 
 
 	glDepthMask(GL_FALSE);
-	Print(cameraPos.x - cameraPos.z);
 	if (cameraPos.x - cameraPos.z < 40){
 
 		glActiveTexture(GL_TEXTURE0);
