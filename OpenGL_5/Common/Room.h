@@ -216,3 +216,25 @@ protected:
 	void DoorGenerator(float px, float py, float pz, int count);
 	void TurnObj();
 };
+
+
+class Room7 :public Room
+{
+private:
+public:
+	Room7(float px, float py, float pz, point4 eye);
+	~Room7();
+
+	void SetProjectionMatrix(mat4 mpx);
+	void SetViewMatrix(mat4 mvx, vec4 cameraViewPosition);
+	void Draw(vec4 cameraPos);
+	void Update(float delta);
+	void RotateBillboard(float g_fPhi);
+protected:
+	void LightGenerator(float x, float y, float z, int count);
+	void ObjectGenerator(float x, float y, float z, point4 eye);
+	void TextureGenerator(int count);
+	void UpdateLightPosition(float dt);
+	void DoorGenerator(float px, float py, float pz, int count);
+	void TurnObj();
+};

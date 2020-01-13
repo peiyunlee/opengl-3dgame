@@ -3,6 +3,7 @@
 CWireCube::CWireCube()
 {
 
+	isAlpha = false;
 	m_iNumVtx = WIRECUBE_NUM;
 	m_pPoints = NULL; m_pNormals = NULL; m_pTex1 = NULL;
 

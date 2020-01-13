@@ -81,6 +81,10 @@ protected:
 	GLuint  m_uiLighting;	// 光源的個數
 	GLuint  m_uiTexLayer;	// 貼圖的層次，預設就是一層 diffuse
 
+	GLuint  m_isAlpha;	// 透明
+	int isAlpha; //0false;1true
+
+
 	// 將該物件目前為止出現的時間傳入，如果需要控制物件隨著時間改變，可以用這個變數
 	GLuint  m_uiElapsedTime;	// 該物件出現到目前為止經過的時間
 	GLfloat m_fElapsedTime;

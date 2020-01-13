@@ -105,6 +105,9 @@
     <ClCompile Include="Common\Room6.cpp">
       <Filter>Common</Filter>
     </ClCompile>
+    <ClCompile Include="Common\Room7.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common\CChecker.h">

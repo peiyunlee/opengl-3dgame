@@ -272,7 +272,7 @@ void Room1::ObjectGenerator(float px, float py, float pz, point4 eye) {
 	g_pCat->SetKaKdKsShini(0.15f, 0.8f, 0.2f, 2);
 
 
-	vT.x = -6.0; vT.y = 0.5; vT.z = -6.0;
+	vT.x = px + -6.0; vT.y = py + 0.5; vT.z = pz + -6.0;
 	mxT = Translate(vT);
 	g_pDeer = new ModelPool("Model/deer.obj", Type_3DMax);
 	g_pDeer->SetTextureLayer(0);
@@ -280,7 +280,7 @@ void Room1::ObjectGenerator(float px, float py, float pz, point4 eye) {
 	g_pDeer->SetMaterials(vec4(0.15f, 0.15f, 0.15f, 1.0f), vec4(0.5, 0.5, 0.5f, 1), vec4(1.0f, 1.0f, 1.0f, 1.0f));
 	g_pDeer->SetKaKdKsShini(0.15f, 0.8f, 0.2f, 2);
 
-	vT.x = -6.0; vT.y = 0.5; vT.z = 6.0;
+	vT.x = px + -6.0; vT.y = py + 0.5; vT.z = pz + 6.0;
 	mxT = Translate(vT);
 	g_pWolf = new ModelPool("Model/wolf.obj", Type_3DMax);
 	g_pWolf->SetTextureLayer(0);
@@ -288,7 +288,7 @@ void Room1::ObjectGenerator(float px, float py, float pz, point4 eye) {
 	g_pWolf->SetMaterials(vec4(0.15f, 0.15f, 0.15f, 1.0f), vec4(0.5, 0.5, 0.5f, 1), vec4(1.0f, 1.0f, 1.0f, 1.0f));
 	g_pWolf->SetKaKdKsShini(0.15f, 0.8f, 0.2f, 2);
 
-	vT.x = 0.0; vT.y = 0.5; vT.z = -0.0;
+	vT.x = px + 0.0; vT.y = py + 0.5; vT.z = pz + -0.0;
 	mxT = Translate(vT);
 	g_pRat = new ModelPool("Model/rat.obj", Type_3DMax);
 	g_pRat->SetTextureLayer(0);

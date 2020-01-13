@@ -2,6 +2,8 @@
 
 CSolidSphere::CSolidSphere(const GLfloat fRadius, const int iSlices,const  int iStacks)
 {
+
+	isAlpha = false;
     GLfloat drho = (GLfloat)(3.141592653589) / (GLfloat) iStacks;  
     GLfloat dtheta = 2.0f * (GLfloat)(3.141592653589) / (GLfloat) iSlices;  
     GLfloat ds = 1.0f / (GLfloat) iSlices;  

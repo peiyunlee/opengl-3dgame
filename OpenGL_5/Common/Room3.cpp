@@ -132,7 +132,7 @@ void Room3::ObjectGenerator(float px, float py, float pz, point4 eye) {
 	g_BackWall->SetShader();
 
 	//spiderfly
-	vT.x = px + 1.0f; vT.y = py +8.0f; vT.z = pz + 0.05f;
+	vT.x = px + 1.0f; vT.y = py +8.0f; vT.z = pz -1.0f;
 	mxT = Translate(vT);
 	g_pSpiderFly = new CQuad;
 #if MULTITEXTURE >= (DIFFUSE_MAP | NORMAL_MAP)
@@ -140,12 +140,12 @@ void Room3::ObjectGenerator(float px, float py, float pz, point4 eye) {
 #endif
 	g_pSpiderFly->SetShadingMode(GOURAUD_SHADING);
 	g_pSpiderFly->SetShader();
-	g_pSpiderFly->SetTRSMatrix(mxT*RotateY(180.0f)*RotateX(90.0f)*RotateZ(180.0f)*Scale(6, 1, 12));
+	g_pSpiderFly->SetTRSMatrix(mxT*RotateY(135.0f)*RotateX(90.0f)*RotateZ(180.0f)*Scale(6, 1, 12));
 	g_pSpiderFly->SetMaterials(vec4(0), vec4(0.85f, 0.85f, 0.85f, 1.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f));
 	g_pSpiderFly->SetKaKdKsShini(0, 0.8f, 0.5f, 1);
 
 	//G
-	vT.x = px + 0.0f; vT.y = py + 10.0f; vT.z = pz + 0.0f;
+	vT.x = px + 2.0f; vT.y = py + 10.0f; vT.z = pz - 2.0f;
 	mxT = Translate(vT);
 	g_pG = new CQuad;
 #if MULTITEXTURE >= (DIFFUSE_MAP | NORMAL_MAP)
@@ -153,12 +153,12 @@ void Room3::ObjectGenerator(float px, float py, float pz, point4 eye) {
 #endif
 	g_pG->SetShadingMode(GOURAUD_SHADING);
 	g_pG->SetShader();
-	g_pG->SetTRSMatrix(mxT*RotateY(180.0f)*RotateX(90.0f)*RotateZ(180.0f)*Scale(4, 1, 8));
+	g_pG->SetTRSMatrix(mxT*RotateY(135.0f)*RotateX(90.0f)*RotateZ(180.0f)*Scale(4, 1, 8));
 	g_pG->SetMaterials(vec4(0), vec4(0.85f, 0.85f, 0.85f, 1.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f));
 	g_pG->SetKaKdKsShini(0, 0.8f, 0.5f, 1);
 
 	//spiderdown
-	vT.x = px + 5.0f; vT.y = py + 4.0f; vT.z = pz + 5.0f;
+	vT.x = px - 2.0f; vT.y = py + 4.0f; vT.z = pz - 2.0f;
 	mxT = Translate(vT);
 	g_pSpiderDown = new CQuad;
 #if MULTITEXTURE >= (DIFFUSE_MAP | NORMAL_MAP)
@@ -166,7 +166,7 @@ void Room3::ObjectGenerator(float px, float py, float pz, point4 eye) {
 #endif
 	g_pSpiderDown->SetShadingMode(GOURAUD_SHADING);
 	g_pSpiderDown->SetShader();
-	g_pSpiderDown->SetTRSMatrix(mxT*RotateY(180.0f)*RotateX(90.0f)*RotateZ(180.0f)*Scale(6, 1, 8));
+	g_pSpiderDown->SetTRSMatrix(mxT*RotateY(135.0f)*RotateX(90.0f)*RotateZ(180.0f)*Scale(6, 1, 8));
 	g_pSpiderDown->SetMaterials(vec4(0), vec4(0.85f, 0.85f, 0.85f, 1.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f));
 	g_pSpiderDown->SetKaKdKsShini(0, 0.8f, 0.5f, 1);
 }
@@ -259,8 +259,8 @@ void Room3::Draw(vec4 cameraPos) {
 
 
 	glDepthMask(GL_FALSE);
-
-	if (cameraPos.z > roomPosZ){
+	Print(cameraPos.x - cameraPos.z);
+	if (cameraPos.x - cameraPos.z < 40){
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, g_uiFTexID[3]);

@@ -2,6 +2,7 @@
 
 C2DSprite::C2DSprite()
 {
+	isAlpha = false;
 	m_iNumVtx = QUAD_NUM;
 	m_pPoints = NULL; m_pNormals = NULL; //m_pTex = NULL;
 

@@ -184,6 +184,10 @@ void CShape::SetShader(GLuint uiShaderHandle)
 	glUniformMatrix4fv(m_uiTRS, 1, GL_TRUE, m_mxTRS);
 #endif
 
+
+	m_isAlpha = glGetUniformLocation(m_uiProgram, "isAlpha");
+	glUniform1i(m_isAlpha, isAlpha);
+
 	glBindBuffer( GL_ARRAY_BUFFER, 0 );
 }
 
@@ -207,6 +211,8 @@ void CShape::DrawingSetShader()
 	glUniform1f(m_uiShininess, m_Material.shininess); 
 	glUniform1i(m_uiLighting, m_iLighting);
 	glUniform1i(m_uiTexLayer, m_iTexLayer);
+
+	glUniform1i(m_isAlpha, isAlpha);
 
 	glUniform1f(m_uiElapsedTime, m_fElapsedTime);
 
@@ -235,6 +241,8 @@ void CShape::DrawingWithoutSetShader()
 	glUniform1f(m_uiShininess, m_Material.shininess); 
 	glUniform1i(m_uiLighting, m_iLighting); 
 	glUniform1i(m_uiTexLayer, m_iTexLayer);
+
+	glUniform1i(m_isAlpha, isAlpha);
 
 #ifdef CUBIC_MAP
 	glUniform4fv(m_uiViewPos, 1, m_v4Eye);

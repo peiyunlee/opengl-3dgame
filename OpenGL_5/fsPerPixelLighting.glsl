@@ -26,6 +26,9 @@ uniform float fShininess;
 uniform int   iLighting;
 uniform vec4  vObjectColor;    // 代表物件的單一顏色
 
+
+uniform int isAlpha;
+
 // For Texture Sampler
 uniform sampler2D diffuMap; // 貼圖的參數設定
 uniform sampler2D lightMap; // 貼圖的參數設定
@@ -85,8 +88,8 @@ void main()
 		}
 
 		LightingColor = ambient + diffuse + specular;  // 計算顏色 ambient + diffuse + specular;
-		//LightingColor.w = DiffuseProduct.w;	// 設定為傳入材質的 alpha,	DiffuseProduct.w
-		LightingColor.w = 1.0;	// 設定 alpha 為 1.0
+		if(isAlpha == 1) LightingColor.w = DiffuseProduct.w;	// 設定為傳入材質的 alpha,	DiffuseProduct.w
+		else if(isAlpha == 0) LightingColor.w = 1.0;	// 設定 alpha 為 1.0
 
 
 		if( iTexLayer == NONE_MAP ) gl_FragColor = LightingColor;

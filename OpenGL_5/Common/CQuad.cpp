@@ -6,6 +6,7 @@
 
 CQuad::CQuad()
 {
+	isAlpha = true;
 	m_iNumVtx = QUAD_NUM;
 	m_pPoints = NULL; m_pNormals = NULL; m_pTex1 = NULL;
 

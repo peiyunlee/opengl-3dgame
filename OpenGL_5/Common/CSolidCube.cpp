@@ -2,6 +2,8 @@
 
 CSolidCube::CSolidCube()
 {
+
+	isAlpha = false;
 	m_iNumVtx = SOLIDCUBE_NUM;
 	m_pPoints = NULL; m_pNormals = NULL; m_pTex1 = NULL;
 

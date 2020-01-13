@@ -14,11 +14,13 @@ Room6::Room6(float x, float y, float z, point4 eye) {
 	LightGenerator(x, y, z, 1);
 	ObjectGenerator(x, y, z, eye);
 	DoorGenerator(x, y, z, 1);
-	TextureGenerator(3);
+	TextureGenerator(4);
 }
 
 Room6::~Room6() {
 	if (g_pBoxClosed != NULL) delete g_pBoxClosed;
+	if (g_pBoxOpen != NULL) delete g_pBoxOpen;
+	if (g_pPaper != NULL) delete g_pPaper;
 }
 
 void Room6::LightGenerator(float px, float py, float pz,int count) {
@@ -34,7 +36,7 @@ void Room6::LightGenerator(float px, float py, float pz,int count) {
 		color4(g_fLightR, g_fLightG, g_fLightB, 1.0f), // ambient 
 		color4(g_fLightR, g_fLightG, g_fLightB, 1.0f), // diffuse
 		color4(g_fLightR, g_fLightG, g_fLightB, 1.0f), // specular
-		point4(px+0.0f, py+4.0f, pz+0.0f, 1.0f),   // position
+		point4(px-2.0f, py+4.0f, pz+0.0f, 1.0f),   // position
 		point4(0.0f, 0.0f, 0.0f, 1.0f),   // halfVector
 		vec3(px+0.0f, py+0.0f, pz+0.0f),			  //spotDirection
 		2.0f,	// spotExponent(parameter e); cos^(e)(phi) 
@@ -79,35 +81,36 @@ void Room6::ObjectGenerator(float px, float py, float pz, point4 eye) {
 	g_TopWall = new CQuad;
 	g_TopWall->SetColor(vec4(0.6f));
 	g_TopWall->SetTRSMatrix(mxT*RotateZ(180.0f)*Scale(20.0f, 1, 20.0f));
-	g_TopWall->SetMaterials(vec4(0.0f, 0.0f, 0.0f, 1.0f), vec4(0.5f, 0.5f, 0.5f, 1), vec4(0.5f, 0.5f, 0.5f, 1.0f));
+	g_TopWall->SetMaterials(vec4(0), vec4(0.5f, 0.5f, 0.5f, 0.5f), vec4(0.5f, 0.5f, 0.5f, 1.0f));
 	g_TopWall->SetKaKdKsShini(0, 0.8f, 0.5f, 1);
 	g_TopWall->SetShadingMode(GOURAUD_SHADING);
 	g_TopWall->SetShader();
 
-	vT.x = px + -10.0f; vT.y = py + 10.0f; vT.z = pz + 0;
-	mxT = Translate(vT);
-	g_LeftWall = new CQuad;
-	g_LeftWall->SetColor(vec4(0.6f));
-	g_LeftWall->SetTRSMatrix(mxT*RotateX(90.0f)*RotateZ(-90.0f)*Scale(20.0f, 1, 20.0f));
-	g_LeftWall->SetMaterials(vec4(0.0f, 0.0f, 0.0f, 1.0f), vec4(0.5f, 0.5f, 0.5f, 1), vec4(0.5f, 0.5f, 0.5f, 1.0f));
-	g_LeftWall->SetKaKdKsShini(0, 0.8f, 0.5f, 1);
-	g_LeftWall->SetShadingMode(GOURAUD_SHADING);
-	g_LeftWall->SetShader();
-
 	vT.x = px + 10.0f; vT.y = py + 10.0f; vT.z = pz + 0;
 	mxT = Translate(vT);
 	g_RightWall = new CQuad;
-	g_RightWall->SetMaterials(vec4(0.15f, 0.15f, 0.15f, 1.0f), vec4(0.85, 0.85f, 0.85, 1), vec4(1.0f, 1.0f, 1.0f, 1.0f));
 	g_RightWall->SetColor(vec4(0.6f));
-	g_RightWall->SetTRSMatrix(mxT*RotateX(90.0f)*RotateZ(90.0f)*Scale(20.0f, 1, 20.0f));
+	g_RightWall->SetTRSMatrix(mxT*RotateY(180.0f)*RotateX(90.0f)*RotateZ(-90.0f)*Scale(20.0f, 1, 20.0f));
+	g_RightWall->SetMaterials(vec4(0), vec4(0.5f, 0.5f, 0.5f, 0.5f), vec4(0.5f, 0.5f, 0.5f, 1.0f));
 	g_RightWall->SetKaKdKsShini(0, 0.8f, 0.5f, 1);
 	g_RightWall->SetShadingMode(GOURAUD_SHADING);
 	g_RightWall->SetShader();
 
+
+	vT.x = px + -10.0f; vT.y = py + 10.0f; vT.z = pz + 0;
+	mxT = Translate(vT);
+	g_LeftWall = new CQuad;
+	g_LeftWall->SetMaterials(vec4(0), vec4(0.5f, 0.5f, 0.5f, 0.5f), vec4(0.5f, 0.5f, 0.5f, 1.0f));
+	g_LeftWall->SetColor(vec4(0.6f));
+	g_LeftWall->SetTRSMatrix(mxT*RotateY(180.0f)*RotateX(90.0f)*RotateZ(90.0f)*Scale(20.0f, 1, 20.0f));
+	g_LeftWall->SetKaKdKsShini(0, 0.8f, 0.5f, 1);
+	g_LeftWall->SetShadingMode(GOURAUD_SHADING);
+	g_LeftWall->SetShader();
+
 	vT.x = px + 0.0f; vT.y = py + 10.0f; vT.z = pz + 10.0f;
 	mxT = Translate(vT);
 	g_FrontWall = new CQuad;
-	g_FrontWall->SetMaterials(vec4(0.15f, 0.15f, 0.15f, 1.0f), vec4(0.85, 0.85f, 0.85, 1), vec4(1.0f, 1.0f, 1.0f, 1.0f));
+	g_FrontWall->SetMaterials(vec4(0), vec4(0.5f, 0.5f, 0.5f, 0.5f), vec4(0.5f, 0.5f, 0.5f, 1.0f));
 	g_FrontWall->SetColor(vec4(0.6f));
 	g_FrontWall->SetTRSMatrix(mxT*RotateZ(180.0f)*RotateX(-90.0f)*Scale(20.0f, 1, 20.0f));
 	g_FrontWall->SetKaKdKsShini(0, 0.8f, 0.5f, 1);
@@ -117,7 +120,7 @@ void Room6::ObjectGenerator(float px, float py, float pz, point4 eye) {
 	vT.x = px + 0.0f; vT.y = py + 10.0f; vT.z = pz + -10.0f;
 	mxT = Translate(vT);
 	g_BackWall = new CQuad;
-	g_BackWall->SetMaterials(vec4(0.15f, 0.15f, 0.15f, 1.0f), vec4(0.85, 0.85f, 0.85, 1), vec4(1.0f, 1.0f, 1.0f, 1.0f));
+	g_BackWall->SetMaterials(vec4(0), vec4(0.5f, 0.5f, 0.5f, 0.5f), vec4(0.5f, 0.5f, 0.5f, 1.0f));
 	g_BackWall->SetColor(vec4(0.6f));
 	g_BackWall->SetTRSMatrix(mxT*RotateX(90.0f)*Scale(20.0f, 1, 20.0f));
 	g_BackWall->SetKaKdKsShini(0, 0.8f, 0.5f, 1);
@@ -126,11 +129,31 @@ void Room6::ObjectGenerator(float px, float py, float pz, point4 eye) {
 
 	vT.x = px + 0.0; vT.y = py + 0.5; vT.z = pz + -0.0;
 	mxT = Translate(vT);
-	g_pBoxClosed = new ModelPool("Model/boxblack.obj", Type_3DMax);
-	g_pBoxClosed->SetTextureLayer(DIFFUSE_MAP);
-	g_pBoxClosed->SetTRSMatrix(mxT*RotateY(0.0f)*Scale(0.3f, 0.3f, 0.3f));
-	g_pBoxClosed->SetMaterials(vec4(0.15f, 0.15f, 0.15f, 1.0f), vec4(0.85, 0.85f, 0.85, 1), vec4(1.0f, 1.0f, 1.0f, 1.0f));
-	g_pBoxClosed->SetKaKdKsShini(0.15f, 0.8f, 0.2f, 2);
+	g_pBoxClosed = new ModelPool("Model/chestlxclosed.obj", Type_3DMax);
+	g_pBoxClosed->SetTextureLayer(1);
+	g_pBoxClosed->SetTRSMatrix(mxT*RotateY(0.0f)*Scale(1.0f, 1.0f,1.0f));
+	g_pBoxClosed->SetMaterials(vec4(0.35f, 0.35f, 0.35f, 1.0f), vec4(0.85, 0.85, 0.85f, 1), vec4(1.0f, 1.0f, 1.0f, 1.0f));
+	g_pBoxClosed->SetKaKdKsShini(0.25f, 0.8f, 0.2f, 2);
+	vT.x = px + 0.0; vT.y = py + 0.5; vT.z = pz + -0.0;
+
+	mxT = Translate(vT);
+	g_pBoxOpen = new ModelPool("Model/chestlx.obj", Type_3DMax);
+	g_pBoxOpen->SetTextureLayer(DIFFUSE_MAP);
+	g_pBoxOpen->SetTRSMatrix(mxT*RotateY(0.0f)*Scale(1.0f, 1.0f, 1.0f));
+	g_pBoxOpen->SetMaterials(vec4(0.35f, 0.35f, 0.35f, 1.0f), vec4(0.85, 0.85, 0.85f, 1), vec4(1.0f, 1.0f, 1.0f, 1.0f));
+	g_pBoxOpen->SetKaKdKsShini(0.25f, 0.8f, 0.2f, 2);
+
+
+	//paper
+	vT.x = px + 0.0f; vT.y = py + 2.0f; vT.z = pz + 0.0f;
+	mxT = Translate(vT);
+	g_pPaper = new CQuad;
+	g_pPaper->SetTextureLayer(DIFFUSE_MAP);
+	g_pPaper->SetShadingMode(GOURAUD_SHADING);
+	g_pPaper->SetShader();
+	g_pPaper->SetTRSMatrix(mxT*RotateY(90.0f)*RotateX(90.0f)*RotateZ(180.0f)*Scale(1, 1, 1.5));
+	g_pPaper->SetMaterials(vec4(0), vec4(0.85f, 0.85f, 0.85f, 1.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f));
+	g_pPaper->SetKaKdKsShini(0, 0.8f, 0.5f, 1);
 
 }
 
@@ -155,6 +178,8 @@ void Room6::SetProjectionMatrix(mat4 mpx) {
 	}
 
 	g_pBoxClosed->SetProjectionMatrix(mpx);
+	g_pBoxOpen->SetProjectionMatrix(mpx);
+	g_pPaper->SetProjectionMatrix(mpx);
 }
 
 void Room6::TextureGenerator(int count) {
@@ -165,6 +190,7 @@ void Room6::TextureGenerator(int count) {
 	g_uiFTexID[0] = texturepool->AddTexture("texture/mine/floor6.png");
 	g_uiFTexID[1] = texturepool->AddTexture("texture/mine/door.png");
 	g_uiFTexID[2] = texturepool->AddTexture("texture/mine/box.jpg");
+	g_uiFTexID[3] = texturepool->AddTexture("texture/mine/goal.png");
 }
 
 void Room6::Draw(vec4 cameraPos) {
@@ -181,15 +207,31 @@ void Room6::Draw(vec4 cameraPos) {
 	glActiveTexture(GL_TEXTURE0); // select active texture 0
 	glBindTexture(GL_TEXTURE_2D, g_uiFTexID[0]); // 與 Diffuse Map 結合
 	g_LeftWall->Draw();
-	g_RightWall->Draw();
 	g_FrontWall->Draw();
-	g_BackWall->Draw();
-	g_TopWall->Draw();
 	glBindTexture(GL_TEXTURE_2D, 0);
+
+	//glActiveTexture(GL_TEXTURE0); // select active texture 0
+	//glBindTexture(GL_TEXTURE_2D, g_uiFTexID[2]); // 與 Diffuse Map 結合
+	//g_pBoxClosed->Draw();
 
 	glActiveTexture(GL_TEXTURE0); // select active texture 0
 	glBindTexture(GL_TEXTURE_2D, g_uiFTexID[2]); // 與 Diffuse Map 結合
-	g_pBoxClosed->Draw();
+	g_pBoxOpen->Draw();
+
+	glActiveTexture(GL_TEXTURE0); // select active texture 0
+	glBindTexture(GL_TEXTURE_2D, g_uiFTexID[3]); // 與 Diffuse Map 結合
+	g_pPaper->Draw();
+
+
+	glDepthMask(GL_FALSE);
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glActiveTexture(GL_TEXTURE0); // select active texture 0
+	glBindTexture(GL_TEXTURE_2D, g_uiFTexID[0]); // 與 Diffuse Map 結合
+	g_BackWall->Draw();
+	g_TopWall->Draw();
+	g_RightWall->Draw();
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glDepthMask(GL_TRUE);
 
 	glActiveTexture(GL_TEXTURE0); // select active texture 0
 	glBindTexture(GL_TEXTURE_2D, g_uiFTexID[1]); // 與 Diffuse Map 結合
@@ -197,7 +239,6 @@ void Room6::Draw(vec4 cameraPos) {
 	{
 		g_pDoor[i].Draw();
 	}
-	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void Room6::UpdateLightPosition(float dt)
@@ -240,6 +281,8 @@ void Room6::SetViewMatrix(mat4 mvx, vec4 cameraViewPosition) {
 	}
 
 	g_pBoxClosed->SetViewMatrix(mvx);
+	g_pBoxOpen->SetViewMatrix(mvx);
+	g_pPaper->SetViewMatrix(mvx);
 }
 
 void Room6::Update(float delta) {
@@ -268,6 +311,8 @@ void Room6::Update(float delta) {
 	}
 
 	g_pBoxClosed->Update(delta, g_Light[0]);
+	g_pBoxOpen->Update(delta, g_Light[0]);
+	g_pPaper->Update(delta, g_Light[0]);
 }
 
 void Room6::DoorGenerator(float px, float py, float pz, int count) {

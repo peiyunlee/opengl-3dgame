@@ -2,6 +2,8 @@
 
 CWireSphere::CWireSphere(const GLfloat fRadius, const int iSlices, const  int iStacks)
 {
+
+	isAlpha = false;
 	SetDefault(fRadius, iSlices, iStacks);
 }
 

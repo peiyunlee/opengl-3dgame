@@ -53,7 +53,7 @@ mat4  g_2DView = mat4(1, 0, 0, 0
 	, 0, 0, -1, 1);;
 mat4  g_2DProj;
 
-Room *room1,*room2, *room3, *room4, *room5, *room6;
+Room *room1,*room2, *room3, *room4, *room5, *room6, *room7, *room8, *room9;;
 
 // 函式的原型宣告
 extern void IdleProcess();
@@ -93,12 +93,15 @@ void init( void )
 
 	UIGenerator();
 
-	room1 = new Room6(0.0f,0.0f,0.0f,eye);
+	room1 = new Room1(0.0f,0.0f,0.0f,eye);
 	room2 = new Room2(20.001f, 0.0f, 0.0f, eye);
 	room3 = new Room3(20.001f, 0.0f, -20.001f, eye);
 	room4 = new Room4(0.0f, 0.0f, -20.001f, eye);
 	room5 = new Room5(0.0f, 0.0f, -40.002f , eye);
-	room6 = new Room1(20.001f, 0.0f, -40.002f, eye);
+	room6 = new Room6(20.001f, 0.0f, -40.002f, eye);
+	room7 = new Room7(40.002f, 0.0f, -60.003f, eye);
+	room8 = new Room7(40.002f, 20.001f, -40.002f, eye);
+	room9 = new Room7(20.001f, 20.001f, -60.003f, eye);
 
 	// 因為本範例不會動到 Projection Matrix 所以在這裡設定一次即可
 	// 就不寫在 OnFrameMove 中每次都 Check
@@ -111,6 +114,9 @@ void init( void )
 	room4->SetProjectionMatrix(mpx);
 	room5->SetProjectionMatrix(mpx);
 	room6->SetProjectionMatrix(mpx);
+	room7->SetProjectionMatrix(mpx);
+	room8->SetProjectionMatrix(mpx);
+	room9->SetProjectionMatrix(mpx);
 }
 
 void GL_Display( void )
@@ -122,10 +128,13 @@ void GL_Display( void )
 	glEnable(GL_BLEND);  // 設定2D Texure Mapping 有作用
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+	room9->Draw(camera->getViewPosition());
+	room8->Draw(camera->getViewPosition());
+	room7->Draw(camera->getViewPosition());
+	room6->Draw(camera->getViewPosition());
 	room1->Draw(camera->getViewPosition());
 	room2->Draw(camera->getViewPosition());
 	room5->Draw(camera->getViewPosition());
-	room6->Draw(camera->getViewPosition());
 	room4->Draw(camera->getViewPosition());
 	room3->Draw(camera->getViewPosition());
 
@@ -148,6 +157,9 @@ void onFrameMove(float delta)
 		room4->SetViewMatrix(mvx, camera->getViewPosition());
 		room5->SetViewMatrix(mvx, camera->getViewPosition());
 		room6->SetViewMatrix(mvx, camera->getViewPosition());
+		room7->SetViewMatrix(mvx, camera->getViewPosition());
+		room8->SetViewMatrix(mvx, camera->getViewPosition());
+		room9->SetViewMatrix(mvx, camera->getViewPosition());
 	}
 
 	playerState = UpdatePlayerState();
@@ -158,6 +170,9 @@ void onFrameMove(float delta)
 	room4->Update(delta);
 	room5->Update(delta);
 	room6->Update(delta);
+	room7->Update(delta);
+	room8->Update(delta);
+	room9->Update(delta);
 
 	GL_Display();
 }
@@ -221,6 +236,9 @@ void Win_Keyboard( unsigned char key, int x, int y )
 		delete room4;
 		delete room5;
 		delete room6;
+		delete room7;
+		delete room8;
+		delete room9;
 
         exit( EXIT_SUCCESS );
         break;

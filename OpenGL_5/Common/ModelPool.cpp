@@ -3,7 +3,8 @@
 
 ModelPool::ModelPool(const char* path, char type) {
 	std::vector<float> vertices, normals,uvs;
-	
+
+	isAlpha = false;
 	LoadObj(path, &vertices, &normals,&uvs, type);
 
 	//Print(vertices.size() / 3);

@@ -100,6 +100,7 @@
     <ClCompile Include="Common\Room4.cpp" />
     <ClCompile Include="Common\Room5.cpp" />
     <ClCompile Include="Common\Room6.cpp" />
+    <ClCompile Include="Common\Room7.cpp" />
     <ClCompile Include="Common\Timer.cpp" />
     <ClCompile Include="HW3.cpp" />
     <ClCompile Include="InitShader.cpp" />
