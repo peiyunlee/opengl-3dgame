@@ -63,6 +63,9 @@ void UIAction(vec2 pt);
 int playerState;
 int UpdatePlayerState();
 
+bool leftbtndown = false;
+float beforeX = 0;
+
 enum PLAYERSTATE
 {
 	OUTSIDE=0,
@@ -258,6 +261,11 @@ void Win_Mouse(int button, int state, int x, int y) {
 			if (state == GLUT_DOWN) {
 				ScreenToUICoordinate(x, y, pt);
 				UIAction(pt);
+				leftbtndown = true;
+				beforeX = x;
+			}
+			else {
+				leftbtndown = false;
 			}
 			break;
 		case GLUT_MIDDLE_BUTTON:  // 目前按下的是滑鼠中鍵 ，換成 Y 軸
@@ -299,16 +307,29 @@ void Win_PassiveMotion(int x, int y) {
 	//auto camera = CCamera::getInstance();
 	//camera->updateViewLookAt(eye, at);
 
+	//g_fPhi = (float)-M_PI*(x - HALF_SIZE) / (HALF_SIZE);   // 轉換成 g_fPhi 介於 -PI 到 PI 之間 (-180 ~ 180 之間)
+	//g_fTheta = (float)-M_PI*y / (SCREEN_SIZE);
 
-	g_fPhi = (float)-M_PI*(x - HALF_SIZE) / (HALF_SIZE);   // 轉換成 g_fPhi 介於 -PI 到 PI 之間 (-180 ~ 180 之間)
-	g_fTheta = (float)-M_PI*y / (SCREEN_SIZE);
+	//point4  at(g_fRadius*sin(g_fTheta)*sin(g_fPhi), g_fRadius*cos(g_fTheta), g_fRadius*sin(g_fTheta)*cos(g_fPhi), 1.0f);
 
-	point4  at(g_fRadius*sin(g_fTheta)*sin(g_fPhi), g_fRadius*cos(g_fTheta), g_fRadius*sin(g_fTheta)*cos(g_fPhi), 1.0f);
+	//CCamera::getInstance()->updateLookAt(at);
 
-	CCamera::getInstance()->updateLookAt(at);
+	////room3->RotateBillboard(g_fPhi);
+	////Print(g_fPhi);
 
-	//room3->RotateBillboard(g_fPhi);
-	//Print(g_fPhi);
+
+	if (leftbtndown) {
+		g_fPhi += (float)-M_PI*((x - beforeX) / (HALF_SIZE));   // 轉換成 g_fPhi 介於 -PI 到 PI 之間 (-180 ~ 180 之間)
+		g_fTheta = (float)-M_PI*(y) / (SCREEN_SIZE);
+
+		point4  at(g_fRadius*sin(g_fTheta)*sin(g_fPhi), g_fRadius*cos(g_fTheta), g_fRadius*sin(g_fTheta)*cos(g_fPhi), 1.0f);
+
+		CCamera::getInstance()->updateLookAt(at);
+
+		//room3->RotateBillboard(g_fPhi);
+		Print(g_fPhi);
+		beforeX = x;
+	}
 }
 
 void Win_MouseMotion(int x, int y) {
@@ -319,15 +340,26 @@ void Win_MouseMotion(int x, int y) {
 	//auto camera = CCamera::getInstance();
 	//camera->updateViewLookAt(eye, at);
 
+	//g_fPhi = (float)-M_PI*(x - HALF_SIZE) / (HALF_SIZE);   // 轉換成 g_fPhi 介於 -PI 到 PI 之間 (-180 ~ 180 之間)
+	//g_fTheta = (float)-M_PI*y / (SCREEN_SIZE);
 
-	g_fPhi = (float)-M_PI*(x - HALF_SIZE) / (HALF_SIZE);   // 轉換成 g_fPhi 介於 -PI 到 PI 之間 (-180 ~ 180 之間)
-	g_fTheta = (float)-M_PI*y / (SCREEN_SIZE);
+	//point4  at(g_fRadius*sin(g_fTheta)*sin(g_fPhi), g_fRadius*cos(g_fTheta), g_fRadius*sin(g_fTheta)*cos(g_fPhi), 1.0f);
+	//CCamera::getInstance()->updateLookAt(at);
 
-	point4  at(g_fRadius*sin(g_fTheta)*sin(g_fPhi), g_fRadius*cos(g_fTheta), g_fRadius*sin(g_fTheta)*cos(g_fPhi), 1.0f);
-	CCamera::getInstance()->updateLookAt(at);
+	////room3->RotateBillboard(g_fPhi);
 
-	//room3->RotateBillboard(g_fPhi);
-	Print(g_fPhi);
+	if (leftbtndown) {
+		g_fPhi += (float)-M_PI*((x - beforeX) / (HALF_SIZE));   // 轉換成 g_fPhi 介於 -PI 到 PI 之間 (-180 ~ 180 之間)
+		g_fTheta = (float)-M_PI*(y) / (SCREEN_SIZE);
+
+		point4  at(g_fRadius*sin(g_fTheta)*sin(g_fPhi), g_fRadius*cos(g_fTheta), g_fRadius*sin(g_fTheta)*cos(g_fPhi), 1.0f);
+
+		CCamera::getInstance()->updateLookAt(at);
+
+		//room3->RotateBillboard(g_fPhi);
+		beforeX = x;
+	}
+
 }
 
 void GL_Reshape(GLsizei w, GLsizei h)
@@ -379,7 +411,7 @@ void UIGenerator() {
 
 	//白色按鈕
 	g_p2DBtn[0] = new C2DSprite; g_p2DBtn[0]->SetShader_2DUI();
-	vColor2D.x = 1; vColor2D.y = 0; vColor2D.z = 0; g_p2DBtn[0]->SetDefaultColor(vColor2D);
+	vColor2D.x = 1; vColor2D.y = 1; vColor2D.z = 0; g_p2DBtn[0]->SetDefaultColor(vColor2D);
 	mxS2D = Scale(0.1f, 0.1f, 1.0f);
 	mxT2D = Translate(0.2f, -0.85f, 0);
 	g_p2DBtn[0]->SetTRSMatrix(mxT2D*mxS2D);
@@ -388,7 +420,7 @@ void UIGenerator() {
 
 	//藍色按鈕
 	g_p2DBtn[1] = new C2DSprite; g_p2DBtn[1]->SetShader_2DUI();
-	vColor2D.x = 0; vColor2D.y = 1; vColor2D.z = 0; g_p2DBtn[1]->SetDefaultColor(vColor2D);
+	vColor2D.x = 0; vColor2D.y = 1; vColor2D.z = 1; g_p2DBtn[1]->SetDefaultColor(vColor2D);
 	mxT2D = Translate(0.4f, -0.85f, 0);
 	g_p2DBtn[1]->SetTRSMatrix(mxT2D*mxS2D);
 	g_p2DBtn[1]->SetViewMatrix(g_2DView);
@@ -396,7 +428,7 @@ void UIGenerator() {
 
 	//綠色按鈕
 	g_p2DBtn[2] = new C2DSprite; g_p2DBtn[2]->SetShader_2DUI();
-	vColor2D.x = 0; vColor2D.y = 0; vColor2D.z = 1; g_p2DBtn[2]->SetDefaultColor(vColor2D);
+	vColor2D.x = 1; vColor2D.y = 0; vColor2D.z = 1; g_p2DBtn[2]->SetDefaultColor(vColor2D);
 	mxT2D = Translate(0.6f, -0.85f, 0);
 	g_p2DBtn[2]->SetTRSMatrix(mxT2D*mxS2D);
 	g_p2DBtn[2]->SetViewMatrix(g_2DView);

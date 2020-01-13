@@ -14,7 +14,7 @@ Room7::Room7(float x, float y, float z, point4 eye) {
 	LightGenerator(x, y, z, 1);
 	ObjectGenerator(x, y, z, eye);
 	DoorGenerator(x, y, z, 0);
-	TextureGenerator(3);
+	TextureGenerator(1);
 }
 
 Room7::~Room7() {
@@ -109,7 +109,7 @@ void Room7::ObjectGenerator(float px, float py, float pz, point4 eye) {
 	g_FrontWall = new CQuad;
 	g_FrontWall->SetMaterials(vec4(0), vec4(0.85f, 0.85f, 0.85f, 1), vec4(1.0f, 1.0f, 1.0f, 1.0f));
 	g_FrontWall->SetColor(vec4(0.6f));
-	g_FrontWall->SetTRSMatrix(mxT*RotateY(180.0f)*RotateZ(180.0f)*RotateX(-90.0f)*Scale(20.0f, 1, 20.0f));
+	g_FrontWall->SetTRSMatrix(mxT*RotateY(0.0f)*RotateZ(180.0f)*RotateX(-90.0f)*Scale(20.0f, 1, 20.0f));
 	g_FrontWall->SetKaKdKsShini(0, 0.8f, 0.5f, 1);
 	g_FrontWall->SetShadingMode(GOURAUD_SHADING);
 	g_FrontWall->SetShader();
@@ -147,8 +147,6 @@ void Room7::TextureGenerator(int count) {
 	auto texturepool = CTexturePool::create();
 
 	g_uiFTexID[0] = texturepool->AddTexture("texture/mine/floor6.png");
-	g_uiFTexID[2] = texturepool->AddTexture("texture/mine/box.jpg");
-	g_uiFTexID[3] = texturepool->AddTexture("texture/mine/goal.png");
 }
 
 void Room7::Draw(vec4 cameraPos) {

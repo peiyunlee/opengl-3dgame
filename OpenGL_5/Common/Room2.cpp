@@ -20,8 +20,8 @@ Room2::Room2(float x, float y, float z, point4 eye) {
 
 	LightGenerator(x, y, z, 1);
 	ObjectGenerator(x, y, z, eye);
-	DoorGenerator(x, y, z, 3);
-	TextureGenerator(6);
+	DoorGenerator(x, y, z, 2);
+	TextureGenerator(7);
 }
 
 Room2::~Room2() {
@@ -203,7 +203,6 @@ void Room2::TextureGenerator(int count) {
 	g_uiFTexID[4] = texturepool->AddTexture("texture/mine/street1.png");
 	g_uiFTexID[5] = texturepool->AddTexture("texture/mine/Car1.png");
 	g_uiFTexID[6] = texturepool->AddTexture("texture/mine/Car2.png");
-	g_uiFTexID[7] = texturepool->AddTexture("texture/mine/Car3.png");
 }
 
 void Room2::Draw(vec4 cameraPos) {

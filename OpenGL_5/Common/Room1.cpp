@@ -14,7 +14,7 @@ Room1::Room1(float x,float y,float z,point4 eye) {
 	LightGenerator(x, y, z, 1);
 	ObjectGenerator(x,y,z,eye);
 	DoorGenerator(x, y, z,2);
-	TextureGenerator(10);
+	TextureGenerator(5);
 }
 
 Room1::~Room1() {
