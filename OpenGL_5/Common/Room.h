@@ -109,7 +109,6 @@ private:
 	ModelPool *g_pCar1,*g_pCar2;
 	mat4 carInitPos1, carInitPos2;
 	float timer1, timer2;
-
 public:
 	Room2(float px, float py, float pz, point4 eye);
 	~Room2();

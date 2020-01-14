@@ -32,7 +32,7 @@
 #define BLUE_BUTTON  2
 #define WHITE_BUTTON 3
 
-bool rgbWork[3] = { true };	//判斷RGB得到
+bool rgbWork[3] = { false };	//判斷RGB得到
 bool isRGBBtnDown[3] = { false };	//判斷RGB按下
 bool isBtnGet[3] = { false };	//判斷得到按鈕
 bool isBtnDown[4] = { false };	//判斷按鈕按下
@@ -595,6 +595,12 @@ void GameActionSystem() {
 		break;
 	case PLAYERSTATE::ROOM2:
 		//如果房間結束rgbWork[2]=true;
+		if (isBtnDown[WHITE_BUTTON] && room2->roomState < room2->DONE) {
+			if (room2->roomState == room2->LEVEL0) {
+				room2->ChangeLevel(1, isBtnGet[0], isBtnGet[1], isBtnGet[2]);	//按按鈕牆壁換圖片拿到B
+			}
+		isBtnDown[WHITE_BUTTON] = false;
+	}
 		break;
 	case PLAYERSTATE::ROOM3:
 		//如果房間結束rgbWork[1]=true;
