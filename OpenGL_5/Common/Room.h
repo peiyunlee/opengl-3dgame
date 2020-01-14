@@ -16,6 +16,17 @@ class Room
 {
 private:
 public:
+
+	enum ROOMSTATE
+	{
+		LEVEL0 = 0,	//
+		LEVEL1,	//貓吃老鼠按鈕出現
+		LEVEL2,
+		DONE = 6,
+	};
+
+	int roomState;
+
 	Room();
 	~Room();
 
@@ -48,6 +59,7 @@ public:
 	GLuint *g_uiFTexID; // 三個物件分別給不同的貼圖
 
 	virtual void RotateBillboard(float g_fPhi)=0;
+	virtual void ChangeLevel(int tolevel,bool &rGet, bool &gGet, bool &bGet) = 0;
 protected:
 	CQuad *g_LeftWall, *g_RightWall;
 	CQuad *g_FrontWall, *g_BackWall;
@@ -70,9 +82,9 @@ private:
 	ModelPool *g_pRat;
 	ModelPool *g_pWolf;
 	ModelPool *g_pBtn1, *g_pBtn2, *g_pBtn3;
-
-
 public:
+	bool rGet, gGet, bGet;
+
 	Room1(float px, float py, float pz, point4 eye);
 	~Room1();
 
@@ -81,6 +93,7 @@ public:
 	void Draw(vec4 cameraPos);
 	void Update(float delta);
 	void RotateBillboard(float g_fPhi);
+	void ChangeLevel(int tolevel, bool &rGet, bool &gGet, bool &bGet);
 protected:
 	void LightGenerator(float x, float y, float z, int count);
 	void ObjectGenerator(float x, float y, float z, point4 eye);
@@ -106,6 +119,7 @@ public:
 	void Draw(vec4 cameraPos);
 	void Update(float delta);
 	void RotateBillboard(float g_fPhi);
+	void ChangeLevel(int tolevel, bool &rGet, bool &gGet, bool &bGet);
 protected:
 	void LightGenerator(float x, float y, float z, int count);
 	void ObjectGenerator(float x, float y, float z, point4 eye);
@@ -130,6 +144,7 @@ public:
 	void Draw(vec4 cameraPos);
 	void Update(float delta);
 	void RotateBillboard(float g_fPhi);
+	void ChangeLevel(int tolevel, bool &rGet, bool &gGet, bool &bGet);
 protected:
 	void LightGenerator(float x, float y, float z, int count);
 	void ObjectGenerator(float x, float y, float z, point4 eye);
@@ -159,6 +174,7 @@ public:
 	void Draw(vec4 cameraPos);
 	void Update(float delta);
 	void RotateBillboard(float g_fPhi);
+	void ChangeLevel(int tolevel, bool &rGet, bool &gGet, bool &bGet);
 protected:
 	void LightGenerator(float x, float y, float z, int count);
 	void ObjectGenerator(float x, float y, float z, point4 eye);
@@ -182,6 +198,7 @@ public:
 	void Draw(vec4 cameraPos);
 	void Update(float delta);
 	void RotateBillboard(float g_fPhi);
+	void ChangeLevel(int tolevel, bool &rGet, bool &gGet, bool &bGet);
 protected:
 	void LightGenerator(float x, float y, float z, int count);
 	void ObjectGenerator(float x, float y, float z, point4 eye);
@@ -206,6 +223,7 @@ public:
 	void Draw(vec4 cameraPos);
 	void Update(float delta);
 	void RotateBillboard(float g_fPhi);
+	void ChangeLevel(int tolevel, bool &rGet, bool &gGet, bool &bGet);
 protected:
 	void LightGenerator(float x, float y, float z, int count);
 	void ObjectGenerator(float x, float y, float z, point4 eye);
@@ -228,6 +246,7 @@ public:
 	void Draw(vec4 cameraPos);
 	void Update(float delta);
 	void RotateBillboard(float g_fPhi);
+	void ChangeLevel(int tolevel, bool &rGet, bool &gGet, bool &bGet);
 protected:
 	void LightGenerator(float x, float y, float z, int count);
 	void ObjectGenerator(float x, float y, float z, point4 eye);

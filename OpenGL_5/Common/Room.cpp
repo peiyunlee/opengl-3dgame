@@ -1,6 +1,7 @@
 #include "Room.h"
 
 Room::Room() {
+	roomState = LEVEL0;
 	g_bAutoRotating = false;
 
 	g_fElapsedTime = 0;

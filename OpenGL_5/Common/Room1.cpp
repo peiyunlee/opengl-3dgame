@@ -11,6 +11,8 @@ Room1::Room1(float x,float y,float z,point4 eye) {
 	g_fLightG = 1.0f;
 	g_fLightB = 1.0f;
 
+	rGet = gGet = bGet = false;
+
 	LightGenerator(x, y, z, 1);
 	ObjectGenerator(x,y,z,eye);
 	DoorGenerator(x, y, z,2);
@@ -337,10 +339,17 @@ void Room1::Draw(vec4 cameraPos) {
 	g_pCat->Draw();
 	g_pDeer->Draw();
 	g_pWolf->Draw();
-	g_pRat->Draw();
-	g_pBtn1->Draw();
-	g_pBtn2->Draw();
-	g_pBtn3->Draw();
+	if (roomState == LEVEL0) {
+		g_pRat->Draw();
+	}
+	else if (roomState == LEVEL1) {
+		if(!rGet)
+			g_pBtn1->Draw();
+		if (!gGet)
+			g_pBtn2->Draw();
+		if (!bGet)
+			g_pBtn3->Draw();
+	}
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, g_uiFTexID[0]);
@@ -500,4 +509,39 @@ void Room1::RotateBillboard(float g_fPhi) {
 
 void Room1::TurnObj() {
 
+}
+
+void Room1::ChangeLevel(int tolevel, bool &rget, bool &gget, bool &bget) {
+	mat4 mxT,mxObj;
+	vec4 vT;
+	switch (tolevel) {
+	case 1:
+		roomState = LEVEL1;
+		mxObj = g_pCat->GetTRSMatrix();
+		vT.x = -7.0; vT.y = 0.5; vT.z = 6.0;
+		mxT = Translate(vT);
+		g_pCat->SetTRSMatrix(mxT*mxObj);
+		//老鼠消失
+		//按鈕出現
+		break;
+	case 2:	//判斷燈光可否拿到按鈕
+		if (g_Light[0].diffuse.x >= 1.0 && g_Light[0].diffuse.y <= 0.0 && g_Light[0].diffuse.z >= 1.0) {
+			rGet = true;
+			rget = rGet;
+		}
+		else if (g_Light[0].diffuse.x >= 1.0 && g_Light[0].diffuse.y >= 1.0 && g_Light[0].diffuse.z <= 0.0) {
+			gGet = true;
+			gget = gGet;
+		}
+		else if (g_Light[0].diffuse.x <= 0.0 && g_Light[0].diffuse.y >= 1.0 && g_Light[0].diffuse.z >= 1.0) {
+			bGet = true;
+			bget = bGet;
+		}
+		if (rget && gget && bget)
+			roomState = LEVEL2;	//全部按鈕都拿到
+		//room1->g_pLight[0].SetColor(room1->g_Light[0].diffuse);
+		break;
+	default:
+		break;
+	}
 }

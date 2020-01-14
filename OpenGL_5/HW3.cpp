@@ -32,6 +32,11 @@
 #define BLUE_BUTTON  2
 #define WHITE_BUTTON 3
 
+bool rgbWork[3] = { true };	//判斷RGB得到
+bool isRGBBtnDown[3] = { false };	//判斷RGB按下
+bool isBtnGet[3] = { false };	//判斷得到按鈕
+bool isBtnDown[4] = { false };	//判斷按鈕按下
+
 // For Model View and Projection Matrix
 mat4 g_mxModelView(1.0f);
 mat4 g_mxProjection;
@@ -59,6 +64,7 @@ Room *room1,*room2, *room3, *room4, *room5, *room6, *room7, *room8, *room9;;
 extern void IdleProcess();
 void UIGenerator();
 void UIAction(vec2 pt);
+void GameActionSystem();
 
 int playerState;
 int UpdatePlayerState();
@@ -141,7 +147,13 @@ void GL_Display( void )
 	room4->Draw(camera->getViewPosition());
 	room3->Draw(camera->getViewPosition());
 
-	for (int i = 0; i <4; i++) g_p2DBtn[i]->Draw();
+	g_p2DBtn[WHITE_BUTTON]->Draw();
+	if(isBtnGet[0])
+		g_p2DBtn[RED_BUTTON]->Draw();
+	if (isBtnGet[1])
+		g_p2DBtn[GREEN_BUTTON]->Draw();
+	if (isBtnGet[2])
+		g_p2DBtn[BLUE_BUTTON]->Draw();
 
 	glDisable(GL_BLEND);	// 關閉 Blending
 	glutSwapBuffers();	// 交換 Frame Buffer
@@ -186,41 +198,29 @@ void Win_Keyboard( unsigned char key, int x, int y )
 	case  SPACE_KEY:
 
 		break;
-
-// Part 2 : for single light source
-	case 65: // A key
-	case 97: // a key
-		room3->g_bAutoRotating = !room3->g_bAutoRotating;
-		break;
 	case 82: // R key
-		if(room1->g_fLightR <= 1.0f ) room1->g_fLightR += 0.05f;
-		room1->g_Light[0].diffuse.x = room1->g_fLightR;
-		//room1->g_pLight[0].SetColor(room1->g_Light[0].diffuse);
+		if (room1->roomState >= 1)
+			isRGBBtnDown[0] = true;
 		break;
 	case 114: // r key
-		if(room1->g_fLightR >= 0.0f ) room1->g_fLightR -= 0.05f;
-		room1->g_Light[0].diffuse.x = room1->g_fLightR;
-		//room1->g_pLight[0].SetColor(room1->g_Light[0].diffuse);
+		if (room1->roomState >= 1)
+			isRGBBtnDown[0] = true;
 		break;
 	case 71: // G key
-		if(room1->g_fLightG <= 1.0f ) room1->g_fLightG += 0.05f;
-		room1->g_Light[0].diffuse.y = room1->g_fLightG;
-		//room1->g_pLight[0].SetColor(room1->g_Light[0].diffuse);
+		if (room1->roomState >= 1)
+			isRGBBtnDown[1] = true;
 		break;
 	case 103: // g key
-		if(room1->g_fLightG >= 0.0f ) room1->g_fLightG -= 0.05f;
-		room1->g_Light[0].diffuse.y = room1->g_fLightG;
-		//room1->g_pLight[0].SetColor(room1->g_Light[0].diffuse);
+		if (room1->roomState >= 1)
+			isRGBBtnDown[1] = true;
 		break;
 	case 66: // B key
-		if(room1->g_fLightB <= 1.0f ) room1->g_fLightB += 0.05f;
-		room1->g_Light[0].diffuse.z = room1->g_fLightB;
-		//room1->g_pLight[0].SetColor(room1->g_Light[0].diffuse);
+		if (room1->roomState >= 1)
+			isRGBBtnDown[2] = true;
 		break;
 	case 98: // b key
-		if(room1->g_fLightB >= 0.0f ) room1->g_fLightB -= 0.05f;
-		room1->g_Light[0].diffuse.z = room1->g_fLightB;
-		//room1->g_pLight[0].SetColor(room1->g_Light[0].diffuse);
+		if (room1->roomState >= 1)
+			isRGBBtnDown[2] = true;
 		break;
 
     case 033:
@@ -248,6 +248,38 @@ void Win_Keyboard( unsigned char key, int x, int y )
     }
 }
 
+void Win_KeyboardUp(unsigned char key, int x, int y)
+{
+	switch (key) {
+	case 82: // R key
+		if (room1->roomState >= 1)
+			isRGBBtnDown[0] = false;
+		break;
+	case 114: // r key
+		if (room1->roomState >= 1)
+			isRGBBtnDown[0] = false;
+		break;
+	case 71: // G key
+		if (room1->roomState >= 1)
+			isRGBBtnDown[1] = false;
+		break;
+	case 103: // g key
+		if (room1->roomState >= 1)
+			isRGBBtnDown[1] = false;
+		break;
+	case 66: // B key
+		if (room1->roomState >= 1)
+			isRGBBtnDown[2] = false;
+		break;
+	case 98: // b key
+		if (room1->roomState >= 1)
+			isRGBBtnDown[2] = false;
+		break;
+
+		break;
+	}
+}
+
 inline void ScreenToUICoordinate(int x, int y, vec2 &pt)
 {
 	pt.x = 2.0f*(float)x / SCREEN_SIZE - 1.0f;
@@ -263,9 +295,13 @@ void Win_Mouse(int button, int state, int x, int y) {
 				UIAction(pt);
 				leftbtndown = true;
 				beforeX = x;
+
+				GameActionSystem();
 			}
-			else {
+			else if(state == GLUT_UP){
 				leftbtndown = false;
+				ScreenToUICoordinate(x, y, pt);
+				UIAction(pt);
 			}
 			break;
 		case GLUT_MIDDLE_BUTTON:  // 目前按下的是滑鼠中鍵 ，換成 Y 軸
@@ -288,11 +324,53 @@ void Win_SpecialKeyboard(int key, int x, int y) {
 		case GLUT_KEY_RIGHT:	// 目前按下的是向右方向鍵
 
 			break;
-		case GLUT_KEY_UP:	// 目前按下的是向右方向鍵
-			CCamera::getInstance()->moveForward(playerState);
+		case GLUT_KEY_UP:	// 目前按下的是向上方向鍵
+			if (isRGBBtnDown[0] || isRGBBtnDown[1] || isRGBBtnDown[2]) {
+				if (isRGBBtnDown[0]) {
+					if (room1->g_fLightR <= 1.0f) room1->g_fLightR += 0.05f;
+					room1->g_Light[0].diffuse.x = room1->g_fLightR;
+					//room1->g_pLight[0].SetColor(room1->g_Light[0].diffuse);
+					Print(room1->g_Light[0].diffuse);
+				}
+				if (isRGBBtnDown[1]) {
+					if (room1->g_fLightG <= 1.0f) room1->g_fLightG += 0.05f;
+					room1->g_Light[0].diffuse.y = room1->g_fLightG;
+					//room1->g_pLight[0].SetColor(room1->g_Light[0].diffuse);
+					Print(room1->g_Light[0].diffuse);
+				}
+				if (isRGBBtnDown[2]) {
+					if (room1->g_fLightB <= 1.0f) room1->g_fLightB += 0.05f;
+					room1->g_Light[0].diffuse.z = room1->g_fLightB;
+					//room1->g_pLight[0].SetColor(room1->g_Light[0].diffuse);
+					Print(room1->g_Light[0].diffuse);
+				}
+			}
+			else
+				CCamera::getInstance()->moveForward(playerState);
 			break;
-		case GLUT_KEY_DOWN:	// 目前按下的是向右方向鍵
-			CCamera::getInstance()->moveBackward(playerState);
+		case GLUT_KEY_DOWN:	// 目前按下的是向下方向鍵
+			if (isRGBBtnDown[0] || isRGBBtnDown[1] || isRGBBtnDown[2]) {
+				if (isRGBBtnDown[0]) {
+					if (room1->g_fLightR >= 0.0f) room1->g_fLightR -= 0.05f;
+					room1->g_Light[0].diffuse.x = room1->g_fLightR;
+					//room1->g_pLight[0].SetColor(room1->g_Light[0].diffuse);
+					Print(room1->g_Light[0].diffuse);
+				}
+				if (isRGBBtnDown[1]) {
+					if (room1->g_fLightG >= 0.0f) room1->g_fLightG -= 0.05f;
+					room1->g_Light[0].diffuse.y = room1->g_fLightG;
+					//room1->g_pLight[0].SetColor(room1->g_Light[0].diffuse);
+					Print(room1->g_Light[0].diffuse);
+				}
+				if (isRGBBtnDown[2]) {
+					if (room1->g_fLightB >= 0.0f) room1->g_fLightB -= 0.05f;
+					room1->g_Light[0].diffuse.z = room1->g_fLightB;
+					//room1->g_pLight[0].SetColor(room1->g_Light[0].diffuse);
+					Print(room1->g_Light[0].diffuse);
+				}
+			}
+			else
+				CCamera::getInstance()->moveBackward(playerState);
 			break;
 		default:
 			break;
@@ -317,18 +395,17 @@ void Win_PassiveMotion(int x, int y) {
 	////room3->RotateBillboard(g_fPhi);
 	////Print(g_fPhi);
 
+	if (x <= 450 || x > 450 && y <= 710) {
+		if (leftbtndown) {
+			g_fPhi += (float)-M_PI*((x - beforeX) / (HALF_SIZE));   // 轉換成 g_fPhi 介於 -PI 到 PI 之間 (-180 ~ 180 之間)
+			g_fTheta = (float)-M_PI*(y) / (SCREEN_SIZE);
 
-	if (leftbtndown) {
-		g_fPhi += (float)-M_PI*((x - beforeX) / (HALF_SIZE));   // 轉換成 g_fPhi 介於 -PI 到 PI 之間 (-180 ~ 180 之間)
-		g_fTheta = (float)-M_PI*(y) / (SCREEN_SIZE);
+			point4  at(g_fRadius*sin(g_fTheta)*sin(g_fPhi), g_fRadius*cos(g_fTheta), g_fRadius*sin(g_fTheta)*cos(g_fPhi), 1.0f);
 
-		point4  at(g_fRadius*sin(g_fTheta)*sin(g_fPhi), g_fRadius*cos(g_fTheta), g_fRadius*sin(g_fTheta)*cos(g_fPhi), 1.0f);
+			CCamera::getInstance()->updateLookAt(at);
 
-		CCamera::getInstance()->updateLookAt(at);
-
-		//room3->RotateBillboard(g_fPhi);
-		Print(g_fPhi);
-		beforeX = x;
+			beforeX = x;
+		}
 	}
 }
 
@@ -347,19 +424,19 @@ void Win_MouseMotion(int x, int y) {
 	//CCamera::getInstance()->updateLookAt(at);
 
 	////room3->RotateBillboard(g_fPhi);
+	if (x <= 450 || x > 450 && y <= 710) {
+		if (leftbtndown) {
+			g_fPhi += (float)-M_PI*((x - beforeX) / (HALF_SIZE));   // 轉換成 g_fPhi 介於 -PI 到 PI 之間 (-180 ~ 180 之間)
+			g_fTheta = (float)-M_PI*(y) / (SCREEN_SIZE);
 
-	if (leftbtndown) {
-		g_fPhi += (float)-M_PI*((x - beforeX) / (HALF_SIZE));   // 轉換成 g_fPhi 介於 -PI 到 PI 之間 (-180 ~ 180 之間)
-		g_fTheta = (float)-M_PI*(y) / (SCREEN_SIZE);
+			point4  at(g_fRadius*sin(g_fTheta)*sin(g_fPhi), g_fRadius*cos(g_fTheta), g_fRadius*sin(g_fTheta)*cos(g_fPhi), 1.0f);
 
-		point4  at(g_fRadius*sin(g_fTheta)*sin(g_fPhi), g_fRadius*cos(g_fTheta), g_fRadius*sin(g_fTheta)*cos(g_fPhi), 1.0f);
+			CCamera::getInstance()->updateLookAt(at);
 
-		CCamera::getInstance()->updateLookAt(at);
-
-		//room3->RotateBillboard(g_fPhi);
-		beforeX = x;
+			//room3->RotateBillboard(g_fPhi);
+			beforeX = x;
+		}
 	}
-
 }
 
 void GL_Reshape(GLsizei w, GLsizei h)
@@ -394,6 +471,7 @@ int main( int argc, char **argv )
 	glutPassiveMotionFunc(Win_PassiveMotion);  
     glutKeyboardFunc( Win_Keyboard );	// 處理 ASCI 按鍵如 A、a、ESC 鍵...等等
 	glutSpecialFunc( Win_SpecialKeyboard);	// 處理 NON-ASCI 按鍵如 F1、Home、方向鍵...等等
+	glutKeyboardUpFunc(Win_KeyboardUp);	// 處理 NON-ASCI 按鍵如 F1、Home、方向鍵...等等
     glutDisplayFunc( GL_Display );
 	glutReshapeFunc( GL_Reshape );
 	glutIdleFunc( IdleProcess );
@@ -411,7 +489,7 @@ void UIGenerator() {
 
 	//白色按鈕
 	g_p2DBtn[0] = new C2DSprite; g_p2DBtn[0]->SetShader_2DUI();
-	vColor2D.x = 1; vColor2D.y = 1; vColor2D.z = 0; g_p2DBtn[0]->SetDefaultColor(vColor2D);
+	vColor2D.x = 1; vColor2D.y = 0; vColor2D.z = 1; g_p2DBtn[0]->SetDefaultColor(vColor2D);
 	mxS2D = Scale(0.1f, 0.1f, 1.0f);
 	mxT2D = Translate(0.2f, -0.85f, 0);
 	g_p2DBtn[0]->SetTRSMatrix(mxT2D*mxS2D);
@@ -420,7 +498,7 @@ void UIGenerator() {
 
 	//藍色按鈕
 	g_p2DBtn[1] = new C2DSprite; g_p2DBtn[1]->SetShader_2DUI();
-	vColor2D.x = 0; vColor2D.y = 1; vColor2D.z = 1; g_p2DBtn[1]->SetDefaultColor(vColor2D);
+	vColor2D.x = 1; vColor2D.y = 1; vColor2D.z = 0; g_p2DBtn[1]->SetDefaultColor(vColor2D);
 	mxT2D = Translate(0.4f, -0.85f, 0);
 	g_p2DBtn[1]->SetTRSMatrix(mxT2D*mxS2D);
 	g_p2DBtn[1]->SetViewMatrix(g_2DView);
@@ -428,7 +506,7 @@ void UIGenerator() {
 
 	//綠色按鈕
 	g_p2DBtn[2] = new C2DSprite; g_p2DBtn[2]->SetShader_2DUI();
-	vColor2D.x = 1; vColor2D.y = 0; vColor2D.z = 1; g_p2DBtn[2]->SetDefaultColor(vColor2D);
+	vColor2D.x = 0; vColor2D.y = 1; vColor2D.z = 1; g_p2DBtn[2]->SetDefaultColor(vColor2D);
 	mxT2D = Translate(0.6f, -0.85f, 0);
 	g_p2DBtn[2]->SetTRSMatrix(mxT2D*mxS2D);
 	g_p2DBtn[2]->SetViewMatrix(g_2DView);
@@ -446,45 +524,31 @@ void UIGenerator() {
 void UIAction(vec2 pt) {
 	if (g_p2DBtn[RED_BUTTON]->OnTouches(pt)) {
 		if (g_p2DBtn[0]->getButtonStatus()) {
-			printf("紅色關\n");
 			//room1->g_Light[1].isLighting = false;
-		}
-		else {
-			printf("紅色開\n");
-			//room1->g_Light[1].isLighting = true;
+			isBtnDown[RED_BUTTON] = true;
 		}
 	}
-	//藍色按鈕→控制主燈光的旋轉On/Off
 	if (g_p2DBtn[GREEN_BUTTON]->OnTouches(pt)) {
 		if (g_p2DBtn[1]->getButtonStatus()) {
-			printf("綠色關\n");
-			//room1->g_Light[2].isLighting = false;
+			isBtnDown[GREEN_BUTTON] = true;
 		}
 		else {
-			printf("綠色開\n");
-			//room1->g_Light[2].isLighting = true;
 		}
 	}
-	//綠色按鈕→控制所有側燈光的照明On/Off
 	if (g_p2DBtn[BLUE_BUTTON]->OnTouches(pt)) {
 		if (g_p2DBtn[2]->getButtonStatus()) {
-			printf("藍色關\n");
 			//room1->g_Light[3].isLighting = false;
+			isBtnDown[BLUE_BUTTON] = true;
 		}
 		else {
-			printf("藍色開\n");
-			//room1->g_Light[3].isLighting = true;
 		}
 	}
-	//紅色按鈕→控制所有側燈光聚集於一點
-	if (g_p2DBtn[3]->OnTouches(pt)) {
+	if (g_p2DBtn[WHITE_BUTTON]->OnTouches(pt)) {
 		if (g_p2DBtn[3]->getButtonStatus()) {
-			printf("白色官\n");
 			//room1->g_Light[0].isLighting = false;
+			isBtnDown[WHITE_BUTTON] = true;
 		}
 		else {
-			printf("白色開\n");
-			//room1->g_Light[0].isLighting = true;
 		}
 	}
 }
@@ -511,4 +575,38 @@ int UpdatePlayerState() {
 		return PLAYERSTATE::ROOM6;
 	}
 	return PLAYERSTATE::OUTSIDE;
+}
+
+void GameActionSystem() {
+	//左鍵按下
+
+	switch (playerState)
+	{
+	case PLAYERSTATE::ROOM1:
+		if (isBtnDown[WHITE_BUTTON] && room1->roomState < room1->DONE) {
+			if (room1->roomState == room1->LEVEL0) {
+				room1->ChangeLevel(1, isBtnGet[0], isBtnGet[1], isBtnGet[2]);	//貓吃老鼠按鈕出現TOLEVEL1
+			}
+			else if (room1->roomState == room1->LEVEL1) {	//等到三個按鈕拿到才會換LEVEL2
+				room1->ChangeLevel(2, isBtnGet[0], isBtnGet[1], isBtnGet[2]);	//判斷可否拿按鈕
+			}
+			isBtnDown[WHITE_BUTTON] = false;
+		}
+		break;
+	case PLAYERSTATE::ROOM2:
+		//如果房間結束rgbWork[2]=true;
+		break;
+	case PLAYERSTATE::ROOM3:
+		//如果房間結束rgbWork[1]=true;
+		break;
+	case PLAYERSTATE::ROOM4:
+		//如果房間結束rgbWork[0]=true;
+		break;
+	case PLAYERSTATE::ROOM5:
+		break;
+	case PLAYERSTATE::ROOM6:
+		break;
+	default:
+		break;
+	}
 }

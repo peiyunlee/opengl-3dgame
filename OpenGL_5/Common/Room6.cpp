@@ -341,3 +341,7 @@ void Room6::RotateBillboard(float g_fPhi) {
 void Room6::TurnObj() {
 
 }
+
+
+void Room6::ChangeLevel(int tolevel, bool &rGet, bool &gGet, bool &bGet) {
+}

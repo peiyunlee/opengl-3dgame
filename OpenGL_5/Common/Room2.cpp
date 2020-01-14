@@ -374,3 +374,7 @@ void Room2::CarMove(float dt) {
 		carInitPos2 = mxT2*carInitPos2;
 	}
 }
+
+
+void Room2::ChangeLevel(int tolevel, bool &rGet, bool &gGet, bool &bGet) {
+}

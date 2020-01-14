@@ -34,7 +34,7 @@ void Room5::LightGenerator(float px, float py, float pz,int count) {
 		color4(g_fLightR, g_fLightG, g_fLightB, 1.0f), // ambient 
 		color4(g_fLightR, g_fLightG, g_fLightB, 1.0f), // diffuse
 		color4(g_fLightR, g_fLightG, g_fLightB, 1.0f), // specular
-		point4(px+6.0f, py+5.0f, pz+0.0f, 1.0f),   // position
+		point4(px+0.0f, py+5.0f, pz+0.0f, 1.0f),   // position
 		point4(0.0f, 0.0f, 0.0f, 1.0f),   // halfVector
 		vec3(px+0.0f, py+0.0f, pz+0.0f),			  //spotDirection
 		2.0f,	// spotExponent(parameter e); cos^(e)(phi) 
@@ -394,4 +394,8 @@ void Room5::RotateBillboard(float g_fPhi) {
 
 void Room5::TurnObj() {
 
+}
+
+
+void Room5::ChangeLevel(int tolevel, bool &rGet, bool &gGet, bool &bGet) {
 }

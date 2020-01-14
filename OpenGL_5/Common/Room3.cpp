@@ -434,3 +434,7 @@ void Room3::TurnObj() {
 	mxT = g_pSpiderDown->GetTRSMatrix();
 	g_pSpiderDown->SetTRSMatrix(mxT*RotateZ(180.0f));
 }
+
+
+void Room3::ChangeLevel(int tolevel, bool &rGet, bool &gGet, bool &bGet) {
+}

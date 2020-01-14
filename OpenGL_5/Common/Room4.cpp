@@ -461,3 +461,7 @@ void Room4::PlanetUpdate(float dt) {
 	g_pMoon->SetTRSMatrix(mxSun*mxEarth*mxMoon*mxY);
 
 }
+
+
+void Room4::ChangeLevel(int tolevel, bool &rGet, bool &gGet, bool &bGet) {
+}
