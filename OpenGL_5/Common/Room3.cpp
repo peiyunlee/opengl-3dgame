@@ -1,7 +1,7 @@
 #include "Room.h"
 
 Room3::Room3(float x, float y, float z, point4 eye) {
-	g_bAutoRotating = true;
+	g_bAutoRotating = false;
 
 	g_fElapsedTime = 0;
 	g_fLightRadius = 6;
@@ -261,48 +261,59 @@ void Room3::Draw(vec4 cameraPos) {
 	glDepthMask(GL_FALSE);
 	if (cameraPos.x - cameraPos.z < 40){
 
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, g_uiFTexID[3]);
-		g_pG->Draw();
-		glBindTexture(GL_TEXTURE_2D, 0);
+		if (roomState == LEVEL1) {
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, g_uiFTexID[3]);
+			g_pG->Draw();
+			glBindTexture(GL_TEXTURE_2D, 0);
+		}
 
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, g_uiFTexID[2]);
-		g_pSpiderFly->Draw();
-		glBindTexture(GL_TEXTURE_2D, 0);
+		else if (roomState == LEVEL0) {
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, g_uiFTexID[2]);
+			g_pSpiderFly->Draw();
+			glBindTexture(GL_TEXTURE_2D, 0);
+		}
 
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, g_uiFTexID[4]);
-		g_pSpiderDown->Draw();
-		glBindTexture(GL_TEXTURE_2D, 0);
+		if (roomState >= LEVEL1) {
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, g_uiFTexID[4]);
+			g_pSpiderDown->Draw();
+			glBindTexture(GL_TEXTURE_2D, 0);
+		}	
 
 		if (trunflag) {
 			TurnObj();
 			trunflag = false;
-			Print("trun1");
 		}
 	}
 	else {
 
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, g_uiFTexID[4]);
-		g_pSpiderDown->Draw();
-		glBindTexture(GL_TEXTURE_2D, 0);
+		if (roomState >= LEVEL1) {
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, g_uiFTexID[4]);
+			g_pSpiderDown->Draw();
+			glBindTexture(GL_TEXTURE_2D, 0);
+		}
 
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, g_uiFTexID[2]);
-		g_pSpiderFly->Draw();
-		glBindTexture(GL_TEXTURE_2D, 0);
 
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, g_uiFTexID[3]);
-		g_pG->Draw();
-		glBindTexture(GL_TEXTURE_2D, 0);
+		if (roomState == LEVEL0) {
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, g_uiFTexID[2]);
+			g_pSpiderFly->Draw();
+			glBindTexture(GL_TEXTURE_2D, 0);
+		}
+
+		else if (roomState == LEVEL1) {
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, g_uiFTexID[3]);
+			g_pG->Draw();
+			glBindTexture(GL_TEXTURE_2D, 0);
+		}
 
 		if (!trunflag) {
 			TurnObj();
 			trunflag = true;
-			Print("trun2");
 		}
 	}
 
@@ -436,5 +447,14 @@ void Room3::TurnObj() {
 }
 
 
-void Room3::ChangeLevel(int tolevel, bool &rGet, bool &gGet, bool &bGet) {
+void Room3::ChangeLevel(int tolevel, bool &rBtnGet, bool &gBtnGet, bool &bBtnGet) {
+	switch (tolevel) {
+	case 1:
+		roomState = LEVEL1;
+		break;
+	case 2:	//§PÂ_¿O¥ú¥i§_®³¨ì«ö¶s
+		roomState = DONE;
+	default:
+		break;
+	}
 }

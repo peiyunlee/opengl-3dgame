@@ -222,11 +222,12 @@ void Room2::Draw(vec4 cameraPos) {
 	g_RightWall->Draw();
 	g_LeftWall->Draw();
 
-	if (roomState >= LEVEL1) {
+	if (roomState == DONE) {
 		glActiveTexture(GL_TEXTURE0); // select active texture 0
 		glBindTexture(GL_TEXTURE_2D, g_uiFTexID[3]); // 與 Diffuse Map 結合
 		g_BackWall->Draw();
 	}
+
 	else {
 		glActiveTexture(GL_TEXTURE0); // select active texture 0
 		glBindTexture(GL_TEXTURE_2D, g_uiFTexID[2]); // 與 Diffuse Map 結合
@@ -387,11 +388,10 @@ void Room2::CarMove(float dt) {
 }
 
 
-void Room2::ChangeLevel(int tolevel, bool &rGet, bool &gGet, bool &bGet) {
+void Room2::ChangeLevel(int tolevel, bool &rBtnGet, bool &gBtnGet, bool &bBtnGet) {
 	switch (tolevel) {
 	case 1:
-		roomState = LEVEL1;
-		bGet = true;
+		roomState = DONE;
 		//換圖
 		break;
 	default:

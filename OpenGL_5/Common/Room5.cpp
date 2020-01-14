@@ -251,39 +251,46 @@ void Room5::Draw(vec4 cameraPos) {
 
 	glActiveTexture(GL_TEXTURE0); // select active texture 0
 	glBindTexture(GL_TEXTURE_2D, g_uiFTexID[1]); // »P Diffuse Map µ²¦X
-	for (int i = 0; i < doorCount; i++)
-	{
-		g_pDoor[i].Draw();
+	g_pDoor[0].Draw();
+	if (roomState == DONE)
+		g_pDoor[1].Draw();
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	if (roomState >= LEVEL1) {
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, g_uiFTexID[8]);
+		glActiveTexture(GL_TEXTURE2);
+		glBindTexture(GL_TEXTURE_2D, g_uiFTexID[7]);
+		g_pCube[0].Draw();
+		glBindTexture(GL_TEXTURE_2D, 0);
 	}
-	glBindTexture(GL_TEXTURE_2D, 0);
 
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, g_uiFTexID[8]);
-	glActiveTexture(GL_TEXTURE2);
-	glBindTexture(GL_TEXTURE_2D, g_uiFTexID[7]);
-	g_pCube[0].Draw();
-	glBindTexture(GL_TEXTURE_2D, 0);
+	if (roomState >= LEVEL2) {
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, g_uiFTexID[10]);
+		glActiveTexture(GL_TEXTURE2);
+		glBindTexture(GL_TEXTURE_2D, g_uiFTexID[7]);
+		g_pCube[1].Draw();
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
 
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, g_uiFTexID[10]);
-	glActiveTexture(GL_TEXTURE2);
-	glBindTexture(GL_TEXTURE_2D, g_uiFTexID[7]);
-	g_pCube[1].Draw();
-	glBindTexture(GL_TEXTURE_2D, 0);
+	if (roomState >= LEVEL3) {
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, g_uiFTexID[9]);
+		glActiveTexture(GL_TEXTURE2);
+		glBindTexture(GL_TEXTURE_2D, g_uiFTexID[7]);
+		g_pCube[2].Draw();
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
 
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, g_uiFTexID[9]);
-	glActiveTexture(GL_TEXTURE2);
-	glBindTexture(GL_TEXTURE_2D, g_uiFTexID[7]);
-	g_pCube[2].Draw();
-	glBindTexture(GL_TEXTURE_2D, 0);
-
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, g_uiFTexID[10]);
-	glActiveTexture(GL_TEXTURE2);
-	glBindTexture(GL_TEXTURE_2D, g_uiFTexID[7]);
-	g_pCube[3].Draw();
-	glBindTexture(GL_TEXTURE_2D, 0);
+	if (roomState == DONE) {
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, g_uiFTexID[10]);
+		glActiveTexture(GL_TEXTURE2);
+		glBindTexture(GL_TEXTURE_2D, g_uiFTexID[7]);
+		g_pCube[3].Draw();
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
 
 }
 
@@ -397,5 +404,25 @@ void Room5::TurnObj() {
 }
 
 
-void Room5::ChangeLevel(int tolevel, bool &rGet, bool &gGet, bool &bGet) {
+void Room5::ChangeLevel(int tolevel, bool &rBtnGet, bool &gBtnGet, bool &bBtnGet) {
+	switch (tolevel) {
+	case 1:
+		roomState = LEVEL1;
+		//¿n¤ì1
+		break;
+	case 2:
+		roomState = LEVEL2;
+		//¿n¤ì2
+		break;
+	case 3:
+		roomState = LEVEL3;
+		//¿n¤ì3
+		break;
+	case 4:
+		roomState = DONE;
+		//¿n¤ì4
+		break;
+	default:
+		break;
+	}
 }

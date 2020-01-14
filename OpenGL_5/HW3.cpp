@@ -178,7 +178,6 @@ void onFrameMove(float delta)
 	}
 
 	playerState = UpdatePlayerState();
-	//Print(playerState);
 	room1->Update(delta);
 	room2->Update(delta);
 	room3->Update(delta);
@@ -196,30 +195,31 @@ void Win_Keyboard( unsigned char key, int x, int y )
 {
     switch ( key ) {
 	case  SPACE_KEY:
-
+		//外掛
+		room4->g_bAutoRotating = !room4->g_bAutoRotating;
 		break;
 	case 82: // R key
-		if (room1->roomState >= 1)
+		if (rgbWork[0] && playerState == ROOM1)
 			isRGBBtnDown[0] = true;
 		break;
 	case 114: // r key
-		if (room1->roomState >= 1)
+		if (rgbWork[0] && playerState == ROOM1)
 			isRGBBtnDown[0] = true;
 		break;
 	case 71: // G key
-		if (room1->roomState >= 1)
+		if (rgbWork[1] && playerState == ROOM1)
 			isRGBBtnDown[1] = true;
 		break;
 	case 103: // g key
-		if (room1->roomState >= 1)
+		if (rgbWork[1] && playerState == ROOM1)
 			isRGBBtnDown[1] = true;
 		break;
 	case 66: // B key
-		if (room1->roomState >= 1)
+		if (rgbWork[2] && playerState == ROOM1)
 			isRGBBtnDown[2] = true;
 		break;
 	case 98: // b key
-		if (room1->roomState >= 1)
+		if (rgbWork[2] && playerState == ROOM1)
 			isRGBBtnDown[2] = true;
 		break;
 
@@ -252,27 +252,27 @@ void Win_KeyboardUp(unsigned char key, int x, int y)
 {
 	switch (key) {
 	case 82: // R key
-		if (room1->roomState >= 1)
+		if (rgbWork[0] && playerState == ROOM1)
 			isRGBBtnDown[0] = false;
 		break;
 	case 114: // r key
-		if (room1->roomState >= 1)
+		if (rgbWork[0] && playerState == ROOM1)
 			isRGBBtnDown[0] = false;
 		break;
 	case 71: // G key
-		if (room1->roomState >= 1)
+		if (rgbWork[1] && playerState == ROOM1)
 			isRGBBtnDown[1] = false;
 		break;
 	case 103: // g key
-		if (room1->roomState >= 1)
+		if (rgbWork[1] && playerState == ROOM1)
 			isRGBBtnDown[1] = false;
 		break;
 	case 66: // B key
-		if (room1->roomState >= 1)
+		if (rgbWork[2] && playerState == ROOM1)
 			isRGBBtnDown[2] = false;
 		break;
 	case 98: // b key
-		if (room1->roomState >= 1)
+		if (rgbWork[2] && playerState == ROOM1)
 			isRGBBtnDown[2] = false;
 		break;
 
@@ -330,23 +330,24 @@ void Win_SpecialKeyboard(int key, int x, int y) {
 					if (room1->g_fLightR <= 1.0f) room1->g_fLightR += 0.05f;
 					room1->g_Light[0].diffuse.x = room1->g_fLightR;
 					//room1->g_pLight[0].SetColor(room1->g_Light[0].diffuse);
-					Print(room1->g_Light[0].diffuse);
 				}
 				if (isRGBBtnDown[1]) {
 					if (room1->g_fLightG <= 1.0f) room1->g_fLightG += 0.05f;
 					room1->g_Light[0].diffuse.y = room1->g_fLightG;
 					//room1->g_pLight[0].SetColor(room1->g_Light[0].diffuse);
-					Print(room1->g_Light[0].diffuse);
 				}
 				if (isRGBBtnDown[2]) {
 					if (room1->g_fLightB <= 1.0f) room1->g_fLightB += 0.05f;
 					room1->g_Light[0].diffuse.z = room1->g_fLightB;
 					//room1->g_pLight[0].SetColor(room1->g_Light[0].diffuse);
-					Print(room1->g_Light[0].diffuse);
 				}
 			}
-			else
-				CCamera::getInstance()->moveForward(playerState);
+			else {
+				if(room5->roomState == room5->DONE)
+					CCamera::getInstance()->moveForward(playerState, true);
+				else
+					CCamera::getInstance()->moveForward(playerState, false);
+			}
 			break;
 		case GLUT_KEY_DOWN:	// 目前按下的是向下方向鍵
 			if (isRGBBtnDown[0] || isRGBBtnDown[1] || isRGBBtnDown[2]) {
@@ -354,23 +355,24 @@ void Win_SpecialKeyboard(int key, int x, int y) {
 					if (room1->g_fLightR >= 0.0f) room1->g_fLightR -= 0.05f;
 					room1->g_Light[0].diffuse.x = room1->g_fLightR;
 					//room1->g_pLight[0].SetColor(room1->g_Light[0].diffuse);
-					Print(room1->g_Light[0].diffuse);
 				}
 				if (isRGBBtnDown[1]) {
 					if (room1->g_fLightG >= 0.0f) room1->g_fLightG -= 0.05f;
 					room1->g_Light[0].diffuse.y = room1->g_fLightG;
 					//room1->g_pLight[0].SetColor(room1->g_Light[0].diffuse);
-					Print(room1->g_Light[0].diffuse);
 				}
 				if (isRGBBtnDown[2]) {
 					if (room1->g_fLightB >= 0.0f) room1->g_fLightB -= 0.05f;
 					room1->g_Light[0].diffuse.z = room1->g_fLightB;
 					//room1->g_pLight[0].SetColor(room1->g_Light[0].diffuse);
-					Print(room1->g_Light[0].diffuse);
 				}
 			}
-			else
-				CCamera::getInstance()->moveBackward(playerState);
+			else {
+				if (room5->roomState == room5->DONE)
+					CCamera::getInstance()->moveBackward(playerState, true);
+				else
+					CCamera::getInstance()->moveBackward(playerState, false);
+			}
 			break;
 		default:
 			break;
@@ -525,12 +527,14 @@ void UIAction(vec2 pt) {
 	if (g_p2DBtn[RED_BUTTON]->OnTouches(pt)) {
 		if (g_p2DBtn[0]->getButtonStatus()) {
 			//room1->g_Light[1].isLighting = false;
-			isBtnDown[RED_BUTTON] = true;
+			if(room1->roomState == room1->DONE)
+				isBtnDown[RED_BUTTON] = true;
 		}
 	}
 	if (g_p2DBtn[GREEN_BUTTON]->OnTouches(pt)) {
 		if (g_p2DBtn[1]->getButtonStatus()) {
-			isBtnDown[GREEN_BUTTON] = true;
+			if (room1->roomState == room1->DONE)
+				isBtnDown[GREEN_BUTTON] = true;
 		}
 		else {
 		}
@@ -538,7 +542,8 @@ void UIAction(vec2 pt) {
 	if (g_p2DBtn[BLUE_BUTTON]->OnTouches(pt)) {
 		if (g_p2DBtn[2]->getButtonStatus()) {
 			//room1->g_Light[3].isLighting = false;
-			isBtnDown[BLUE_BUTTON] = true;
+			if (room1->roomState == room1->DONE)
+				isBtnDown[BLUE_BUTTON] = true;
 		}
 		else {
 		}
@@ -566,6 +571,10 @@ int UpdatePlayerState() {
 		return PLAYERSTATE::ROOM4;
 	}
 	else if (cameravp.z <= -9.5f && cameravp.z > -29.5f  && cameravp.x >= 9.5f && cameravp.x < 27.0f) {
+		if (cameravp.z <= -11.5f && cameravp.z > -27.5f  && cameravp.x >= 11.5f && cameravp.x < 25.0f)
+			room3->g_bAutoRotating = true;
+		else
+			room3->g_bAutoRotating = false;
 		return PLAYERSTATE::ROOM3;
 	}
 	else if (cameravp.z <= -29.5f && cameravp.z > -49.5f  &&  cameravp.x < 9.5f && cameravp.x > -9.5f) {
@@ -598,19 +607,62 @@ void GameActionSystem() {
 		if (isBtnDown[WHITE_BUTTON] && room2->roomState < room2->DONE) {
 			if (room2->roomState == room2->LEVEL0) {
 				room2->ChangeLevel(1, isBtnGet[0], isBtnGet[1], isBtnGet[2]);	//按按鈕牆壁換圖片拿到B
+				rgbWork[2] = true;	//done
 			}
-		isBtnDown[WHITE_BUTTON] = false;
-	}
+			isBtnDown[WHITE_BUTTON] = false;
+		}
 		break;
 	case PLAYERSTATE::ROOM3:
 		//如果房間結束rgbWork[1]=true;
+		if (isBtnDown[WHITE_BUTTON] && room3->roomState < room3->DONE) {
+			if (room3->roomState == room3->LEVEL0) {
+				room3->ChangeLevel(1, isBtnGet[0], isBtnGet[1], isBtnGet[2]);	//按按鈕牆壁換圖片拿到B
+			}
+			else if (room3->roomState == room3->LEVEL1) {
+				room3->ChangeLevel(2, isBtnGet[0], isBtnGet[1], isBtnGet[2]);	//按按鈕牆壁換圖片拿到g
+				rgbWork[1] = true;	//done
+			}
+			isBtnDown[WHITE_BUTTON] = false;
+		}
 		break;
 	case PLAYERSTATE::ROOM4:
 		//如果房間結束rgbWork[0]=true;
+		if (isBtnDown[WHITE_BUTTON] && room4->roomState < room4->DONE) {
+			if (room4->roomState == room4->LEVEL0) {
+				room4->ChangeLevel(1, isBtnGet[0], isBtnGet[1], isBtnGet[2]);	//按按鈕牆壁換圖片拿到r
+				rgbWork[0] = true;	//done
+			}
+			isBtnDown[WHITE_BUTTON] = false;
+		}
 		break;
 	case PLAYERSTATE::ROOM5:
+		if (room5->roomState < room5->DONE) {
+			if (isBtnDown[0] && room5->roomState == room5->LEVEL0) {
+				room5->ChangeLevel(1, isBtnGet[0], isBtnGet[1], isBtnGet[2]);	//第一塊紅色積木
+				isBtnDown[RED_BUTTON] = false;
+			}
+			else if (isBtnDown[2] && room5->roomState == room5->LEVEL1) {
+				room5->ChangeLevel(2, isBtnGet[0], isBtnGet[1], isBtnGet[2]);	//第二塊綠色積木
+				isBtnDown[BLUE_BUTTON] = false;
+			}
+			else if (isBtnDown[1] && room5->roomState == room5->LEVEL2) {
+				room5->ChangeLevel(3, isBtnGet[0], isBtnGet[1], isBtnGet[2]);	//第三塊黃色積木
+				isBtnDown[GREEN_BUTTON] = false;
+			}
+			else if (isBtnDown[2] && room5->roomState == room5->LEVEL3) {
+				room5->ChangeLevel(4, isBtnGet[0], isBtnGet[1], isBtnGet[2]);	//第四塊綠色積木
+				isBtnDown[BLUE_BUTTON] = false;
+			}
+			isBtnDown[WHITE_BUTTON] = false;
+		}
 		break;
 	case PLAYERSTATE::ROOM6:
+		if (isBtnDown[WHITE_BUTTON] && room6->roomState < room6->DONE) {
+			if (room6->roomState == room6->LEVEL0) {
+				room6->ChangeLevel(1, isBtnGet[0], isBtnGet[1], isBtnGet[2]);	//按按鈕牆壁換圖片拿到r
+			}
+			isBtnDown[WHITE_BUTTON] = false;
+		}
 		break;
 	default:
 		break;

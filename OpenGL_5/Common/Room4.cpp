@@ -1,7 +1,7 @@
 #include "Room.h"
 
 Room4::Room4(float x, float y, float z, point4 eye) {
-	g_bAutoRotating = false;
+	g_bAutoRotating = true;
 
 	g_fElapsedTime = 0;
 	g_fLightRadius = 2.0f;
@@ -39,7 +39,7 @@ void Room4::LightGenerator(float px, float py, float pz,int count) {
 	g_Light[0] =
 	{
 		color4(g_fLightR, g_fLightG, g_fLightB, 1.0f), // ambient 
-		color4(g_fLightR, g_fLightG, g_fLightB, 1.0f), // diffuse
+		color4(g_fLightR, 0.0, 0.0, 1.0f), // diffuse
 		color4(g_fLightR, g_fLightG, g_fLightB, 1.0f), // specular
 		point4(px+0.0f, py+8.0f, pz+0.0f, 1.0f),   // position
 		point4(0.0f, 0.0f, 0.0f, 1.0f),   // halfVector
@@ -344,15 +344,14 @@ void Room4::SetViewMatrix(mat4 mvx, vec4 cameraViewPosition) {
 void Room4::Update(float delta) {
 
 	if (g_bAutoRotating) { // Part 2 : 重新計算 Light 的位置
-		UpdateLightPosition(delta);
+		//UpdateLightPosition(delta);
+		PlanetUpdate(delta);
 	}
 
 	g_pSphere->Update(delta, g_Light[0]);
 	g_pEarth->Update(delta, g_Light[0]);
 	g_pSun->Update(delta);
 	g_pMoon->Update(delta, g_Light[0]);
-
-	PlanetUpdate(delta);
 
 	for (int i = 0; i < lightCount; i++)
 	{
@@ -463,5 +462,16 @@ void Room4::PlanetUpdate(float dt) {
 }
 
 
-void Room4::ChangeLevel(int tolevel, bool &rGet, bool &gGet, bool &bGet) {
+void Room4::ChangeLevel(int tolevel, bool &rBtnGet, bool &gBtnGet, bool &bBtnGet) {
+	switch (tolevel) {
+	case 1:
+		roomState = DONE;
+		g_bAutoRotating = false;
+		g_Light[0].diffuse.x = 1.0;
+		g_Light[0].diffuse.y = 1.0;
+		g_Light[0].diffuse.z = 1.0;
+		break;
+	default:
+		break;
+	}
 }

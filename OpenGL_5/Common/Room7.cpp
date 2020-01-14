@@ -242,5 +242,5 @@ void Room7::TurnObj() {
 }
 
 
-void Room7::ChangeLevel(int tolevel, bool &rGet, bool &gGet, bool &bGet) {
+void Room7::ChangeLevel(int tolevel, bool &rBtnGet, bool &gBtnGet, bool &bBtnGet) {
 }

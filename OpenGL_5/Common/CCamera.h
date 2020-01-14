@@ -36,8 +36,8 @@ public:
 	static CCamera *getInstance();	// 取得  CCamera 的實體
 
 	void destroyInstance();		// 釋放取得資源
-	void moveForward(int playerState);
-	void moveBackward(int playerState);
+	void moveForward(int playerState,bool doorOpen);
+	void moveBackward(int playerState, bool doorOpen);
 
 	// For Camera (View Matrix)
 	vec4 _viewPosition;
@@ -45,7 +45,7 @@ protected:
 	CCamera();		// 避免被誤用
 	~CCamera();
 	void initDefault();
-	bool MoveCheck(int playerState, vec4 viewPos);
+	bool MoveCheck(int playerState, vec4 viewPos, bool doorOpen);
 
 	float moveMentSpeed;
 

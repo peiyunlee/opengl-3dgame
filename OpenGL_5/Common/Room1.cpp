@@ -11,7 +11,7 @@ Room1::Room1(float x,float y,float z,point4 eye) {
 	g_fLightG = 1.0f;
 	g_fLightB = 1.0f;
 
-	rGet = gGet = bGet = false;
+	rBtnGet = gBtnGet = bBtnGet = false;
 
 	LightGenerator(x, y, z, 1);
 	ObjectGenerator(x,y,z,eye);
@@ -342,12 +342,12 @@ void Room1::Draw(vec4 cameraPos) {
 	if (roomState == LEVEL0) {
 		g_pRat->Draw();
 	}
-	else if (roomState == LEVEL1) {
-		if(!rGet)
+	else if (roomState >= LEVEL1 && roomState <= DONE) {
+		if(!rBtnGet)
 			g_pBtn1->Draw();
-		if (!gGet)
+		if (!gBtnGet)
 			g_pBtn2->Draw();
-		if (!bGet)
+		if (!bBtnGet)
 			g_pBtn3->Draw();
 	}
 
@@ -511,7 +511,7 @@ void Room1::TurnObj() {
 
 }
 
-void Room1::ChangeLevel(int tolevel, bool &rget, bool &gget, bool &bget) {
+void Room1::ChangeLevel(int tolevel, bool &rbtnget, bool &gbtnget, bool &bbtnget) {
 	mat4 mxT,mxObj;
 	vec4 vT;
 	switch (tolevel) {
@@ -526,19 +526,19 @@ void Room1::ChangeLevel(int tolevel, bool &rget, bool &gget, bool &bget) {
 		break;
 	case 2:	//耞縊秙
 		if (g_Light[0].diffuse.x >= 1.0 && g_Light[0].diffuse.y <= 0.0 && g_Light[0].diffuse.z >= 1.0) {
-			rGet = true;
-			rget = rGet;
+			rBtnGet = true;
+			rbtnget = rBtnGet;
 		}
 		else if (g_Light[0].diffuse.x >= 1.0 && g_Light[0].diffuse.y >= 1.0 && g_Light[0].diffuse.z <= 0.0) {
-			gGet = true;
-			gget = gGet;
+			gBtnGet = true;
+			gbtnget = gBtnGet;
 		}
 		else if (g_Light[0].diffuse.x <= 0.0 && g_Light[0].diffuse.y >= 1.0 && g_Light[0].diffuse.z >= 1.0) {
-			bGet = true;
-			bget = bGet;
+			bBtnGet = true;
+			bbtnget = bBtnGet;
 		}
-		if (rget && gget && bget)
-			roomState = LEVEL2;	//场秙常
+		if (rbtnget && gbtnget && bbtnget)
+			roomState = DONE;	//场秙常
 		//room1->g_pLight[0].SetColor(room1->g_Light[0].diffuse);
 		break;
 	default:

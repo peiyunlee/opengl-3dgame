@@ -210,17 +210,20 @@ void Room6::Draw(vec4 cameraPos) {
 	g_FrontWall->Draw();
 	glBindTexture(GL_TEXTURE_2D, 0);
 
-	//glActiveTexture(GL_TEXTURE0); // select active texture 0
-	//glBindTexture(GL_TEXTURE_2D, g_uiFTexID[2]); // 與 Diffuse Map 結合
-	//g_pBoxClosed->Draw();
+	if (roomState == LEVEL0) {
+		glActiveTexture(GL_TEXTURE0); // select active texture 0
+		glBindTexture(GL_TEXTURE_2D, g_uiFTexID[2]); // 與 Diffuse Map 結合
+		g_pBoxClosed->Draw();
+	}
+	else if (roomState == DONE) {
+		glActiveTexture(GL_TEXTURE0); // select active texture 0
+		glBindTexture(GL_TEXTURE_2D, g_uiFTexID[2]); // 與 Diffuse Map 結合
+		g_pBoxOpen->Draw();
 
-	glActiveTexture(GL_TEXTURE0); // select active texture 0
-	glBindTexture(GL_TEXTURE_2D, g_uiFTexID[2]); // 與 Diffuse Map 結合
-	g_pBoxOpen->Draw();
-
-	glActiveTexture(GL_TEXTURE0); // select active texture 0
-	glBindTexture(GL_TEXTURE_2D, g_uiFTexID[3]); // 與 Diffuse Map 結合
-	g_pPaper->Draw();
+		glActiveTexture(GL_TEXTURE0); // select active texture 0
+		glBindTexture(GL_TEXTURE_2D, g_uiFTexID[3]); // 與 Diffuse Map 結合
+		g_pPaper->Draw();
+	}
 
 
 	glDepthMask(GL_FALSE);
@@ -343,5 +346,12 @@ void Room6::TurnObj() {
 }
 
 
-void Room6::ChangeLevel(int tolevel, bool &rGet, bool &gGet, bool &bGet) {
+void Room6::ChangeLevel(int tolevel, bool &rBtnGet, bool &gBtnGet, bool &bBtnGet) {
+	switch (tolevel) {
+	case 1:
+		roomState = DONE;
+		break;
+	default:
+		break;
+	}
 }
