@@ -545,13 +545,13 @@ void UIAction(vec2 pt) {
 	if (g_p2DBtn[RED_BUTTON]->OnTouches(pt)) {
 		if (g_p2DBtn[0]->getButtonStatus()) {
 			//room1->g_Light[1].isLighting = false;
-			if(room1->roomState == room1->DONE)
+			//if(room1->roomState == room1->DONE)
 				isBtnDown[RED_BUTTON] = true;
 		}
 	}
 	if (g_p2DBtn[GREEN_BUTTON]->OnTouches(pt)) {
 		if (g_p2DBtn[1]->getButtonStatus()) {
-			if (room1->roomState == room1->DONE)
+			//if (room1->roomState == room1->DONE)
 				isBtnDown[GREEN_BUTTON] = true;
 		}
 		else {
@@ -560,7 +560,7 @@ void UIAction(vec2 pt) {
 	if (g_p2DBtn[BLUE_BUTTON]->OnTouches(pt)) {
 		if (g_p2DBtn[2]->getButtonStatus()) {
 			//room1->g_Light[3].isLighting = false;
-			if (room1->roomState == room1->DONE)
+			//if (room1->roomState == room1->DONE)
 				isBtnDown[BLUE_BUTTON] = true;
 		}
 		else {
@@ -671,7 +671,6 @@ void GameActionSystem() {
 				room5->ChangeLevel(4, isBtnGet[0], isBtnGet[1], isBtnGet[2]);	//²Ä¥|¶ôºñ¦â¿n¤ì
 				isBtnDown[BLUE_BUTTON] = false;
 			}
-			isBtnDown[WHITE_BUTTON] = false;
 		}
 		break;
 	case PLAYERSTATE::ROOM6:
