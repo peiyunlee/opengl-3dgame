@@ -36,6 +36,7 @@ bool rgbWork[3] = { false };	//判斷RGB得到
 bool isRGBBtnDown[3] = { false };	//判斷RGB按下
 bool isBtnGet[3] = { false };	//判斷得到按鈕
 bool isBtnDown[4] = { false };	//判斷按鈕按下
+bool canShoot = false;
 
 // For Model View and Projection Matrix
 mat4 g_mxModelView(1.0f);
@@ -52,6 +53,7 @@ vec4    g_vUp(0.0, 1.0, 0.0, 0.0);
 
 // 2D 介面所需要的相關變數
 C2DSprite *g_p2DBtn[4];
+C2DSprite *shoot;
 mat4  g_2DView = mat4(1, 0, 0, 0
 	, 0, 1, 0, 0
 	, 0, 0, 1, 0
@@ -65,6 +67,7 @@ extern void IdleProcess();
 void UIGenerator();
 void UIAction(vec2 pt);
 void GameActionSystem();
+void Shoot();
 
 int playerState;
 int UpdatePlayerState();
@@ -98,8 +101,7 @@ void init( void )
 	auto camera = CCamera::create();
 	camera->updateViewLookAt(eye, at);
 	camera->updatePerspective(60.0, (GLfloat)SCREEN_SIZE / (GLfloat)SCREEN_SIZE, 1.0, 1000.0);
-
-
+	
 	UIGenerator();
 
 	room1 = new Room1(0.0f,0.0f,0.0f,eye);
@@ -155,6 +157,9 @@ void GL_Display( void )
 	if (isBtnGet[2])
 		g_p2DBtn[BLUE_BUTTON]->Draw();
 
+	if(canShoot && playerState == ROOM2)
+		shoot->Draw();
+
 	glDisable(GL_BLEND);	// 關閉 Blending
 	glutSwapBuffers();	// 交換 Frame Buffer
 }
@@ -188,6 +193,7 @@ void onFrameMove(float delta)
 	room8->Update(delta);
 	room9->Update(delta);
 
+	Shoot();
 	GL_Display();
 }
 
@@ -232,6 +238,7 @@ void Win_Keyboard( unsigned char key, int x, int y )
 		{
 			delete g_p2DBtn[i];
 		}
+		delete shoot;
 
 		delete room1;
 		delete room2;
@@ -407,6 +414,7 @@ void Win_PassiveMotion(int x, int y) {
 			CCamera::getInstance()->updateLookAt(at);
 
 			beforeX = x;
+			//Print(at);
 		}
 	}
 }
@@ -433,10 +441,10 @@ void Win_MouseMotion(int x, int y) {
 
 			point4  at(g_fRadius*sin(g_fTheta)*sin(g_fPhi), g_fRadius*cos(g_fTheta), g_fRadius*sin(g_fTheta)*cos(g_fPhi), 1.0f);
 
-			CCamera::getInstance()->updateLookAt(at);
-
 			//room3->RotateBillboard(g_fPhi);
 			beforeX = x;
+
+			CCamera::getInstance()->updateLookAt(at);
 		}
 	}
 }
@@ -521,6 +529,16 @@ void UIGenerator() {
 	g_p2DBtn[3]->SetTRSMatrix(mxT2D*mxS2D);
 	g_p2DBtn[3]->SetViewMatrix(g_2DView);
 	g_p2DBtn[3]->SetViewMatrix(g_2DProj);
+
+
+	shoot = new C2DSprite(1);
+	//vColor2D.x = 0.81; vColor2D.y = 0.81; vColor2D.z = 0.81; vColor2D.w = 0.5; 
+	//shoot->SetDefaultColor(vColor2D);
+	shoot->SetShader_2DUI();
+	mxT2D = Translate(0.0f, 0.0f, 0);
+	shoot->SetTRSMatrix(mxT2D*mxS2D);
+	shoot->SetViewMatrix(g_2DView);
+	shoot->SetViewMatrix(g_2DProj);
 }
 
 void UIAction(vec2 pt) {
@@ -605,7 +623,7 @@ void GameActionSystem() {
 	case PLAYERSTATE::ROOM2:
 		//如果房間結束rgbWork[2]=true;
 		if (isBtnDown[WHITE_BUTTON] && room2->roomState < room2->DONE) {
-			if (room2->roomState == room2->LEVEL0) {
+			if (room2->roomState == room2->LEVEL0 && canShoot) {
 				room2->ChangeLevel(1, isBtnGet[0], isBtnGet[1], isBtnGet[2]);	//按按鈕牆壁換圖片拿到B
 				rgbWork[2] = true;	//done
 			}
@@ -667,4 +685,19 @@ void GameActionSystem() {
 	default:
 		break;
 	}
+}
+
+void Shoot() {
+	vec4 pos = CCamera::getInstance()->_viewPosition;
+	vec4 attest = CCamera::getInstance()->_lookAt;
+	float tx, ty;
+	float t;
+	t = (-10.0f-pos.z) / attest.z;
+	tx = pos.x + attest.x*t;
+	ty = pos.y + attest.y*t;
+	if (tx >= 20.5f && tx <= 22.0f && ty >= 10.5f && ty <= 12.0f && attest.y >=0 && room2->roomState == room2->LEVEL0) canShoot = true;
+	else canShoot = false;
+	//Print(tx);
+	//Print(ty);
+	//Print(attest);
 }

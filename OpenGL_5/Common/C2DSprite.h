@@ -14,12 +14,14 @@ class C2DSprite : public CShape
 {
 public:
 	C2DSprite();
+	C2DSprite(int i);
 	~C2DSprite();
 
 	vec4  m_OriginalLf, m_OriginalTR;  // sprite 在local 座標的左上與右下兩個頂點座標
 	vec4  m_Lf, m_TR;  // sprite 在世界座標的左上與右下兩個頂點座標
 	vec4  m_DefaultColor;
 	bool  m_bPushed;
+	int iNumVtx;
 
 	void Update(float dt, point4 vLightPos, color4 vLightI);
 	void Update(float dt, const LightSource &Lights);
@@ -35,6 +37,7 @@ public:
 
 	void Draw();
 	void DrawW();
+	//void Draw_UITexture();
 };
 
 

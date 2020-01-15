@@ -40,6 +40,7 @@ public:
 	void moveBackward(int playerState, bool doorOpen);
 
 	// For Camera (View Matrix)
+	vec4 _lookAt;
 	vec4 _viewPosition;
 protected:
 	CCamera();		// Á×§K³Q»~¥Î
@@ -51,7 +52,6 @@ protected:
 
 
 
-	vec4 _lookAt;
 	vec4 _upVector;
 
 	mat4 _projection;

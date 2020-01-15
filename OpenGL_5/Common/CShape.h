@@ -121,14 +121,18 @@ protected:
 	int		m_iMode;	 // 0: Flat shading, 1: Gouraud shading, 0 for default
 
 	void	CreateBufferObject();
+	//void	CreateBufferObject_2DUI_Texture();
 	void	DrawingSetShader();
+	//void	DrawingSetShader_2DUI_Texture();
 	void	DrawingWithoutSetShader();
+	//void	CreateBufferObject_2DUI_Texture();
 
 public:
 	CShape();
 	virtual ~CShape();
 	virtual void Draw() = 0;
 	virtual void DrawW() = 0; // Drawing without setting shaders
+	//virtual void Draw_UITexture() = 0;
 	virtual void Update(float dt, const LightSource &lights) = 0;
 	virtual void Update(float dt) = 0; // 不計算光源的照明
 
