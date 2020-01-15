@@ -542,28 +542,34 @@ void UIGenerator() {
 }
 
 void UIAction(vec2 pt) {
-	if (g_p2DBtn[RED_BUTTON]->OnTouches(pt)) {
-		if (g_p2DBtn[0]->getButtonStatus()) {
-			//room1->g_Light[1].isLighting = false;
-			//if(room1->roomState == room1->DONE)
+	if (isBtnGet[0]) {
+		if (g_p2DBtn[RED_BUTTON]->OnTouches(pt)) {
+			if (g_p2DBtn[0]->getButtonStatus()) {
+				//room1->g_Light[1].isLighting = false;
+				//if(room1->roomState == room1->DONE)
 				isBtnDown[RED_BUTTON] = true;
+			}
 		}
 	}
-	if (g_p2DBtn[GREEN_BUTTON]->OnTouches(pt)) {
-		if (g_p2DBtn[1]->getButtonStatus()) {
-			//if (room1->roomState == room1->DONE)
+	if (isBtnGet[1]) {
+		if (g_p2DBtn[GREEN_BUTTON]->OnTouches(pt)) {
+			if (g_p2DBtn[1]->getButtonStatus()) {
+				//if (room1->roomState == room1->DONE)
 				isBtnDown[GREEN_BUTTON] = true;
-		}
-		else {
+			}
+			else {
+			}
 		}
 	}
-	if (g_p2DBtn[BLUE_BUTTON]->OnTouches(pt)) {
-		if (g_p2DBtn[2]->getButtonStatus()) {
-			//room1->g_Light[3].isLighting = false;
-			//if (room1->roomState == room1->DONE)
+	if (isBtnGet[2]) {
+		if (g_p2DBtn[BLUE_BUTTON]->OnTouches(pt)) {
+			if (g_p2DBtn[2]->getButtonStatus()) {
+				//room1->g_Light[3].isLighting = false;
+				//if (room1->roomState == room1->DONE)
 				isBtnDown[BLUE_BUTTON] = true;
-		}
-		else {
+			}
+			else {
+			}
 		}
 	}
 	if (g_p2DBtn[WHITE_BUTTON]->OnTouches(pt)) {

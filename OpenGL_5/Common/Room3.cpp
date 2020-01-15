@@ -18,7 +18,7 @@ Room3::Room3(float x, float y, float z, point4 eye) {
 	LightGenerator(x, y, z, 1);
 	ObjectGenerator(x, y, z, eye);
 	DoorGenerator(x, y, z, 2);
-	TextureGenerator(5);
+	TextureGenerator(6);
 }
 
 Room3::~Room3() {
@@ -211,6 +211,7 @@ void Room3::TextureGenerator(int count) {
 	g_uiFTexID[2] = texturepool->AddTexture("texture/mine/spiderfly.png");
 	g_uiFTexID[3] = texturepool->AddTexture("texture/mine/G.png");
 	g_uiFTexID[4] = texturepool->AddTexture("texture/mine/spiderdown.png");
+	g_uiFTexID[5] = texturepool->AddTexture("texture/mine/bottom.jpg");
 //#ifdef MULTITEXTURE
 //	//g_uiFTexID[2] = texturepool->AddTexture("texture/lightMap1.png");
 //	g_uiFTexID[2] = texturepool->AddTexture("texture/mine/forestfloorspecular.png");
@@ -227,7 +228,7 @@ void Room3::Draw(vec4 cameraPos) {
 	}
 
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, g_uiFTexID[0]);
+	glBindTexture(GL_TEXTURE_2D, g_uiFTexID[5]);
 	//glActiveTexture(GL_TEXTURE1);
 	//glBindTexture(GL_TEXTURE_2D, g_uiFTexID[2]);
 	g_BottomWall->Draw(); // »P Diffuse Map µ²¦X
