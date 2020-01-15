@@ -685,6 +685,10 @@ void GameActionSystem() {
 	default:
 		break;
 	}
+	isBtnDown[WHITE_BUTTON] = false;
+	isBtnDown[RED_BUTTON] = false;
+	isBtnDown[BLUE_BUTTON] = false;
+	isBtnDown[GREEN_BUTTON] = false;
 }
 
 void Shoot() {

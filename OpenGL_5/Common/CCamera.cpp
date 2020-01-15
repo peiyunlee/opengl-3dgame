@@ -238,13 +238,13 @@ bool CCamera::MoveCheck(int playerState,vec4 viewPos,bool doorOpen) {
 		break;
 	case 5:
 		//door to room4
-		if (viewPos.z >= -30.0f && (viewPos.x<1.5f && viewPos.x>-2.0f))
+		if (viewPos.z >= -31.0f && (viewPos.x<1.5f && viewPos.x>-2.0f))
 			return true;
 		//door to room6
 		else if (viewPos.x >= 8.5f && (viewPos.z<-38.5f && viewPos.z>-42.0f) && doorOpen)
 			return true;
 		//room collider
-		else if (viewPos.z < -30.0f && viewPos.z > -46.0f && viewPos.x > -8.5f && viewPos.x < 8.5f)
+		else if (viewPos.z < -31.0f && viewPos.z > -46.0f && viewPos.x > -8.5f && viewPos.x < 8.5f)
 			return true;
 		else
 			return false;
@@ -254,7 +254,7 @@ bool CCamera::MoveCheck(int playerState,vec4 viewPos,bool doorOpen) {
 		if (viewPos.x <= 11.0f && (viewPos.z<-38.5f && viewPos.z>-42.0f) && doorOpen)
 			return true;
 		//room collider
-		else if (viewPos.z < -30.0f && viewPos.z > -46.0f && viewPos.x > 11.0f && viewPos.x < 27.0f)
+		else if (viewPos.z < -31.0f && viewPos.z > -46.0f && viewPos.x > 11.0f && viewPos.x < 27.0f)
 			return true;
 		else
 			return false;
